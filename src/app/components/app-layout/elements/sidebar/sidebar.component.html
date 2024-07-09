@@ -1,34 +1,41 @@
-<div class="logo-wrapper">
+<div class="logo-wrapper" style="background-color: #21201E;">
   <a routerLink="/">
-    <img
-      class="img-fluid"
-      src="../../../../../assets/icons/logo@2x.png"
-      width="50"
-      alt="Logo"
-    />
+    <div style="display: flex; align-items: center;">
+      <div>
+        <img
+        class="img-fluid"
+        src="../../../../../assets/icons/coffee.png"
+        width="40"
+        alt="Logo"
+      />
+      </div>
+      <div>
+        <h2 class="m-0 ms-3" style="color: #fff;">STREAMINGO</h2>
+      </div>
+    </div>
   </a>
 
   <div class="back-btn" (click)="layoutService.toggleSidebar()">
-    <i class="fa-solid fa-arrow-left"></i>
+    <i class="fa-solid fa-arrow-left" style="color: #fff;"></i>
   </div>
 
   <div class="toggle-sidebar" (click)="layoutService.toggleSidebar()">
-    <i class="fa-solid fa fa-thumb-tack"></i>
+    <i class="fa-solid fa fa-thumb-tack" style="color: #fff;"></i>
   </div>
 </div>
 
-<div class="logo-icon-wrapper">
+<div class="logo-icon-wrapper" style="background-color: #21201E;">
   <a href="javascript:void(0)">
     <img
       class="img-fluid"
-      src="../../../../../assets/icons/logo@2x.png"
+      src="../../../../../assets/icons/coffee.png"
       width="35"
       alt=""
     />
   </a>
 </div>
 
-<nav class="sidebar-main">
+<nav class="sidebar-main" style="background-color: #21201E;">
   <div
     id="left-arrow"
     class="left-arrow"
@@ -64,7 +71,7 @@
 
                 <li class="sidebar-main-title">
                   <div>
-                    <h6>General</h6>
+                    <h6 style="color: #fff;">General</h6>
                   </div>
                 </li>
 
@@ -74,6 +81,7 @@
                       routerLink="{{route.path}}"
                       routerLinkActive="active"
                       class="sidebar-link sidebar-title"
+                      style="background-color: #21201E;"
                     >
                       @if (route.data) {
                         <span>{{route.data['name']}}</span>

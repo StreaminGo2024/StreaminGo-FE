@@ -1,5 +1,5 @@
 :root {
-  --theme-default: #7366ff;
+  --theme-default: #7900C2;
   --theme-secondary: #f73164;
   --light-background: rgba(242, 243, 247, 0.7);
   --body-font-color: #2f2f3b;
@@ -9,7 +9,7 @@
   --white: #fff;
   --light2: #f5f6f9;
   --sidebar-border: rgba(0, 0, 0, 0.1);
-  --chart-text-color: rgba(82, 82, 108, 0.8);
+  --chart-text-color: #fff;
   --recent-dashed-border: rgba(82, 82, 108, 0.3);
   --chart-dashed-border: rgba(82, 82, 108, 0.2);
   --chart-progress-light: rgba(82, 82, 108, 0.1);
@@ -20,6 +20,11 @@
   --balance-profie-bg: #e0dfef;
   --view-grid-bg: #ecf3fa80;
   --view-border-marker: #cfcdfc;
+
+  --color-light-purple: #7900C2;
+  --color-black: #21201E;
+  --color-purple: #6100C2;
+  --color-gray: #969696;
 
   --fc-button-bg-color: var(--theme-default);
   --fc-button-active-bg-color: var(--theme-default);
@@ -53,8 +58,50 @@ body[class="dark-only"] {
 html, body { 
   height: 100%; 
 }
+
+* {
+  text-decoration: none !important;
+}
+
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .error-snackbar .mdc-snackbar__surface{
   background-color: rgb(197, 49, 49) !important;
+}
+
+/* Clases para background color */
+.bg-light-purple {
+  background-color: var(--color-light-purple);
+  color: #fff;
+}
+
+.bg-black {
+  background-color: var(--color-black);
+  color: #fff;
+}
+
+.bg-purple {
+  background-color: var(--color-purple);
+  color: #fff;
+}
+
+.bg-gray {
+  background-color: var(--color-gray);
+}
+
+/* Clases para color */
+.color-light-purple {
+  color: var(--color-light-purple);
+}
+
+.color-black {
+  color: var(--color-black);
+}
+
+.color-purple {
+  color: var(--color-purple);
+}
+
+.color-gray {
+  color: var(--color-gray);
 }
