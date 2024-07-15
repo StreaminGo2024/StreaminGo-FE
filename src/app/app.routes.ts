@@ -9,6 +9,7 @@ import { AdminRoleGuard } from './guards/admin-role.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GuestGuard } from './guards/guest.guard';
 import { IRole } from './interfaces';
+import { MoviesComponent } from './pages/movies/movies.component';
 
 export const routes: Routes = [
   {
@@ -63,7 +64,19 @@ export const routes: Routes = [
           ],
           name: 'Dashboard'
         }
-      }
+      },
+      {
+        path: 'movies',
+        component: MoviesComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin
+          ],
+          showInSidebar: true,
+          name: 'Movies'
+        }
+      },
     ],
   },
 ];

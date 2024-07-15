@@ -1,0 +1,66 @@
+<div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Image</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Video URL</th>
+          <th scope="col">Year</th>
+          <th scope="col">Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of itemList; track $index) {
+          <tr>
+            <th scope="row">{{item.id}}</th>
+            <td>{{item.imageCover}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.video}}</td>
+            <td>{{item.realesedYear}}</td>
+            <td>{{item.duration}}</td>
+            <td>
+              <p class="mb-0 text-center text-white" 
+              [ngClass]="{
+                'bg-info': item.status == 'active', 
+                'bg-secondary': item.status == 'disabled'
+                }"
+              >{{item.status}}</p>
+            </td>
+            <td>
+              <button 
+                type="button" 
+                (click)="showDetailModal(item, detailModal)"
+                class="btn btn-secondary me-3">
+                <i class="fa-solid fa-eye white"
+                ></i>
+              </button>
+              <button 
+                type="button"
+                (click)="deleteMovie(item);" 
+                class="btn btn-danger">
+                <i class="fa-solid fa-trash white"
+                ></i>
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="text-center">There are not items to show</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-modal #detailModal>
+  <app-movie-form
+    [movie]="selectedItem"
+    [action]="'Update movie'"
+    (callParentEvent)="handleFormAction($event)"
+  />
+</app-modal>

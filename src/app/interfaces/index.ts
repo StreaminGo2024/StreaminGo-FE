@@ -39,3 +39,14 @@ export enum IRole {
   user = "ROLE_USER",
   superAdmin = 'ROLE_SUPER_ADMIN'
 }
+
+export interface IMovie {
+  id?: number;
+  imageCover?: string;
+  name?: string;
+  description?: string;
+  video?: string;
+  realesedYear?: number;
+  duration?: number; //CAMBIAR A STRING
+  status?: string;
+}
