@@ -42,11 +42,13 @@ export enum IRole {
 
 export interface IMovie {
   id?: number;
-  imageCover?: string;
   name?: string;
   description?: string;
+  imageCover?: string;
   video?: string;
   realesedYear?: number;
   duration?: number; //CAMBIAR A STRING
   status?: string;
+
+
 }
