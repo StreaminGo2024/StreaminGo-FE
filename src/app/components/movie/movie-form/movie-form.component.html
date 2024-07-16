@@ -39,7 +39,7 @@
           }" required />
         </div>
         <div class="col-6 mb-2">
-            <input #time="ngModel" type="time" class="form-control" id="time" name="time" 
+            <input #time="ngModel" type="number" class="form-control" id="time" name="time" 
                 [(ngModel)]="movie.duration" [ngClass]="{ 
             'is-invalid': time.invalid && time.touched,
             'is-valid': time.valid && time.touched
