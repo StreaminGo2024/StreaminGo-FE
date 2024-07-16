@@ -1,47 +1,85 @@
 .login-container {
   height: 100vh;
-  // background-image: url("../../../../assets/img/login/login-bg.jpg");
+  background-image: url("../../../../assets/icons/wallpaper.png"), radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(97,0,194,0.35) 100%);
   background-position: left;
   background-size: cover;
   background-repeat: no-repeat;
   padding: 20px 20%;
   position: relative;
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según necesites */
-    z-index: 1;
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  //background: rgba(0, 0, 0, 0);
+  z-index: 1;
+}
+
+.login-container .login-card {
+  position: relative;
+  z-index: 2;
+  width: 50%;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
+  margin: 0 auto;
+  background-color: rgba(97, 0, 194, 0.35);
+  color: #fff;
+}
+
+.login-container .login-btn {
+  color: grey;
+  background-color: #fff;
+  border-color: grey;
+}
+
+.login-container .forgot-password-link {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.login-container .signup-link {
+  color: #fff;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.login-container .signup-link a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+
+
+@media screen and (min-width: 801px) and (max-width: 1500px) {
+  .login-container {
+    padding: 20px 5%;
   }
-  .login-card {
-    position: relative;
-    z-index: 2;
-    width: 50%;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
-    margin: 0 auto;
+  .login-container .login-card {
+    width: 25%;
+  }
+  .login-container .login-btn {
+    color: grey;
     background-color: #fff;
+    border-color: grey;
   }
-  @media screen and (min-width: 801px) and (max-width: 1500px) {
-    padding: 20px 5%;
-    .login-card {
-      width: 60%;
-      .login-main {
-        padding: 0px;
-      }
-    }
+  .login-container .login-main {
+    padding: 0;
   }
-  @media screen and (max-width: 800px) {
+}
+
+@media screen and (max-width: 800px) {
+  .login-container {
     padding: 20px 5%;
-    .login-card {
-      width: 100%;
-      .login-main {
-        padding: 0px;
-      }
-    }
+  }
+  .login-container .login-card {
+    width: 100%;
+  }
+  .login-container .login-main {
+    padding: 0;
   }
 }
