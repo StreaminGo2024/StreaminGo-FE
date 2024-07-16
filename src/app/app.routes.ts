@@ -10,6 +10,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GuestGuard } from './guards/guest.guard';
 import { IRole } from './interfaces';
 import { MoviesComponent } from './pages/movies/movies.component';
+import { GenresComponent } from './pages/genres/genres.component';
 
 export const routes: Routes = [
   {
@@ -75,6 +76,18 @@ export const routes: Routes = [
           ],
           showInSidebar: true,
           name: 'Movies'
+        }
+      },
+      {
+        path: 'genres',
+        component: GenresComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin
+          ],
+          showInSidebar: true,
+          name: 'Genres'
         }
       },
     ],

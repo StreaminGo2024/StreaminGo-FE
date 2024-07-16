@@ -40,6 +40,14 @@ export enum IRole {
   superAdmin = 'ROLE_SUPER_ADMIN'
 }
 
+export interface IGenre {
+  id?: number;
+  name?: string;
+  status?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface IMovie {
   id?: number;
   name?: string;
@@ -49,6 +57,4 @@ export interface IMovie {
   realesedYear?: number;
   duration?: number; //CAMBIAR A STRING
   status?: string;
-
-
 }
