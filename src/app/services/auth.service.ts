@@ -59,6 +59,12 @@ export class AuthService{
     );
   }
 
+  public passwordResetRequest(credentials: {
+    email: string;
+  }){
+    return this.http.post<IUser>('auth/passwordResetRequest', credentials).pipe();
+  }
+
   public resetPassword(credentials: {
     password: string;
   },requestCode:string): Observable<IUser> {
