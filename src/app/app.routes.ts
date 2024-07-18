@@ -10,6 +10,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GuestGuard } from './guards/guest.guard';
 import { IRole } from './interfaces';
 import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
+import { StreamComponent } from './pages/stream/stream.component';
 
 export const routes: Routes = [
   {
@@ -68,6 +69,18 @@ export const routes: Routes = [
             IRole.user
           ],
           name: 'Dashboard'
+        }
+      },
+      {
+        path: 'stream',
+        component: StreamComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin,
+            IRole.user
+          ],
+          name: 'Stream'
         }
       }
     ],
