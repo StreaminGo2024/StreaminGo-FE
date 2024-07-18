@@ -17,6 +17,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   `,
 })
 export class ModalComponent {
+  [x: string]: any;
   @Input() size?: string;
   @Input() title?: string;
   @ViewChild('modal') modal: any;
