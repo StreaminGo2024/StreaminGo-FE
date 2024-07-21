@@ -12,6 +12,7 @@ import { IRole } from './interfaces';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { GenresComponent } from './pages/genres/genres.component';
 import { ActorsComponent } from './pages/actors/actors.component';
+import { CastingComponent } from './pages/casting/casting.component';
 
 export const routes: Routes = [
   {
@@ -101,6 +102,18 @@ export const routes: Routes = [
           ],
           showInSidebar: true,
           name: 'Actors'
+        }
+      },
+      {
+        path: 'casting',
+        component: CastingComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin
+          ],
+          showInSidebar: true,
+          name: 'Casting'
         }
       },
     ],

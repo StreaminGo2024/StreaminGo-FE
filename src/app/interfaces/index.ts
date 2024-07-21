@@ -69,3 +69,14 @@ export interface IActor {
   casting?: number; 
   status?: string;
 }
+
+export interface ICasting {
+  id?: number;
+  name?: string;
+  status?: string;
+}
+
+export interface ICastingActor {
+  casting: ICasting;
+  selectedActors: [];
+}
