@@ -96,12 +96,4 @@
       <p class="mb-0"> {{title}} </p>
     </button>
   </div>
-  <div class="d-flex justify-content-center align-items-center">
-    @if(feedbackMessage.message) {
-      <p class="pb-0" [ngClass]="{
-        'text-danger': feedbackMessage.type == 'ERROR',
-        'text-success': feedbackMessage.type == 'SUCCESS'
-        }">{{feedbackMessage.message}}</p>
-    }
-  </div>
 </form>

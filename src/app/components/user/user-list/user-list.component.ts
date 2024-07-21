@@ -22,16 +22,11 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent {
-  public search: String = '';
+  public search: string = '';
   public userList: IUser[] = [];
   private service = inject(UserService);
   private snackBar = inject(MatSnackBar);
-  public currentUser: IUser = {
-    email: '',
-    lastname: '',
-    password: '',
-    name: ''
-  };
+  public currentUser: IUser = {};
   
   constructor() {
     this.service.getAllSignal();
@@ -39,6 +34,27 @@ export class UserListComponent {
       this.userList = this.service.users$();
     });
   }
+
+  applyFilter() {
+    this.service.searchUsersByName(this.search).subscribe({
+      next: (users) => {
+        this.userList = users;
+        this.snackBar.open('User searching', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 5 * 1000,
+       })
+      },
+      error: (error) => {
+        this.snackBar.open('Insert a name', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
+
 
   showDetail(user: IUser, modal: any) {
     this.currentUser = {...user}; 

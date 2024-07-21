@@ -8,6 +8,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class AuthService{
+  areActionsAvailable(routeAuthorities: string[]): boolean {
+    throw new Error('Method not implemented.');
+  }
   private accessToken!: string;
   private expiresIn!: number;
   private user: IUser = { email: '', authorities: [] };

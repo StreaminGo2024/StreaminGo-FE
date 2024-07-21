@@ -8,7 +8,7 @@ import { AccessDeniedComponent } from './pages/access-denied/access-denied.compo
 import { AdminRoleGuard } from './guards/admin-role.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GuestGuard } from './guards/guest.guard';
-import { IRole } from './interfaces';
+import {  IRole} from './interfaces';
 import { StreamComponent } from './pages/stream/stream.component';
 
 export const routes: Routes = [
