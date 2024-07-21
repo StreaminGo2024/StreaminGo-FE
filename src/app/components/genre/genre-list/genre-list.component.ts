@@ -19,7 +19,7 @@ import { GenreFormComponent } from '../genre-form/genre-form.component';
 })
 export class GenreListComponent implements OnChanges{
 
-  @Input() genreList: IGenre[] = [];
+  @Input() itemList: IGenre[] = [];
   @Input() areActionsAvailable: boolean = false;
   public selectedItem: IGenre = {};
   public genreService: GenreService = inject(GenreService);
@@ -36,13 +36,19 @@ export class GenreListComponent implements OnChanges{
     modal.show();
   }
 
-  // handleFormAction(item: IGenre) {
-  //   this.genreService.update(item);
-  // }
+  handleFormAction(item: IGenre) {
 
-  // deleteGame(item: IGenre) {
-  //   this.genreService.delete(item);
-  // }
+    this.genreService.update(item);
+  }
+
+  deleteGenre(item: IGenre) {
+    this.genreService.delete(item);
+  }
+
+  statusGenreUpdate(item: IGenre) {
+    item.status = item.status === 'active' ? 'disabled' : 'active';
+    this.genreService.update(item);
+  }
 
  
 }

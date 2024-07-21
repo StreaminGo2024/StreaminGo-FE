@@ -84,6 +84,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: var(--color-purple);
   color: #fff;
 }
+.bg-purple:hover{ 
+ color: #fff;
+}
 
 .bg-gray {
   background-color: var(--color-gray);

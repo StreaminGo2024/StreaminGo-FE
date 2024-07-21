@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { GenreFormComponent } from "../../components/genre/genre-form/genre-form.component";
 
 @Component({
   selector: 'app-genres',
@@ -15,8 +16,9 @@ import { ModalComponent } from '../../components/modal/modal.component';
     GenreListComponent,
     LoaderComponent,
     CommonModule,
-    ModalComponent
-  ],
+    ModalComponent,
+    GenreFormComponent
+],
   templateUrl: './genres.component.html',
   styleUrl: './genres.component.scss'
 })
@@ -32,12 +34,12 @@ export class GenresComponent implements OnInit{
     this.genreService.getAll();
     this.route.data.subscribe( data => {
       this.routeAuthorities = data['authorities'] ? data['authorities'] : [];
-      // this.areActionsAvailable = this.authService.areActionsAvailable(this.routeAuthorities);
+      this.areActionsAvailable = this.authService.areActionsAvailable(this.routeAuthorities);
     });
   }
 
-  // handleFormAction(item: IGenre) {
-  //   this.genreService.save(item);
-  // }
+  handleFormAction(item: IGenre) {
+    this.genreService.save(item);
+  }
 
 }

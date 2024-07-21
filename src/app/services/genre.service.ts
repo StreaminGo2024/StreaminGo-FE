@@ -32,4 +32,54 @@ export class GenreService extends BaseService<IGenre>{
       }
     })
   }
+
+  public save(item: IGenre) {
+    item.status = 'active';
+    this.add(item).subscribe({
+      next: (response: any) => {
+        this.itemListSignal.update((genres: IGenre[]) => [response, ...genres]);
+      },
+      error: (error: any) => {
+        console.error('response', error.description);
+        this.snackBar.open(error.error.description, 'Close' , {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar']
+        });
+      }
+    })
+  }
+
+  public update(item: IGenre) {
+    this.add(item).subscribe({
+      next: () => {
+        const updatedItems = this.itemListSignal().map(genre => genre.id === item.id ? item: genre);
+        this.itemListSignal.set(updatedItems);
+      },
+      error: (error: any) => {
+        console.error('response', error.description);
+        this.snackBar.open(error.error.description, 'Close' , {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar']
+        });
+      }
+    })
+  }
+  
+  public delete(item: IGenre) {
+    this.del(item.id).subscribe({
+      next: () => {
+        this.itemListSignal.set(this.itemListSignal().filter(genre => genre.id != item.id));
+      },
+      error: (error: any) => {
+        console.error('response', error.description);
+        this.snackBar.open(error.error.description, 'Close' , {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar']
+        });
+      }
+    })
+  }
 }

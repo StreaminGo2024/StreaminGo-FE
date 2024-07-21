@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ILoginResponse, IResponse, IUser } from '../interfaces';
-import { Observable, firstValueFrom, of, tap } from 'rxjs';
+import { IAuthority, ILoginResponse, IRole, IUser } from '../interfaces';
+import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -77,7 +77,7 @@ export class AuthService {
     let permittedRoutes: any[] = [];
     for (const route of routes) {
       if(route.data && route.data.authorities) {
-        if (this.hasAnyRole(route.data.authorities)) {
+        if (this.hasAnyRole(route.data.authorities) && route.data.showInSidebar) {
           permittedRoutes.unshift(route);
         } 
       }
@@ -94,5 +94,29 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('auth_user');
+  }
+
+  public getUserAuthorities(): IAuthority[] | undefined {
+    return this.getUser()?.authorities;
+  }
+
+  public areActionsAvailable(routeAuthorities: string[]): boolean  {
+    // definición de las variables de validación
+    let allowedUser: boolean = false;
+    let isAdmin: boolean = false;
+    // se obtienen los permisos del usuario
+    let userAuthorities = this.getUserAuthorities();
+    // se valida que sea una ruta permitida para el usuario
+    for (const authority of routeAuthorities) {
+      if (userAuthorities?.some(item => item.authority == authority) ) {
+        allowedUser = userAuthorities?.some(item => item.authority == authority)
+      }
+      if (allowedUser) break;
+    }
+    // se valida que el usuario tenga un rol de administración
+    if (userAuthorities?.some(item => item.authority == IRole.admin || item.authority == IRole.superAdmin)) {
+      isAdmin = userAuthorities?.some(item => item.authority == IRole.admin || item.authority == IRole.superAdmin);
+    }          
+    return allowedUser && isAdmin;
   }
 }
