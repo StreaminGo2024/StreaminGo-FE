@@ -58,3 +58,14 @@ export interface IMovie {
   duration?: number; //CAMBIAR A STRING
   status?: string;
 }
+
+export interface IActor {
+  id?: number;
+  name?: string;
+  lastname?: string;
+  nationality?: string;
+  birth?: Date;
+  realesedYear?: number;
+  casting?: number; 
+  status?: string;
+}

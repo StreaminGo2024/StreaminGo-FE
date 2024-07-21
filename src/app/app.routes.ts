@@ -11,6 +11,7 @@ import { GuestGuard } from './guards/guest.guard';
 import { IRole } from './interfaces';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { GenresComponent } from './pages/genres/genres.component';
+import { ActorsComponent } from './pages/actors/actors.component';
 
 export const routes: Routes = [
   {
@@ -88,6 +89,18 @@ export const routes: Routes = [
           ],
           showInSidebar: true,
           name: 'Genres'
+        }
+      },
+      {
+        path: 'actors',
+        component: ActorsComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin
+          ],
+          showInSidebar: true,
+          name: 'Actors'
         }
       },
     ],
