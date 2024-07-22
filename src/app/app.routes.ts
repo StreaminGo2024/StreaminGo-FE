@@ -9,6 +9,7 @@ import { AdminRoleGuard } from './guards/admin-role.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GuestGuard } from './guards/guest.guard';
 import { IRole } from './interfaces';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
 import { StreamComponent } from './pages/stream/stream.component';
 
@@ -69,6 +70,16 @@ export const routes: Routes = [
             IRole.user
           ],
           name: 'Dashboard'
+        }
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        data: { 
+          authorities: [
+            IRole.user
+          ],
+          name: 'profile'
         }
       },
       {
