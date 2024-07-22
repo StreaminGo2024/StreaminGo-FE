@@ -19,9 +19,9 @@
         <div class="col-6 mb-2">
           <mat-form-field appearance="fill">
             <mat-label>Choose actors</mat-label>
-            <mat-select [(ngModel)]="selectedActors" multiple [ngModelOptions]="{standalone: true}">
+            <mat-select [(ngModel)]="selectedActors" multiple [ngModelOptions]="{standalone: true} ">
               <mat-option *ngFor="let actor of actorList" [value]="actor.id" class="show-up">
-                {{ actor.name }}
+                {{actor.name + ' '+actor.lastname}}
               </mat-option>
             </mat-select>
           </mat-form-field>

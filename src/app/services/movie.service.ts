@@ -22,7 +22,7 @@ export class MovieService extends BaseService<IMovie>{
         this.itemListSignal.set(response);
       },
       error: (error: any) => {
-        console.error('Error in get all games request', error);
+        console.error('Error in get all movies request', error);
         this.snackBar.open(error.error.description, 'Close' , {
           horizontalPosition: 'right',
           verticalPosition: 'top',
@@ -33,7 +33,7 @@ export class MovieService extends BaseService<IMovie>{
   }
 
   public save(item: IMovie) {
-    item.status = 'active'; //AGREGAR
+    item.status = 'active';
     this.add(item).subscribe({
       next: (response: any) => {
         this.itemListSignal.update((movies: IMovie[]) => [response, ...movies]);

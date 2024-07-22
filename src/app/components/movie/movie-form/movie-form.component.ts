@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IMovie } from '../../../interfaces';
+import { ICasting, IGenre, IMovie } from '../../../interfaces';
 
 @Component({
   selector: 'app-movie-form',
@@ -15,6 +15,8 @@ import { IMovie } from '../../../interfaces';
 })
 export class MovieFormComponent {
   @Input() movie: IMovie =  {};
+  @Input() genreList: IGenre[] = [];
+  @Input() castingList: ICasting[] = [];
   @Input() action = '';
   @Output() callParentEvent: EventEmitter<IMovie> = new EventEmitter<IMovie>()
 

@@ -52,11 +52,14 @@ export interface IMovie {
   id?: number;
   name?: string;
   description?: string;
+  genre?: IGenre;
   imageCover?: string;
   video?: string;
   realesedYear?: number;
   duration?: number; //CAMBIAR A STRING
+  casting?: ICasting;
   status?: string;
+
 }
 
 export interface IActor {

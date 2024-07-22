@@ -26,6 +26,7 @@ export class MovieListComponent implements OnChanges{
   public selectedItem: IMovie = {};
   public movieService: MovieService = inject(MovieService);
 
+
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['areActionsAvailable']) {
       console.log('areActionsAvailable', this.areActionsAvailable);
@@ -38,11 +39,17 @@ export class MovieListComponent implements OnChanges{
   }
 
   handleFormAction(item: IMovie) {
+
     this.movieService.update(item);
   }
 
   deleteMovie(item: IMovie) {
     this.movieService.delete(item);
+  }
+
+  statusMovieUpdate(item: IMovie) {
+    item.status = item.status === 'active' ? 'disabled' : 'active';
+    this.movieService.update(item);
   }
 
 

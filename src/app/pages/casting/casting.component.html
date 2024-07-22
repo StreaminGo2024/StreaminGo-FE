@@ -13,10 +13,10 @@
             <p class="mb-0"> Add cast</p>
           </button>
         </div>
-        <!-- <app-actor-list
+        <app-casting-list
         [areActionsAvailable]="areActionsAvailable"
-        [itemList]="actorService.items$()"
-        /> -->
+        [itemList]="castingService.items$()"
+        />
       } @loading (after 100ms; minimum 1s){
         <app-loader></app-loader>
       }

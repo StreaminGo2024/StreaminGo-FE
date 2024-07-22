@@ -17,7 +17,6 @@ import { ModalComponent } from "../../components/modal/modal.component";
 })
 export class ActorsComponent implements OnInit {
 
-  
   public actorService: ActorService = inject(ActorService);
   public route: ActivatedRoute = inject(ActivatedRoute);
   public areActionsAvailable: boolean = false;
