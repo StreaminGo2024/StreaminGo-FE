@@ -1,11 +1,12 @@
 .login-container {
   height: 100vh;
-  // background-image: url("../../../../assets/img/login/login-bg.jpg");
+  background-image: url("../../../../assets/icons/wallpaper.png"), radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(97,0,194,0.35) 100%);
   background-position: left;
   background-size: cover;
   background-repeat: no-repeat;
   padding: 20px 20%;
   position: relative;
+
   &::before {
     content: '';
     position: absolute;
@@ -13,9 +14,10 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según necesites */
+    /*background: rgba(0, 0, 0, 0.5);*/ /* Ajusta la opacidad según necesites */
     z-index: 1;
   }
+
   .login-card {
     position: relative;
     z-index: 2;
@@ -24,21 +26,87 @@
     border-radius: 10px;
     box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
     margin: 0 auto;
-    background-color: #fff;
+    background-color: rgba(97, 0, 194, 0.35);
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 40px;
   }
+
+  .logo-container {
+    position: absolute;
+    top: 70px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    z-index: 3; 
+  }
+
   .invalid-feedback {
     position: absolute;
     margin-top: 0px;
   }
+
+  .form-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    margin-bottom: 20px; 
+  }
+  
+  .form-group .form-label {
+    width: 30%; 
+    margin-right: 10px; 
+  }
+  
+  .form-group .form-control {
+    flex-grow: 1;
+  }
+
+  .form-group.d-flex {
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  
+  .form-group.d-flex .form-label {
+    width: 70%;
+    margin-right: 10px;
+  }
+  
+  .form-group.d-flex .form-control {
+    flex-grow: 1;
+  }
+  
+
+  .link-login{
+    color: #fff;
+  }
+  
+  .btn-primary {
+    width: 75%;
+    color: black;
+    background-color: gainsboro;
+    border-color: black; 
+  }
+
+  .error-snackbar {
+    background-color: #f44336; /* Color rojo para indicar error */
+    color: white;
+  }
+  
+  .success-snackbar {
+    background-color: #4caf50;
+    color: white;
+  }
+
   @media screen and (min-width: 801px) and (max-width: 1500px) {
     padding: 20px 5%;
     .login-card {
-      width: 60%;
+      width: 40%;
       .login-main {
         padding: 0px;
       }
     }
   }
+
   @media screen and (max-width: 800px) {
     padding: 20px 5%;
     .login-card {

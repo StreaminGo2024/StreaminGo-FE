@@ -10,6 +10,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GuestGuard } from './guards/guest.guard';
 import { IRole } from './interfaces';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
+import { StreamComponent } from './pages/stream/stream.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +22,11 @@ export const routes: Routes = [
   {
     path: 'signup',
     component: SigUpComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'resetPassword/:code',
+    component: ResetPasswordComponent,
     canActivate: [GuestGuard],
   },
   {
@@ -73,6 +80,18 @@ export const routes: Routes = [
             IRole.user
           ],
           name: 'profile'
+        }
+      },
+      {
+        path: 'stream',
+        component: StreamComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin,
+            IRole.user
+          ],
+          name: 'Stream'
         }
       }
     ],
