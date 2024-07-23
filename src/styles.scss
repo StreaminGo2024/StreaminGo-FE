@@ -76,7 +76,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .bg-black {
-  background-color: var(--color-black);
+  background-color: var(--color-black) !important;
   color: #fff;
 }
 

@@ -1,0 +1,17 @@
+<div class="card position-relative m-3" style="width: 16rem; height: 20rem;">
+    <img [src]="image"
+        class="card-img" alt="{{title}}">
+    <button (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" type="button"
+        class="btn btn-outline-secondary position-absolute top-0 end-0 m-2">
+        <i [ngClass]="isHovered ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+    </button>
+    <div class="play-button position-absolute top-50 start-50 translate-middle">
+        <a href={{url}} class="btn btn-primary rounded-circle p-3">
+            <i class="fa-solid fa-play"></i>
+        </a>
+    </div>
+    <div class="card-body-overlay position-absolute bottom-0 w-100 text-center p-3">
+        <h5 class="card-title">{{title}}</h5>
+        <p class="card-text">{{year}} | {{category}}</p>
+    </div>
+</div>

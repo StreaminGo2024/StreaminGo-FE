@@ -1,0 +1,53 @@
+<form class="profile-form">
+
+    <div>
+        <h1 class="profile-title">User Information</h1>
+        <div class="profile-info">
+            <div>
+                <p class="profile-item"><span class="label">Name:</span></p>    
+            </div>
+                <div class="profile-data">
+                    <p>- {{profileService.user$().name}}</p>
+                </div>
+            <div>
+                <p class="profile-item"><span class="label">Lastname:</span></p>
+            </div>
+                <div class="profile-data">
+                    <p>- {{profileService.user$().lastname}}</p>
+                </div>
+            <div>
+                <p class="profile-item"><span class="label">Email:</span></p>
+            </div>
+                <div class="profile-data">
+                    <p>- {{profileService.user$().email}}</p>
+                </div>
+        </div>
+    </div>
+    
+    <div class="button-container">
+        <div>
+            <button type="button" class="btn button1" (click)="updateModal.show()">
+                Update information
+            </button>
+        </div>
+        <div>
+            <button type="button" class="btn button2" (click)="updatePasswordModal.show()">
+                Update password 
+            </button>
+        </div>
+    </div>
+</form>
+
+<app-modal #updateModal>
+    <app-profile-form
+        [userPreview] = "profileService.user$()"
+      (callParentEvent)="handleFormAction($event)" 
+    />
+</app-modal>
+
+<app-modal #updatePasswordModal>
+    <app-update-password
+        [userPreview] = "profileService.user$()"
+      (callParentEvent)="handlePasswordUpdateAction($event)" 
+    />
+</app-modal>

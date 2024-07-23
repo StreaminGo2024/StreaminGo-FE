@@ -62,6 +62,18 @@ export class AuthService{
     );
   }
 
+  public passwordResetRequest(credentials: {
+    email: string;
+  }){
+    return this.http.post<IUser>('auth/passwordResetRequest', credentials).pipe();
+  }
+
+  public resetPassword(credentials: {
+    password: string;
+  },requestCode:string): Observable<IUser> {
+    return this.http.post<IUser>('auth/passwordReset/' + requestCode, credentials).pipe();
+  }
+
   public hasRole(role: string): boolean {
     return this.user.authorities?.some(authority => authority.authority === role) ?? false;
   }
