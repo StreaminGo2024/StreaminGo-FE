@@ -40,3 +40,17 @@ export enum IRole {
   user = "ROLE_USER",
   superAdmin = 'ROLE_SUPER_ADMIN'
 }
+
+export interface IMovieDashboard {
+  id?: number;
+  name?: string;
+  imageCover?: string;
+  video?: string;
+  realesedYear?: number;
+  genre?: IGenreDashboard;
+}
+
+export interface IGenreDashboard {
+  id?: number;
+  name?: string;
+}
