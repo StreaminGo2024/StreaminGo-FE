@@ -57,7 +57,7 @@ export const routes: Routes = [
             IRole.admin, 
             IRole.superAdmin
           ],
-          name: 'Users'
+          name: 'Management Users'
         }
       },
       {

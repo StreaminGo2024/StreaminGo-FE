@@ -14,6 +14,10 @@ export class BaseService<T> {
     return this.http.get<IResponse<T>>(this.source + '/' + id);
   }
 
+  get<T>(url: string): Observable<T> {
+    return this.http.get<T>(url);
+  }
+
   public findAll(s: string = ''): Observable<IResponse<T[]>> {
     return this.http.get<IResponse<T[]>>(this.source, { params: { s } });
   }

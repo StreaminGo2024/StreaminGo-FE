@@ -1,7 +1,8 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { BaseService } from './base-service';
+import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { IUser } from '../interfaces';
-import { Observable, catchError, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,8 @@ import { Observable, catchError, tap, throwError } from 'rxjs';
 export class UserService extends BaseService<IUser> {
   protected override source: string = 'users';
   private userListSignal = signal<IUser[]>([]);
+  private snackBar: MatSnackBar = inject(MatSnackBar);
+
   get users$() {
     return this.userListSignal;
   }
@@ -23,6 +26,7 @@ export class UserService extends BaseService<IUser> {
       }
     });
   }
+  
   saveUserSignal (user: IUser): Observable<any>{
     return this.add(user).pipe(
       tap((response: any) => {
@@ -34,6 +38,27 @@ export class UserService extends BaseService<IUser> {
       })
     );
   }
+
+  searchUsersByName(name: string): Observable<IUser[]> {
+    return this.get<IUser[]>(`${this.source}/filterByName/${name}`);
+  }
+
+  public update(item: IUser) {
+    this.add(item).subscribe({
+      next: () => {
+        const updated = this.userListSignal().map(user => user.id === item.id ? item: user);
+        this.userListSignal.set(updated);
+      },
+      error: (error: any) => {
+        console.error('response', error.description);
+        this.snackBar.open(error.error.description, 'Close' , {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar']
+        });
+      }
+    })
+  }
   updateUserSignal (user: IUser): Observable<any>{
     return this.edit(user.id, user).pipe(
       tap((response: any) => {
@@ -41,7 +66,7 @@ export class UserService extends BaseService<IUser> {
         this.userListSignal.set(updatedUsers);
       }),
       catchError(error => {
-        console.error('Error saving user', error);
+        console.error('Error updated user', error);
         return throwError(error);
       })
     );
@@ -53,7 +78,7 @@ export class UserService extends BaseService<IUser> {
         this.userListSignal.set(updatedUsers);
       }),
       catchError(error => {
-        console.error('Error saving user', error);
+        console.error('Error deleted user', error);
         return throwError(error);
       })
     );

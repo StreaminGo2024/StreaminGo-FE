@@ -3,6 +3,7 @@ import { IFeedBackMessage, IUser, IFeedbackStatus} from '../../../interfaces';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-form',
@@ -16,17 +17,15 @@ import { UserService } from '../../../services/user.service';
 })
 export class UserFormComponent {
   @Input() title!: string;
-  @Input() user: IUser = {
-    email: '',
-    lastname: '',
-    password: '',
-    name: ''
-  };
+  @Input() user: IUser = {};
   @Input() action: string = 'add'
   service = inject(UserService);
-  feedbackMessage: IFeedBackMessage = {type: IFeedbackStatus.default, message: ''};
+  private snackBar = inject(MatSnackBar);
 
+  
   handleAction (form: NgForm) {
+    let userToUpdate = this.user;
+    delete userToUpdate.authorities;
     if (form.invalid) {
       Object.keys(form.controls).forEach(controlName => {
         form.controls[controlName].markAsTouched();
@@ -35,12 +34,18 @@ export class UserFormComponent {
     } else {
       this.service[ this.action == 'add' ? 'saveUserSignal': 'updateUserSignal'](this.user).subscribe({
         next: () => {
-          this.feedbackMessage.type = IFeedbackStatus.success;
-          this.feedbackMessage.message = `User successfully ${this.action == 'add' ? 'added': 'updated'}`
+          this.snackBar.open('Successfully Done', 'Close', {
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            duration: 5 * 1000,
+          });
         },
         error: (error: any) => {
-          this.feedbackMessage.type = IFeedbackStatus.error;
-          this.feedbackMessage.message = error.message;
+          this.snackBar.open('Error', 'Close', {
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['error-snackbar']
+          });
         }
       })
     }
