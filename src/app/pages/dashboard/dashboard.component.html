@@ -8,13 +8,16 @@
         </div>
 </div>
 
-<div class="container d-flex flex-wrap">
-    <app-movie-card
-        [title] = "'Peli 1'"
-        [year] = "'2022'"
-        [category] = "'comedy'"
-        [url] = "'/stream'"
-    >
 
-    </app-movie-card>      
+<div class="container d-flex flex-wrap">
+    @for (item of movieList; track item.id){
+    <app-movie-card 
+        [title]="item.name ?? ''" 
+        [year]="item.realesedYear ?? 0"
+        [category]="item.genre?.name ?? ''" 
+        [url]="'/stream'"
+        [image]="item.imageCover ?? ''">
+    </app-movie-card>
+    }
+
 </div>>

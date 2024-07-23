@@ -10,9 +10,10 @@ import { Component, Input } from '@angular/core';
 })
 export class MovieCardComponent {
   @Input() title = "";
-  @Input() year = "";
+  @Input() year = 0;
   @Input() category = "";
   @Input() url = "";
+  @Input() image = "";
   isHovered: boolean = false;
 
   onMouseEnter() {

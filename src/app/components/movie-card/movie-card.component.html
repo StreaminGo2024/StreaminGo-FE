@@ -1,6 +1,6 @@
 <div class="card position-relative m-3" style="width: 16rem; height: 20rem;">
-    <img src="https://m.media-amazon.com/images/M/MV5BMjEwMDA1MDUwNl5BMl5BanBnXkFtZTcwMDQzMzM1MQ@@._V1_.jpg"
-        class="card-img" alt="Tokyo Train">
+    <img [src]="image"
+        class="card-img" alt="{{title}}">
     <button (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" type="button"
         class="btn btn-outline-secondary position-absolute top-0 end-0 m-2">
         <i [ngClass]="isHovered ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
