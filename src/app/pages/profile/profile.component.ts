@@ -39,4 +39,11 @@ export class ProfileComponent {
   handlePasswordUpdateAction(user: IUser){
     this.profileService.updatePassword(user);
   }
+
+  deleteAccount() {
+    const userId = this.profileService.user$().id;
+    if (userId) {
+      this.profileService.deleteAccount(userId);
+    }
+  }
 }
