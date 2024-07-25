@@ -69,7 +69,7 @@ export const routes: Routes = [
             IRole.superAdmin,
             IRole.user
           ],
-          name: 'Dashboard'
+          name: 'Movies'
         }
       },
       {
