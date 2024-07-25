@@ -1,3 +1,21 @@
+<!-- Modal de confirmación para eliminar la cuenta -->
+<app-modal #deleteAccountModal>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Are you sure you want to delete your account?</h2>
+        </div>
+        <div class="modal-body">
+          <h4>This action cannot be undone.</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="deleteAccount()">Yes, delete my account</button>
+          <button type="button" class="btn btn-secondary" (click)="deleteAccountModal.hide()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+
 <form class="profile-form">
 
     <div>
@@ -34,6 +52,9 @@
             <button type="button" class="btn button2" (click)="updatePasswordModal.show()">
                 Update password 
             </button>
+        </div>
+        <div>
+            <button type="button" class="btn-delete" (click)="deleteAccountModal.show()">Delete Account</button>
         </div>
     </div>
 </form>
