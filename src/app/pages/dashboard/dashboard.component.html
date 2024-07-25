@@ -1,8 +1,12 @@
 
 <div class="container">
         <div class="d-flex justify-content-center">
-            <input class="form-control" type="text">
-            <button class="btn btn-dark bg-black">
+            <input 
+                class="form-control" 
+                [(ngModel)]="search"
+                (keyup.enter)="filterMovies()"
+                type="text">
+            <button (click)="filterMovies()" class="btn btn-dark bg-black">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
@@ -10,7 +14,7 @@
 
 
 <div class="container d-flex flex-wrap">
-    @for (item of movieList; track item.id){
+    @for (item of filteredMovieList; track item.id){
     <app-movie-card 
         [title]="item.name ?? ''" 
         [year]="item.realesedYear ?? 0"
