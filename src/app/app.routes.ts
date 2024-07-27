@@ -44,6 +44,18 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'stream/:video',
+    component: StreamComponent,
+    data: { 
+      authorities: [
+        IRole.admin, 
+        IRole.superAdmin,
+        IRole.user
+      ],
+      name: 'Stream'
+    }
+  },
+  {
     path: 'app',
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
@@ -73,18 +85,6 @@ export const routes: Routes = [
             IRole.user
           ],
           name: 'profile'
-        }
-      },
-      {
-        path: 'stream',
-        component: StreamComponent,
-        data: { 
-          authorities: [
-            IRole.admin, 
-            IRole.superAdmin,
-            IRole.user
-          ],
-          name: 'Stream'
         }
       },
       {
