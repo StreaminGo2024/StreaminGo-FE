@@ -3,7 +3,6 @@
     <table class="table text-white align-middle">
       <thead>
         <tr>
-          <th scope="col">#</th>
           <th scope="col">Image</th>
           <th scope="col">Name</th>
           <th scope="col">Description</th>
@@ -17,8 +16,9 @@
       <tbody>
         @for (item of itemList; track $index) {
           <tr>
-            <th scope="row">{{item.id}}</th>
-            <td>{{item.imageCover}}</td>
+            <td>
+              <img [src]="item.imageCover" alt="Cover Image" class="small-image">
+            </td>
             <td>{{item.name}}</td>
             <td>{{item.description}}</td>
             <td>{{item.video}}</td>
