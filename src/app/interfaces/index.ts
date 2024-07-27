@@ -13,6 +13,7 @@ export interface IUser {
   lastname?: string;
   email?: string;
   password?: string;
+  passwordConfirmation?: string;
   active?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -83,3 +84,18 @@ export interface ICastingActor {
   casting: ICasting;
   selectedActors: [];
 }
+
+export interface IMovieDashboard {
+  id?: number;
+  name?: string;
+  imageCover?: string;
+  video?: string;
+  realesedYear?: number;
+  genre?: IGenreDashboard;
+}
+
+export interface IGenreDashboard {
+  id?: number;
+  name?: string;
+}
+

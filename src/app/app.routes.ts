@@ -13,6 +13,10 @@ import { MoviesComponent } from './pages/movies/movies.component';
 import { GenresComponent } from './pages/genres/genres.component';
 import { ActorsComponent } from './pages/actors/actors.component';
 import { CastingComponent } from './pages/casting/casting.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
+import { StreamComponent } from './pages/stream/stream.component';
+
 
 export const routes: Routes = [
   {
@@ -23,6 +27,11 @@ export const routes: Routes = [
   {
     path: 'signup',
     component: SigUpComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'resetPassword/:code',
+    component: ResetPasswordComponent,
     canActivate: [GuestGuard],
   },
   {
@@ -53,7 +62,7 @@ export const routes: Routes = [
             IRole.admin, 
             IRole.superAdmin
           ],
-          name: 'Users'
+          name: 'Management Users'
         }
       },
       {
@@ -65,7 +74,29 @@ export const routes: Routes = [
             IRole.superAdmin,
             IRole.user
           ],
-          name: 'Dashboard'
+          name: 'Movies'
+        }
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        data: { 
+          authorities: [
+            IRole.user
+          ],
+          name: 'profile'
+        }
+      },
+      {
+        path: 'stream',
+        component: StreamComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin,
+            IRole.user
+          ],
+          name: 'Stream'
         }
       },
       {

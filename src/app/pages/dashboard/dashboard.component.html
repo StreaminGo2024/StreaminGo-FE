@@ -1,1 +1,27 @@
-<p>dashboard works!</p>
+
+<div class="container">
+        <div class="d-flex justify-content-center">
+            <input 
+                class="form-control" 
+                [(ngModel)]="search"
+                (keyup.enter)="filterMovies()"
+                type="text">
+            <button (click)="filterMovies()" class="btn btn-dark bg-black">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+</div>
+
+
+<div class="container d-flex flex-wrap">
+    @for (item of filteredMovieList; track item.id){
+    <app-movie-card 
+        [title]="item.name ?? ''" 
+        [year]="item.realesedYear ?? 0"
+        [category]="item.genre?.name ?? ''" 
+        [url]="'/stream'"
+        [image]="item.imageCover ?? ''">
+    </app-movie-card>
+    }
+
+</div>>

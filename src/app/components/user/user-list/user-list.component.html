@@ -1,7 +1,21 @@
 <div class="table-container table-responsive">
+  <div class="header-container d-flex justify-content-between align-items-center mb-2">
+    <div class="user-count">
+      <p>Total de usuarios: {{userList.length}}</p>
+    </div>
+    <div class="search-container">
+      <input 
+        type="text" 
+        [(ngModel)]="search" 
+        (input)="applyFilter()" 
+        placeholder="Buscar usuarios..." 
+        class="form-control search-input"
+      />
+    </div>
+  </div>
   <table class="table table-striped">
     <thead>
-      <tr>
+      <tr style="color: white;">
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Lastname</th>
@@ -13,7 +27,7 @@
     </thead>
     <tbody>
       @for (item of userList; track item.id) {
-      <tr>
+      <tr style="color: white;">
         <th scope="row">{{item.id}}</th>
         <td>{{item.name}}</td>
         <td>{{item.lastname}}</td>
@@ -46,3 +60,4 @@
   >
 </app-user-form>
 </app-modal>
+

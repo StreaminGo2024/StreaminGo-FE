@@ -1,94 +1,72 @@
 <div class="login-container">
-  <div class="d-flex align-items-center justify-content-center h-100">
+  <div class="d-flex align-items-center justify-content-center h-100 flex-column">
+    <div class="logo-container text-center">
+      <a class="logo" routerLink="/">
+        <img
+          class="logo-img img-fluid mb-4"
+          src="../../../../assets/icons/logo.png"
+          alt="Logo"
+        />
+      </a>
+    </div>
     <div class="login-card">
       <div class="w-100">
-        <div class="text-center">
-          <a class="logo text-center" routerLink="/">
-            <img
-              width="40"
-              class="img-fluid mb-4"
-              src="../../../../assets/icons/logo@2x.png"
-              alt="Logo"
-            />
-          </a>
-        </div>
         <div class="login-main">
           <form (ngSubmit)="handleSignup($event)" autocomplete="off" #frm="ngForm">
-            <div class="mb-3">
-              <h4>Sign up account</h4>
-              <small style="color: #4f4f4f">
-                Enter your email & password to login
-              </small>
-            </div>
-
-            <div class="d-flex align-items-center mb-3">
-              <div class="form-group px-1">
-                <label for="name" class="form-label mb-2">
-                  Name
-                </label>
-                <input #name="ngModel" type="text" class="form-control" id="name" name="name"
-                  placeholder="User" [(ngModel)]="user.name" [ngClass]="{
-                    'is-invalid': name.invalid && name.touched,
-                    'is-valid': name.valid && name.touched
-                  }" required />
-                <div *ngIf="name.invalid" class="invalid-feedback">
-                  Please add a valid name
-                </div>
+            <div class="form-group row">
+              <div class="col-12 col-md-6 px-1">
+                <label for="name" class="form-label mb-2">Name</label>
+                <input #name="ngModel" type="text" class="form-control" id="name" name="name" placeholder="Enter your name" [(ngModel)]="user.name" [ngClass]="{'is-invalid': name.invalid && name.touched, 'is-valid': name.valid && name.touched}" required />
+                <div *ngIf="name.invalid" class="invalid-feedback">Please add a valid value</div>
               </div>
-              <div class="form-group px-1">
-                <label for="lastname" class="form-label mb-2">
-                  Lastname
-                </label>
-                <input #lastname="ngModel" type="text" class="form-control" id="lastname" name="lastname"
-                  placeholder="demo" [(ngModel)]="user.lastname" [ngClass]="{
-                    'is-invalid': lastname.invalid && lastname.touched,
-                    'is-valid': lastname.valid && lastname.touched
-                  }" required />
-                <div *ngIf="lastname.invalid" class="invalid-feedback">
-                  Please add a valid lastname
-                </div>
+              <div class="col-12 col-md-6 px-1">
+                <label for="lastname" class="form-label mb-2">Last name</label>
+                <input #lastname="ngModel" type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your last name" [(ngModel)]="user.lastname" [ngClass]="{'is-invalid': lastname.invalid && lastname.touched, 'is-valid': lastname.valid && lastname.touched}" required />
+                <div *ngIf="lastname.invalid && lastname.touched" class="invalid-feedback">Please add a valid value</div>
               </div>
             </div>
 
-            <div class="form-group mb-3">
-              <label for="email" class="form-label mb-2">
-                Email Address
-              </label>
-              <input #email="ngModel" type="text" class="form-control" id="email" name="email"
-                placeholder="agent@gmail.com" [(ngModel)]="user.email" [ngClass]="{
-                  'is-invalid': email.invalid && email.touched,
-                  'is-valid': email.valid && email.touched
-                }" required />
-              <div *ngIf="email.invalid" class="invalid-feedback">
-                Please add a valid email
+            <div class="form-group row">
+              <div class="col-12 px-1">
+                <label for="email" class="form-label mb-2">Email</label>
+                <input #email="ngModel" type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
+                  [(ngModel)]="user.email"
+                  [ngClass]="{'is-invalid': email.invalid && email.touched, 'is-valid': email.valid && email.touched}" required
+                  pattern="[a-z0-9._%+-]+@gmail\.com$">
+                <div *ngIf="email.invalid && email.touched" class="invalid-feedback">Please enter a valid email.</div>
               </div>
             </div>
 
-            <div class="form-group mb-5">
-              <label for="password" class="form-label mb-2">Password</label>
-              <div class="form-input position-relative">
+            <div class="form-group row">
+              <div class="col-12 col-md-6 px-1">
+                <label for="password" class="form-label mb-2">Password</label>
                 <input #password="ngModel" type="password" class="form-control" id="password" name="password"
-                placeholder="*****" [(ngModel)]="user.password" [ngClass]="{
-                  'is-invalid': password.invalid && password.touched,
-                  'is-valid': password.valid && password.touched
-                }" required />
-                <div *ngIf="password.invalid" class="invalid-feedback">
-                  Please add a valid password
-                </div>
+                  placeholder="Enter your password" [(ngModel)]="user.password"
+                  [ngClass]="{'is-invalid': password.invalid && password.touched, 'is-valid': password.valid && password.touched}"
+                  minlength="8" maxlength="12"
+                  pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$"
+                  required 
+                />
+              </div>
+              <div class="col-12 col-md-6 px-1">
+                <label for="passwordConfirmation" class="form-label mb-2">Confirmation</label>
+                <input #passwordConfirmation="ngModel" type="password" class="form-control" id="passwordConfirmation"
+                  name="passwordConfirmation" placeholder="Confirm password" [(ngModel)]="user.passwordConfirmation"
+                  [ngClass]="{'is-invalid': passwordConfirmation.invalid && passwordConfirmation.touched, 'is-valid': passwordConfirmation.valid && passwordConfirmation.touched}"
+                  required />
               </div>
             </div>
 
-            <div class="form-group mb-0">
-              <button class="btn btn-primary btn-block w-100" type="submit">
-                Sign up
-              </button>
-              @if(signUpError) {
-                <p class="text-danger">{{signUpError}}</p>
-              } @else if (validSignup){
-                <p class="text-success">User registered, please go to login</p>
-              }
+            <div class="form-group row">
+              <div class="col-12 px-1 d-flex justify-content-center">
+                <button class="btn btn-primary btn-block login-btn" type="submit">Sign up</button>
+              </div>
+              <div class="col-12 px-1 d-flex flex-column align-items-center mt-3">
+                <p class="m-0">Have an account? <a href="/login" class="link-login">Login</a></p>
+                <a style="color: #FFF;" href="https://streamingo2024.github.io/index.html">Code&Go</a>
+              </div>
             </div>
-            <a href="/login">Go Login</a>
+            
           </form>
         </div>
       </div>
