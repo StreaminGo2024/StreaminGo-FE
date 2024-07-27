@@ -33,4 +33,8 @@ export class BaseService<T> {
   public del(id: any): Observable<IResponse<T>> {
     return this.http.delete<IResponse<T>>(this.source + '/' + id);
   }
+
+  public addActorsToCasting(id: any | undefined, data:[]): Observable<IResponse<T>> {
+    return this.http.put<IResponse<T>>(this.source + '/' + id + '/actors', data);
+  }
 }

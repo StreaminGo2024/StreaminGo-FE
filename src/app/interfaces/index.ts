@@ -41,6 +41,50 @@ export enum IRole {
   superAdmin = 'ROLE_SUPER_ADMIN'
 }
 
+export interface IGenre {
+  id?: number;
+  name?: string;
+  status?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IMovie {
+  id?: number;
+  name?: string;
+  description?: string;
+  genre?: IGenre;
+  imageCover?: string;
+  video?: string;
+  realesedYear?: number;
+  duration?: number; //CAMBIAR A STRING
+  casting?: ICasting;
+  status?: string;
+
+}
+
+export interface IActor {
+  id?: number;
+  name?: string;
+  lastname?: string;
+  nationality?: string;
+  birth?: Date;
+  realesedYear?: number;
+  casting?: number; 
+  status?: string;
+}
+
+export interface ICasting {
+  id?: number;
+  name?: string;
+  status?: string;
+}
+
+export interface ICastingActor {
+  casting: ICasting;
+  selectedActors: [];
+}
+
 export interface IMovieDashboard {
   id?: number;
   name?: string;
@@ -54,3 +98,4 @@ export interface IGenreDashboard {
   id?: number;
   name?: string;
 }
+
