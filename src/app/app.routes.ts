@@ -66,18 +66,6 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'dashboard',
-        component: DashboardComponent,
-        data: { 
-          authorities: [
-            IRole.admin, 
-            IRole.superAdmin,
-            IRole.user
-          ],
-          name: 'Movies'
-        }
-      },
-      {
         path: 'profile',
         component: ProfileComponent,
         data: { 
@@ -100,15 +88,15 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'movies',
-        component: MoviesComponent,
+        path: 'casting',
+        component: CastingComponent,
         data: { 
           authorities: [
             IRole.admin, 
             IRole.superAdmin
           ],
           showInSidebar: true,
-          name: 'Movies'
+          name: 'Casting'
         }
       },
       {
@@ -136,15 +124,27 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'casting',
-        component: CastingComponent,
+        path: 'movies',
+        component: MoviesComponent,
         data: { 
           authorities: [
             IRole.admin, 
             IRole.superAdmin
           ],
           showInSidebar: true,
-          name: 'Casting'
+          name: 'Movies'
+        }
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin,
+            IRole.user
+          ],
+          name: 'Home'
         }
       },
     ],

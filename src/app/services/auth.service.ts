@@ -2,17 +2,12 @@ import { Injectable } from '@angular/core';
 import { IAuthority, ILoginResponse, IRole, IUser } from '../interfaces';
 import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
-import { IUser, ILoginResponse } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService{
-  areActionsAvailable(routeAuthorities: string[]): boolean {
-    throw new Error('Method not implemented.');
-  }
   private accessToken!: string;
   private expiresIn!: number;
   private user: IUser = { email: '', authorities: [] };
