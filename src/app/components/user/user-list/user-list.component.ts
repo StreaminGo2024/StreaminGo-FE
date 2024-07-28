@@ -39,18 +39,8 @@ export class UserListComponent {
     this.service.searchUsersByName(this.search).subscribe({
       next: (users) => {
         this.userList = users;
-        this.snackBar.open('User searching', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 5 * 1000,
-       })
       },
       error: (error) => {
-        this.snackBar.open('Insert a name', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
       }
     });
   }
