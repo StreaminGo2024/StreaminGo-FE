@@ -11,6 +11,7 @@
         Please upload an image
       </div>
     </div>
+    <!-- Video Upload -->
     <div class="col-md-6 mb-3">
       <label for="videoUpload" class="form-label">Upload Video</label>
       <input type="file" class="form-control" id="videoUpload" (change)="onVideoUpload($event)" required />
@@ -20,7 +21,7 @@
     </div>
     <div class="col-md-6 mb-3">
       <label for="name" class="form-label">Name</label>
-      <input #name="ngModel" type="text" class="form-control" id="name" name="name" placeholder="Name"
+      <input #name="ngModel" maxlength="100" type="text" class="form-control" id="name" name="name" placeholder="Name"
         [(ngModel)]="movie.name"
         [ngClass]="{
           'is-invalid': name.invalid && name.touched,
@@ -33,7 +34,7 @@
     </div>
     <div class="col-md-6 mb-3">
       <label for="description" class="form-label">Description</label>
-      <input #description="ngModel" type="text" class="form-control" id="description" name="description" placeholder="Description"
+      <input #description="ngModel" maxlength="250" type="text" class="form-control" id="description" name="description" placeholder="Description"
         [(ngModel)]="movie.description"
         [ngClass]="{
           'is-invalid': description.invalid && description.touched,
@@ -46,12 +47,13 @@
     </div>
     <div class="col-md-6 mb-3">
       <label for="year" class="form-label">Year</label>
-      <input #year="ngModel" maxlength="4" type="number" class="form-control" id="year" name="year" placeholder="Year"
+      <input #year="ngModel" type="number" class="form-control" id="year" name="year" placeholder="Year"
         [(ngModel)]="movie.realesedYear"
         [ngClass]="{
           'is-invalid': year.invalid && year.touched,
           'is-valid': year.valid && year.touched
         }"
+        (input)="validateYear($event)"
         required />
       <div *ngIf="year.invalid && year.touched" class="invalid-feedback">
         Please add a valid year
@@ -65,6 +67,7 @@
           'is-invalid': time.invalid && time.touched,
           'is-valid': time.valid && time.touched
         }"
+        (input)="validateDuration($event)"
         required />
       <div *ngIf="time.invalid && time.touched" class="invalid-feedback">
         Please add a valid duration

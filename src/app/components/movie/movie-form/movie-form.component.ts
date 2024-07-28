@@ -54,4 +54,20 @@ export class MovieFormComponent {
       console.log(this.movie.video); 
     }
   }
+
+  validateYear(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
+    if (value.length > 4) {
+      input.value = value.slice(0, 4);
+    }
+  }
+
+  validateDuration(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
+    if (value.length > 10) {
+      input.value = value.slice(0, 10);
+    }
+  }
 }
