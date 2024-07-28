@@ -28,7 +28,7 @@ export class CastingFormComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.castingForm = this.fb.group({
       name: [this.casting.name || '', Validators.required],
-      selectedActors: [[], Validators.required]
+      selectedActors: [[], Validators.required]  // Se espera un array de IDs
     });
   }
 
@@ -53,14 +53,22 @@ export class CastingFormComponent implements OnInit, OnChanges {
       return;
     }
 
+    // Obtener la lista de IDs seleccionados
+    const selectedActorIds = this.castingForm.get('selectedActors')?.value;
+
+    // Mapear IDs a objetos de actores completos
+    const selectedActors = this.actorList.filter(actor => selectedActorIds.includes(actor.id));
+
     const eventPayload: ICastingActor = {
       casting: {
         ...this.casting,
-        name: this.castingForm.get('name')?.value
+        name: this.castingForm.get('name')?.value,
+        actor: selectedActors // Incluir lista completa de actores
       },
-      selectedActors: this.castingForm.get('selectedActors')?.value
+      selectedActors: selectedActorIds // Enviar IDs si el backend los necesita
     };
-
+    
+    // Emitir el evento con el payload adecuado
     this.callParentEvent.emit(eventPayload);
   }
 }
