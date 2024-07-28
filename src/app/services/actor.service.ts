@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { IActor } from '../interfaces';
 import { BaseService } from './base-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,14 @@ export class ActorService extends BaseService<IActor>{
   public getAll() {
     this.findAll().subscribe({
       next: (response: any) => {
+
+        response.forEach((item: { birth:any; }) => {
+          if (item.birth) {
+            // Parse the birth field if it's a string or directly format if it's already a Date object
+            const birthDate = new Date(item.birth); // Convert to Date object if necessary
+            item.birth = formatDate(birthDate, 'yyyy-MM-dd', 'en-US'); // Format the date
+          }
+        });
         response.reverse();
         this.itemListSignal.set(response);
       },
@@ -82,4 +91,5 @@ export class ActorService extends BaseService<IActor>{
       }
     })
   }
+
 }

@@ -67,7 +67,7 @@ export interface IActor {
   name?: string;
   lastname?: string;
   nationality?: string;
-  birth?: Date;
+  birth?: any;
   realesedYear?: number;
   casting?: number; 
   status?: string;

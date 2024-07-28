@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule, formatDate } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IActor } from '../../../interfaces';
 
@@ -13,7 +13,7 @@ import { IActor } from '../../../interfaces';
   templateUrl: './actor-form.component.html',
   styleUrl: './actor-form.component.scss'
 })
-export class ActorFormComponent {
+export class ActorFormComponent{
   @Input() actor: IActor = {};
 
   @Input() action = '';
@@ -22,4 +22,5 @@ export class ActorFormComponent {
   callEvent() {
     this.callParentEvent.emit(this.actor);
   }
+
 }
