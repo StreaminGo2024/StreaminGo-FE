@@ -51,6 +51,7 @@
   
   <app-modal #detailModal>
     <app-casting-form
+      [actorList]="actorService.items$()"
       [casting]="selectedItem"
       [action]="'Update casting'"
       (callParentEvent)="handleFormAction($event)"

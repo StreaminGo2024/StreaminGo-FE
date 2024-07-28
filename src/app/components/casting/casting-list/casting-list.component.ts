@@ -1,9 +1,10 @@
-import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICasting, ICastingActor } from '../../../interfaces';
 import { CastingService } from '../../../services/casting.service';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../modal/modal.component';
 import { CastingFormComponent } from '../casting-form/casting-form.component';
+import { ActorService } from '../../../services/actor.service';
 
 @Component({
   selector: 'app-casting-list',
@@ -15,12 +16,16 @@ import { CastingFormComponent } from '../casting-form/casting-form.component';
   templateUrl: './casting-list.component.html',
   styleUrl: './casting-list.component.scss'
 })
-export class CastingListComponent implements OnChanges{
+export class CastingListComponent implements OnChanges, OnInit{
   @Input() itemList: ICasting[] = [];
   @Input() areActionsAvailable: boolean = false;
   public selectedItem: ICasting = {};
   public castingService: CastingService = inject(CastingService);
+  public actorService: ActorService = inject(ActorService);
 
+  ngOnInit(): void {
+    this.actorService.getAll();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['areActionsAvailable']) {
