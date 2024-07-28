@@ -78,6 +78,7 @@ export interface ICasting {
   id?: number;
   name?: string;
   status?: string;
+  actor? :IActor[];
 }
 
 export interface ICastingActor {

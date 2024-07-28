@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IActor, ICasting, ICastingActor } from '../../../interfaces';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,7 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './casting-form.component.html',
   styleUrls: ['./casting-form.component.scss']
 })
-export class CastingFormComponent implements OnInit {
+export class CastingFormComponent implements OnInit, OnChanges {
   @Input() casting: ICasting = {};
   @Input() actorList: IActor[] = [];
   @Input() action = '';
@@ -30,6 +30,21 @@ export class CastingFormComponent implements OnInit {
       name: [this.casting.name || '', Validators.required],
       selectedActors: [[], Validators.required]
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['casting']) {
+      this.updateForm();
+    }
+  }
+
+  updateForm() {
+    if (this.castingForm) {
+      this.castingForm.patchValue({
+        name: this.casting.name || '',
+        selectedActors: this.casting.actor ? this.casting.actor.map(actor => actor.id) : []
+      });
+    }
   }
 
   callEvent() {
