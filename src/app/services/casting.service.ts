@@ -55,7 +55,7 @@ export class CastingService extends BaseService<ICasting>{
   public update(item: ICasting) {
     this.add(item).subscribe({
       next: () => {
-        const updatedItems = this.itemListSignal().map(casting => casting.id === casting.id ? item: casting);
+        const updatedItems = this.itemListSignal().map(casting => casting.id === item.id ? item: casting);
         this.itemListSignal.set(updatedItems);
       },
       error: (error: any) => {
@@ -72,10 +72,8 @@ export class CastingService extends BaseService<ICasting>{
   public addActors(item : number,actor : []) {
     this.addActorsToCasting(item, actor).subscribe({
       next: (response) => {
-      // Assuming `response.data` contains the updated casting object
       const updatedCasting = response.data;
       
-      // Update the local state
       const updatedItems = this.itemListSignal().map(casting =>
         casting.id === item ? updatedCasting : casting
       );
