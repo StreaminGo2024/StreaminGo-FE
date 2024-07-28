@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IActor } from '../../../interfaces';
 import { ActorService } from '../../../services/actor.service';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,7 @@ import { ActorFormComponent } from '../actor-form/actor-form.component';
   templateUrl: './actor-list.component.html',
   styleUrl: './actor-list.component.scss'
 })
-export class ActorListComponent implements OnChanges {
+export class ActorListComponent implements OnChanges, OnInit {
   @Input() itemList: IActor[] = [];
   @Input() areActionsAvailable: boolean = false;
   public selectedItem: IActor = {};
@@ -27,6 +27,15 @@ export class ActorListComponent implements OnChanges {
     if(changes['areActionsAvailable']) {
       console.log('areActionsAvailable', this.areActionsAvailable);
     }
+  }
+
+  ngOnInit() {
+    this.itemList = this.itemList.map(item => {
+      return {
+        ...item,
+        birth: item.birth ? new Date(item.birth) : item.birth
+      };
+    });
   }
   
   showDetailModal(item: IActor, modal: any) {
