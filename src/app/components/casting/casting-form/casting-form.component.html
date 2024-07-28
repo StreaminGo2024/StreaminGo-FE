@@ -34,7 +34,10 @@
     </div>
     <div class="col-6">
       <button type="submit" class="btn bg-purple d-flex align-items-center">
-        <p class="mb-0">{{ action }}</p>
+        <i class="fa-solid white me-2"
+        [ngClass]="{'fa-plus': action == 'Add casting', 'fa-pencil':  action == 'Update casting'}"
+      ></i>
+      <p class="mb-0">{{ action }}</p>
       </button>
     </div>
   </div>

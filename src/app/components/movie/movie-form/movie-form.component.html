@@ -1,88 +1,105 @@
 <form class="container">
-    <div>
-        <h2>{{ action }}</h2>
+  <div class="mb-3">
+    <h2>{{ action }}</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label for="imageurl" class="form-label">Image URL</label>
+      <input #imageurl="ngModel" type="text" class="form-control" id="imageurl" name="imageurl" placeholder="Image URL"
+        [(ngModel)]="movie.imageCover"
+        [ngClass]="{
+          'is-invalid': imageurl.invalid && imageurl.touched,
+          'is-valid': imageurl.valid && imageurl.touched
+        }"
+        required />
     </div>
-    <div class="row">
-        <div class="col-6">
-            <input #imageurl="ngModel" type="text" class="form-control" id="imageurl" name="imageurl" placeholder="image"
-                [(ngModel)]="movie.imageCover" [ngClass]="{ 
-                'is-invalid': imageurl.invalid && imageurl.touched,
-                'is-valid': imageurl.valid && imageurl.touched
-              }" required />
-        </div>
-        <div class="col-6 mb-2">
-            <input #name="ngModel" type="text" class="form-control" id="name" name="name" placeholder="Name"
-                [(ngModel)]="movie.name" [ngClass]="{ 
-            'is-invalid': name.invalid && name.touched,
-            'is-valid': name.valid && name.touched
-          }" required />
-        </div>
-        <div class="col-6 mb-2">
-            <input #description="ngModel" type="text" class="form-control" id="description" name="description"
-                placeholder="Description" [(ngModel)]="movie.description" [ngClass]="{ 
-            'is-invalid': description.invalid && description.touched,
-            'is-valid': description.valid && description.touched
-          }" required />
-        </div>
-        <div class="col-6">
-            <input #video="ngModel" type="text" class="form-control" id="video" name="video" placeholder="video"
-                [(ngModel)]="movie.video" [ngClass]="{ 
-            'is-invalid': video.invalid && video.touched,
-            'is-valid': video.valid && video.touched
-          }" required />
-        </div>
-        <div class="col-6 mb-2">
-            <input #year="ngModel" type="number" class="form-control" id="year" name="year" placeholder="Year"
-                [(ngModel)]="movie.realesedYear" [ngClass]="{ 
-            'is-invalid': year.invalid && year.touched,
-            'is-valid': year.valid && year.touched
-          }" required />
-        </div>
-        <div class="col-6 mb-2">
-            <input #time="ngModel" type="number" class="form-control" id="time" name="time" 
-                [(ngModel)]="movie.duration" [ngClass]="{ 
-            'is-invalid': time.invalid && time.touched,
-            'is-valid': time.valid && time.touched
-          }" required />
-        </div>
-        <div class="row">
-            <div class="col-12 mb-2">
-              <select class="form-control" id="genre" name="genre" 
-              placeholder="Movie Genre"
-              [(ngModel)]="movie.genre" 
-              #genre="ngModel"
-              [ngClass]="{ 
-                'is-invalid': genre.invalid && genre.touched,
-                'is-valid': genre.valid && genre.touched 
-              }" 
-              required>
-                <option *ngFor="let item of genreList" [ngValue]="item">
-                  {{ item.name }}
-                </option>
-              </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 mb-2">
-              <select class="form-control" id="casting" name="casting" 
-              placeholder="Movie Casting"
-              [(ngModel)]="movie.casting" 
-              #casting="ngModel"
-              [ngClass]="{ 
-                'is-invalid': casting.invalid && casting.touched,
-                'is-valid': casting.valid && casting.touched 
-              }" 
-              required>
-                <option *ngFor="let item of castingList" [ngValue]="item">
-                  {{ item.name }}
-                </option>
-              </select>
-            </div>
-        </div>
-        <div class="col-6">
-            <button (click)="callEvent();" type="button" class="btn btn-primary d-flex align-items-center">
-                <p class="mb-0"> {{action}} </p>
-            </button>
-        </div>
+    <div class="col-md-6 mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input #name="ngModel" type="text" class="form-control" id="name" name="name" placeholder="Name"
+        [(ngModel)]="movie.name"
+        [ngClass]="{
+          'is-invalid': name.invalid && name.touched,
+          'is-valid': name.valid && name.touched
+        }"
+        required />
     </div>
+    <div class="col-md-6 mb-3">
+      <label for="description" class="form-label">Description</label>
+      <input #description="ngModel" type="text" class="form-control" id="description" name="description" placeholder="Description"
+        [(ngModel)]="movie.description"
+        [ngClass]="{
+          'is-invalid': description.invalid && description.touched,
+          'is-valid': description.valid && description.touched
+        }"
+        required />
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="video" class="form-label">Video URL</label>
+      <input #video="ngModel" type="text" class="form-control" id="video" name="video" placeholder="Video URL"
+        [(ngModel)]="movie.video"
+        [ngClass]="{
+          'is-invalid': video.invalid && video.touched,
+          'is-valid': video.valid && video.touched
+        }"
+        required />
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="year" class="form-label">Year</label>
+      <input #year="ngModel" type="number" class="form-control" id="year" name="year" placeholder="Year"
+        [(ngModel)]="movie.realesedYear"
+        [ngClass]="{
+          'is-invalid': year.invalid && year.touched,
+          'is-valid': year.valid && year.touched
+        }"
+        required />
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="time" class="form-label">Duration</label>
+      <input #time="ngModel" type="number" class="form-control" id="time" name="time" placeholder="Duration (min)"
+        [(ngModel)]="movie.duration"
+        [ngClass]="{
+          'is-invalid': time.invalid && time.touched,
+          'is-valid': time.valid && time.touched
+        }"
+        required />
+    </div>
+    <div class="col-12 mb-3">
+      <label for="genre" class="form-label">Genre</label>
+      <select class="form-control" id="genre" name="genre"
+        [(ngModel)]="movie.genre"
+        #genre="ngModel"
+        [ngClass]="{
+          'is-invalid': genre.invalid && genre.touched,
+          'is-valid': genre.valid && genre.touched
+        }"
+        required>
+        <option *ngFor="let item of genreList" [ngValue]="item">
+          {{ item.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-12 mb-3">
+      <label for="casting" class="form-label">Casting</label>
+      <select class="form-control" id="casting" name="casting"
+        [(ngModel)]="movie.casting"
+        #casting="ngModel"
+        [ngClass]="{
+          'is-invalid': casting.invalid && casting.touched,
+          'is-valid': casting.valid && casting.touched
+        }"
+        required>
+        <option *ngFor="let item of castingList" [ngValue]="item">
+          {{ item.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-12 d-flex justify-content-start">
+      <button type="submit" class="btn bg-purple d-flex align-items-center">
+        <i class="fa-solid white me-2"
+        [ngClass]="{'fa-plus': action == 'Add movie', 'fa-pencil':  action == 'Update movie'}"
+      ></i>
+      <p class="mb-0">{{ action }}</p>
+      </button>
+    </div>
+  </div>
 </form>
