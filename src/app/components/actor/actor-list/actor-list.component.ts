@@ -33,7 +33,7 @@ export class ActorListComponent implements OnChanges, OnInit {
     this.itemList = this.itemList.map(item => {
       return {
         ...item,
-        birth: item.birth ? new Date(item.birth) : item.birth
+        birth: item.birth ? new Date(item.birth) : undefined
       };
     });
   }

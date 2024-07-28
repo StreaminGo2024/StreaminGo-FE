@@ -57,7 +57,8 @@
     <div class="col-md-6 mb-3">
       <label for="birth" class="form-label">Birth Date</label>
       <input #birth="ngModel" type="date" class="form-control" id="birth" name="birth"
-        [(ngModel)]="actor.birth"
+        [(ngModel)]="birthString"
+        (ngModelChange)="onBirthChange($event)"
         [ngClass]="{
           'is-invalid': birth.invalid && birth.touched,
           'is-valid': birth.valid && birth.touched
