@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ICasting, IGenre, IMovie } from '../../../interfaces';
 
 @Component({
@@ -11,17 +11,47 @@ import { ICasting, IGenre, IMovie } from '../../../interfaces';
     FormsModule
   ],
   templateUrl: './movie-form.component.html',
-  styleUrl: './movie-form.component.scss'
+  styleUrls: ['./movie-form.component.scss']
 })
 export class MovieFormComponent {
-  @Input() movie: IMovie =  {};
+  @Input() movie: IMovie = {};
   @Input() genreList: IGenre[] = [];
   @Input() castingList: ICasting[] = [];
   @Input() action = '';
   @Output() callParentEvent: EventEmitter<IMovie> = new EventEmitter<IMovie>()
 
-  callEvent() {
-    this.callParentEvent.emit(this.movie);
+  callEvent(form: NgForm) {
+    if (form.valid && this.movie.imageCover && this.movie.video) {
+      this.callParentEvent.emit(this.movie);
+    } else {
+      // Marcar todos los controles como tocados para mostrar mensajes de error
+      Object.keys(form.controls).forEach(control => {
+        form.controls[control].markAsTouched();
+      });
+    }
   }
 
+  onImageUpload(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.movie.imageCover = reader.result as string;
+        console.log(this.movie.imageCover); 
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onVideoUpload(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const fileName = file.name;
+      const baseFileName = fileName.substring(0, fileName.lastIndexOf('.'));
+      this.movie.video = baseFileName;
+      console.log(this.movie.video); 
+    }
+  }
 }
