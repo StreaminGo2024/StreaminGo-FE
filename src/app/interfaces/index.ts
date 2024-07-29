@@ -98,4 +98,9 @@ export interface IGenreDashboard {
   id?: number;
   name?: string;
 }
+export interface IUserCountStats {
+  year: number;
+  month: number;
+  count: number;
+}
 

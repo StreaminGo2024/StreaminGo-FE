@@ -2,18 +2,23 @@ import { inject, Injectable, signal } from '@angular/core';
 import { BaseService } from './base-service';
 import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IUser } from '../interfaces';
+import { IUser, IUserCountStats } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService extends BaseService<IUser> {
+export class UserService extends BaseService<IUser | IUserCountStats> {
   protected override source: string = 'users';
   private userListSignal = signal<IUser[]>([]);
+  private userStatsListSignal = signal<IUserCountStats[]>([]);
   private snackBar: MatSnackBar = inject(MatSnackBar);
 
   get users$() {
     return this.userListSignal;
+  }
+
+  get userStats$() {
+    return this.userStatsListSignal;
   }
   getAllSignal() {
     this.findAll().subscribe({
@@ -83,4 +88,18 @@ export class UserService extends BaseService<IUser> {
       })
     );
   }
+
+  getUserMonth() {
+    this.chartUsersMonth().subscribe({
+      next: (response: any) => {
+        response.reverse();
+        return this.userStatsListSignal.set(response);
+      },
+      error: (error: any) => {
+        console.error('Error fetching users', error);
+      }
+    });
+  }
+
+  
 }
