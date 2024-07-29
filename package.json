@@ -21,11 +21,13 @@
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
+    "@types/video.js": "^7.3.58",
     "dragula": "^3.7.3",
     "global": "^4.4.0",
     "ng2-dragula": "^5.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "video.js": "^8.16.1",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
