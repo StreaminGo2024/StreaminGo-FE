@@ -6,11 +6,11 @@
           <th scope="col">Image</th>
           <th scope="col">Name</th>
           <th scope="col">Description</th>
-          <th scope="col">Video URL</th>
+          <th scope="col">Video</th>
           <th scope="col">Year</th>
           <th scope="col">Time</th>
           <th scope="col">Status</th>
-          <th scope="col">Actions</th>
+          <th scope="col" style="text-align: center;">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -62,6 +62,8 @@
 <app-modal #detailModal>
   <app-movie-form
     [movie]="selectedItem"
+    [genreList] = "genreService.items$()"
+    [castingList] = "castingService.items$()"
     [action]="'Update movie'"
     (callParentEvent)="handleFormAction($event)"
   />

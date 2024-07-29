@@ -70,4 +70,12 @@ export class MovieFormComponent {
       input.value = value.slice(0, 10);
     }
   }
+
+  compareCasting(casting1: ICasting, casting2: ICasting): boolean {
+    return casting1 && casting2 ? casting1.id === casting2.id : casting1 === casting2;
+  }
+
+  compareGenre(genre1: ICasting, genre2: ICasting): boolean {
+    return genre1 && genre2 ? genre1.id === genre2.id : genre1 === genre2;
+  }
 }

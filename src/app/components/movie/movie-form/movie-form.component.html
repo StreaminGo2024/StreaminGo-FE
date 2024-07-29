@@ -78,6 +78,7 @@
       <select class="form-control" id="genre" name="genre"
         [(ngModel)]="movie.genre"
         #genre="ngModel"
+        [compareWith]="compareGenre"
         [ngClass]="{
           'is-invalid': genre.invalid && genre.touched,
           'is-valid': genre.valid && genre.touched
@@ -96,6 +97,7 @@
       <select class="form-control" id="casting" name="casting"
         [(ngModel)]="movie.casting"
         #casting="ngModel"
+        [compareWith]="compareCasting"
         [ngClass]="{
           'is-invalid': casting.invalid && casting.touched,
           'is-valid': casting.valid && casting.touched
