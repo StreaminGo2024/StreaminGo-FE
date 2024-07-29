@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-md-6 mb-3">
       <label for="name" class="form-label">Name</label>
-      <input #name="ngModel" type="text" class="form-control" id="name" name="name" 
+      <input #name="ngModel" maxlength="100" type="text" class="form-control" id="name" name="name" 
         placeholder="Name"
         [(ngModel)]="genre.name" 
         [ngClass]="{ 

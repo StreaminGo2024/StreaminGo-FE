@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-md-6 mb-3">
       <label for="name" class="form-label">Name</label>
-      <input #name="ngModel" type="text" class="form-control" id="name" name="name"
+      <input #name="ngModel" maxlength="50" type="text" class="form-control" id="name" name="name"
         placeholder="Name"
         [(ngModel)]="actor.name"
         [ngClass]="{
@@ -22,7 +22,7 @@
     </div>
     <div class="col-md-6 mb-3">
       <label for="lastname" class="form-label">Lastname</label>
-      <input #lastname="ngModel" type="text" class="form-control" id="lastname" name="lastname"
+      <input #lastname="ngModel" maxlength="150" type="text" class="form-control" id="lastname" name="lastname"
         placeholder="Lastname"
         [(ngModel)]="actor.lastname"
         [ngClass]="{
@@ -39,7 +39,7 @@
     </div>
     <div class="col-md-6 mb-3">
       <label for="nationality" class="form-label">Actor Nationality</label>
-      <input #nationality="ngModel" type="text" class="form-control" id="nationality" name="nationality"
+      <input #nationality="ngModel" maxlength="50" type="text" class="form-control" id="nationality" name="nationality"
         placeholder="Actor Nationality"
         [(ngModel)]="actor.nationality"
         [ngClass]="{

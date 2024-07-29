@@ -16,12 +16,12 @@
             <div class="form-group row">
               <div class="col-12 col-md-6 px-1">
                 <label for="name" class="form-label mb-2">Name</label>
-                <input #name="ngModel" type="text" class="form-control" id="name" name="name" placeholder="Enter your name" [(ngModel)]="user.name" [ngClass]="{'is-invalid': name.invalid && name.touched, 'is-valid': name.valid && name.touched}" required />
+                <input #name="ngModel" maxlength="50" type="text" class="form-control" id="name" name="name" placeholder="Enter your name" [(ngModel)]="user.name" [ngClass]="{'is-invalid': name.invalid && name.touched, 'is-valid': name.valid && name.touched}" required />
                 <div *ngIf="name.invalid" class="invalid-feedback">Please add a valid value</div>
               </div>
               <div class="col-12 col-md-6 px-1">
                 <label for="lastname" class="form-label mb-2">Last name</label>
-                <input #lastname="ngModel" type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your last name" [(ngModel)]="user.lastname" [ngClass]="{'is-invalid': lastname.invalid && lastname.touched, 'is-valid': lastname.valid && lastname.touched}" required />
+                <input #lastname="ngModel" maxlength="100" type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your last name" [(ngModel)]="user.lastname" [ngClass]="{'is-invalid': lastname.invalid && lastname.touched, 'is-valid': lastname.valid && lastname.touched}" required />
                 <div *ngIf="lastname.invalid && lastname.touched" class="invalid-feedback">Please add a valid value</div>
               </div>
             </div>
@@ -29,7 +29,7 @@
             <div class="form-group row">
               <div class="col-12 px-1">
                 <label for="email" class="form-label mb-2">Email</label>
-                <input #email="ngModel" type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
+                <input #email="ngModel" maxlength="200" type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
                   [(ngModel)]="user.email"
                   [ngClass]="{'is-invalid': email.invalid && email.touched, 'is-valid': email.valid && email.touched}" required
                   pattern="[a-z0-9._%+-]+@gmail\.com$">
@@ -43,7 +43,7 @@
                 <input #password="ngModel" type="password" class="form-control" id="password" name="password"
                   placeholder="Enter your password" [(ngModel)]="user.password"
                   [ngClass]="{'is-invalid': password.invalid && password.touched, 'is-valid': password.valid && password.touched}"
-                  minlength="8" maxlength="12"
+                  minlength="8" maxlength="50"
                   pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$"
                   required 
                 />
