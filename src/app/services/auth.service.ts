@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { IUser, ILoginResponse } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -96,5 +96,11 @@ export class AuthService{
     localStorage.removeItem('access_token');
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('auth_user');
+  }
+
+  public getUserLogged(): Observable<IUser> {
+    // Suponiendo que el usuario ya está en la memoria o en localStorage
+    const user = this.getUser() ?? { email: '', authorities: [] };
+    return of(user); // Devuelve un Observable que emite el usuario
   }
 }

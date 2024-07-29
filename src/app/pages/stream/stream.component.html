@@ -38,7 +38,7 @@
         <div class="col-md-8">
             <h2 style="color:white">Stream</h2>
             <button class="btn bg-purple m-2" type="button"><i class="fa fa-user-group"></i> Invite</button>
-            <button class="btn bg-purple m-2" type="button"><i class="fa fa-sms"></i> Chat</button>
+            <button class="btn bg-purple m-2" *ngIf="usuarioLogeado && !mostrarChat" (click)="mostrarChat=true"  type="button"><i class="fa fa-sms"></i> Chat</button>
             <button class="btn m-2"><i class="fa fa-sign-out" style="color:white"></i></button>
             <button class="btn m-1"><img src="assets/icons/icons_emojis/angry-face_10963622.png" alt=""></button>
             <button class="btn m-1"><img src="assets/icons/icons_emojis/confused_5644455.png" alt=""></button>
@@ -53,19 +53,31 @@
                 <h2 style="color:white" class="mt-2">Streaming Movie 1</h2>
             </div>
         </div>
-        <div class="col-md-4">
-            <h2 style="color:white">Group Chat</h2>
-            <div class="chat-box" style="background-color: #f8f9fa; padding: 10px; border: 1px solid #ddd;">
-                <div id="chat-messages" style="overflow-y: scroll; border: 1px solid #ccc; padding: 10px; background: #fff;">
-                    <!-- Mensajes del chat -->
-                </div>
-                <div class="input-group mt-2">
-                    <input type="text" class="form-control" placeholder="Escribe un mensaje...">
-                    <div class="input-group-append">
-                        <button class="btn bg-purple" type="button">Enviar</button>
-                    </div>
+        <div class="card text-center cardContainer" *ngIf="usuarioLogeado && mostrarChat">
+            <div class="card-header">
+                CHAT
+                <div class="closeIcon" (click)="mostrarChat=false">X</div>
+            </div>
+
+            <div class="card-body">
+                <div id="contenedorDeMensajes" class="contenedorDeMensajes h-100">
+                    <p *ngFor="let mensaje of mensajes" class="msj p-2"
+                        [ngClass]="(usuarioLogeado.id==mensaje.emisor)? 'enviado' : 'recibido'"
+                    >
+                        {{mensaje.texto}}
+                    </p>
                 </div>
             </div>
+
+            <form class="card-footer text-muted input-group" (ngSubmit)="enviarMensaje()">
+                <input type="text" class="form-control" placeholder="Ingrese su mensaje" [(ngModel)]="nuevoMensaje"
+                [ngModelOptions]="{standalone: true}">
+                <div class="input-group-append" (click)="enviarMensaje()">
+                    <span class="input-group-text" id="basic-addon2">
+                        <img class="imgEnviar" src="../../../assets/icons/640874-200.png" width="20px" alt="send message">
+                    </span>
+                </div>
+            </form>
         </div>
     </div>
 </div>
