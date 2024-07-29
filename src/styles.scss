@@ -76,13 +76,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .bg-black {
-  background-color: var(--color-black);
+  background-color: var(--color-black) !important;
   color: #fff;
 }
 
 .bg-purple {
   background-color: var(--color-purple);
   color: #fff;
+}
+.bg-purple:hover{ 
+ color: #fff;
 }
 
 .bg-gray {
@@ -104,4 +107,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .color-gray {
   color: var(--color-gray);
+}
+.cdk-overlay-container{
+  z-index:3000 !important
 }

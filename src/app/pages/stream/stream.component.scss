@@ -1,3 +1,4 @@
+
 .cardContainer{
     width: 300px;
     height: 480px;
@@ -63,4 +64,28 @@
     right: 0.5rem;
     top: 0rem;
     cursor: pointer;
+}
+
+.bg-purple {
+    background-color: #6f42c1;
+    color: white;
+}
+.btn img {
+    width: 30px;
+    height: 30px;
+}
+@media (max-width: 768px) {
+    .container h2 {
+        font-size: 1.5rem;
+    }
+    .container video {
+        width: 100%;
+        height: auto;
+    }
+    .chat-box {
+        height: auto;
+    }
+    #chat-messages {
+        height: 300px;
+    }
 }

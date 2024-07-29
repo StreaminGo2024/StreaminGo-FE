@@ -9,7 +9,14 @@ import { AdminRoleGuard } from './guards/admin-role.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GuestGuard } from './guards/guest.guard';
 import { IRole } from './interfaces';
+import { MoviesComponent } from './pages/movies/movies.component';
+import { GenresComponent } from './pages/genres/genres.component';
+import { ActorsComponent } from './pages/actors/actors.component';
+import { CastingComponent } from './pages/casting/casting.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
 import { StreamComponent } from './pages/stream/stream.component';
+
 
 export const routes: Routes = [
   {
@@ -23,6 +30,11 @@ export const routes: Routes = [
     canActivate: [GuestGuard],
   },
   {
+    path: 'resetPassword/:code',
+    component: ResetPasswordComponent,
+    canActivate: [GuestGuard],
+  },
+  {
     path: 'access-denied',
     component: AccessDeniedComponent,
   },
@@ -30,6 +42,19 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
+  },
+  {
+    path: 'stream/:video',
+    component: StreamComponent,
+    canActivate: [AuthGuard],
+    data: { 
+      authorities: [
+        IRole.admin, 
+        IRole.superAdmin,
+        IRole.user
+      ],
+      name: 'Stream'
+    }
   },
   {
     path: 'app',
@@ -50,7 +75,65 @@ export const routes: Routes = [
             IRole.admin, 
             IRole.superAdmin
           ],
-          name: 'Users'
+          name: 'Management Users'
+        }
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        data: { 
+          authorities: [
+            IRole.user
+          ],
+          name: 'profile'
+        }
+      },
+      {
+        path: 'casting',
+        component: CastingComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin
+          ],
+          showInSidebar: true,
+          name: 'Casting'
+        }
+      },
+      {
+        path: 'genres',
+        component: GenresComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin
+          ],
+          showInSidebar: true,
+          name: 'Genres'
+        }
+      },
+      {
+        path: 'actors',
+        component: ActorsComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin
+          ],
+          showInSidebar: true,
+          name: 'Actors'
+        }
+      },
+      {
+        path: 'movies',
+        component: MoviesComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin
+          ],
+          showInSidebar: true,
+          name: 'Movies'
         }
       },
       {
@@ -62,21 +145,9 @@ export const routes: Routes = [
             IRole.superAdmin,
             IRole.user
           ],
-          name: 'Dashboard'
+          name: 'Home'
         }
       },
-      {
-        path: 'stream',
-        component: StreamComponent,
-        data: { 
-          authorities: [
-            IRole.admin, 
-            IRole.superAdmin,
-            IRole.user
-          ],
-          name: 'Stream'
-        }
-      }
     ],
   },
 ];

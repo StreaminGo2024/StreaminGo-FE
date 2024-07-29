@@ -3,43 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        .bg-purple {
-            background-color: #6f42c1;
-            color: white;
-        }
-        .btn img {
-            width: 30px;
-            height: 30px;
-        }
-        @media (max-width: 768px) {
-            .container h2 {
-                font-size: 1.5rem;
-            }
-            .container video {
-                width: 100%;
-                height: auto;
-            }
-            .chat-box {
-                height: auto;
-            }
-            #chat-messages {
-                height: 300px;
-            }
-        }
-    </style>
 </head>
 <body style="background-color: #333;">
-
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-8">
-            <h2 style="color:white">Stream</h2>
             <button class="btn bg-purple m-2" type="button"><i class="fa fa-user-group"></i> Invite</button>
+
             <button class="btn bg-purple m-2" *ngIf="usuarioLogeado && !mostrarChat" (click)="mostrarChat=true"  type="button"><i class="fa fa-sms"></i> Chat</button>
-            <button class="btn m-2"><i class="fa fa-sign-out" style="color:white"></i></button>
+            <button class="btn m-1"><a href="app/dashboard"><i class="fa fa-sign-out" style="color:white"></i></a></button>
+
             <button class="btn m-1"><img src="assets/icons/icons_emojis/angry-face_10963622.png" alt=""></button>
             <button class="btn m-1"><img src="assets/icons/icons_emojis/confused_5644455.png" alt=""></button>
             <button class="btn m-1"><img src="assets/icons/icons_emojis/cool-dude_10963628.png" alt=""></button>
@@ -47,10 +20,21 @@
             <button class="btn m-1"><img src="assets/icons/icons_emojis/happy-face_11068936.png" alt=""></button>
             <button class="btn m-1"><img src="assets/icons/icons_emojis/heart-eyes_11068929.png" alt=""></button>
             <button class="btn m-1"><img src="assets/icons/icons_emojis/laugh-wink_10963564.png" alt=""></button>
-            
+
             <div class="container mt-4">
-                <video src="http://localhost:8080/stream/demo2" class="w-100" controls preload="none"></video>
-                <h2 style="color:white" class="mt-2">Streaming Movie 1</h2>
+                <video
+                id="video"
+                class="video-js vjs-default-skin vjs-big-play-centered"
+                controls
+                preload="auto"
+                width="640"
+                height="264"
+                [attr.data-setup]="{}"
+              >
+                <source [src]="videoSrc" type="video/mp4" />
+                <track id="track" kind="subtitles" src="" srclang="en" label="English" default />
+              </video>
+                <h2 style="color:white" class="mt-2">Streaming Active</h2>
             </div>
         </div>
         <div class="card text-center cardContainer" *ngIf="usuarioLogeado && mostrarChat">
@@ -81,9 +65,5 @@
         </div>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
