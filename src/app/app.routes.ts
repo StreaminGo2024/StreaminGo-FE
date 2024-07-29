@@ -46,6 +46,7 @@ export const routes: Routes = [
   {
     path: 'stream/:video',
     component: StreamComponent,
+    canActivate: [AuthGuard],
     data: { 
       authorities: [
         IRole.admin, 
