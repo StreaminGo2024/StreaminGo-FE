@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnInit} from '@angular/core';
+import { Component, effect, inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts'; 
 import { UserService } from '../../services/user.service';
-import { IUserCountStats } from '../../interfaces';
+import { IMovie, IUser, IUserCountStats } from '../../interfaces';
 
 @Component({
   selector: 'app-chart',
@@ -16,15 +16,33 @@ import { IUserCountStats } from '../../interfaces';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements OnInit{
+export class ChartComponent implements OnChanges{
   @Input() usersStatsList: IUserCountStats[] = [];
-  private service = inject(UserService);
+  @Input() usersList: IUser[] = [];
+  @Input() movieList: IMovie[] = [];
+
+  //public userService = inject(UserService);
+  public userList: IUser[] = [];
+
   chartOptions: any;
+  userCounter : any;
+  movieCounter : any;
+  pieChartOptions: any;
 
-  ngOnInit(): void {
-    this.formatData(this.usersStatsList);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['usersStatsList']) {
+      this.formatData(this.usersStatsList);
+    }
+    if (changes['usersList']) {
+      this.userCounter = this.usersList.length;
+    }
+    if (changes['movieList']) {
+      this.movieCounter = this.movieList.length;
+      this.pieChart();
+    }
+
+
   }
-
 
   // ECharts options
   formatData(data: any[]): void {
@@ -33,9 +51,9 @@ export class ChartComponent implements OnInit{
 
     this.chartOptions = {
       title: {
-        text: 'User Registrations per Month',
+        text: 'Registered users by date',
         textStyle: {
-          color: '#fff', 
+          color: '#21201E', 
           fontSize: 18,
           fontWeight: 'bold'
         }
@@ -64,5 +82,67 @@ export class ChartComponent implements OnInit{
       }]
     };
   }
+
+  pieChart():void{
+    this.pieChartOptions = {
+      title: {
+        text: 'Movie Genres Distribution',
+        textStyle: {
+          color: '#21201E', 
+          fontSize: 18,
+          fontWeight: 'bold'
+        }
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b}: {c} ({d}%)'
+      },
+      legend: {
+        bottom: 10,
+        left: 'center',
+        textStyle: {
+          color: '#21201E'
+        }
+      },
+      series: [
+        {
+          name: 'Genres',
+          type: 'pie',
+          radius: '50%',
+          data: [
+            { value: 335, name: 'Action' },
+            { value: 310, name: 'Drama' },
+            { value: 234, name: 'Comedy' },
+            { value: 135, name: 'Thriller' },
+            { value: 1548, name: 'Romance' }
+          ],
+          itemStyle: {
+            color: (params: any) => {
+              const colors = ['#962DFF', '#E0C6FD', '#93AAFD', '#4A3AFF'];
+              return colors[params.dataIndex % colors.length];
+            }
+          },
+          label: {
+            color: '#21201E' 
+          },
+          labelLine: {
+            lineStyle: {
+              color: '#21201E' 
+            }
+          },
+          emphasis: {
+            itemStyle: {
+              borderColor: '#000',
+              borderWidth: 1
+            },
+            label: {
+              color: '#21201E' 
+            }
+          }
+        }
+      ]
+    };
+  }
+
 }
 

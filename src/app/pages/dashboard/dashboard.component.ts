@@ -21,15 +21,12 @@ export class DashboardComponent {
 
   public search: string = '';
   public movieList: IMovieDashboard[] = [];
-  public usersStatsList: IUserCountStats[] = [];
   public filteredMovieList: IMovieDashboard[] = [];
   public service = inject(DashboardService);
-  public userService = inject(UserService);
   private snackBar = inject(MatSnackBar);
 
   constructor() {
     this.service.getAllSignal();
-    this.userService.getUserMonth();
     effect(() => {      
       this.movieList = this.service.movies$();
       this.filteredMovieList = this.service.movies$();

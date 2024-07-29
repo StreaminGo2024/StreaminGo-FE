@@ -1,2 +1,43 @@
-<echarts [options]="chartOptions" style="height: 400px; width: 600px;"></echarts>
+<div class="container mt-5">
+    <div class="row">
+      <!-- Card 1 -->
+      <div class="col-md-2 mb-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <i class="fa-solid fa-user card-icon"></i>
+            <span class="card-text">{{userCounter}}</span>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Card 2 -->
+      <div class="col-md-2 mb-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <i class="fa-solid fa-film card-icon"></i>
+            <span class="card-text">{{movieCounter}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 
+<div class="container mt-5">
+  <div class="row">
+
+    <div class="col-md-6">
+      <div class="card p-4">
+        <echarts [options]="chartOptions" style="height: 400px; width: 600px;"></echarts>
+      </div>
+ 
+    </div>
+    
+    <div class="col-md-6">
+      <div class="card p-4">
+        <echarts [options]="pieChartOptions" style="height: 400px; width: 600px;"></echarts>
+      </div>
+     
+    </div>
+  </div>
+
+</div>
