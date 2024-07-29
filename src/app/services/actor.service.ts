@@ -38,6 +38,11 @@ export class ActorService extends BaseService<IActor>{
     this.add(item).subscribe({
       next: (response: any) => {
         this.itemListSignal.update((actors: IActor[]) => [response, ...actors]);
+        this.snackBar.open('Successfully Done', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 5 * 1000,
+        });
       },
       error: (error: any) => {
         console.error('response', error.description);
@@ -55,6 +60,11 @@ export class ActorService extends BaseService<IActor>{
       next: () => {
         const updatedItems = this.itemListSignal().map(actor => actor.id === item.id ? item: actor);
         this.itemListSignal.set(updatedItems);
+        this.snackBar.open('Successfully Done', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 5 * 1000,
+        });
       },
       error: (error: any) => {
         console.error('response', error.description);
@@ -71,6 +81,11 @@ export class ActorService extends BaseService<IActor>{
     this.del(item.id).subscribe({
       next: () => {
         this.itemListSignal.set(this.itemListSignal().filter(actor => actor.id != item.id));
+        this.snackBar.open('Successfully Done', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 5 * 1000,
+        });
       },
       error: (error: any) => {
         console.error('response', error.description);

@@ -1,12 +1,9 @@
-<div>
-  <div class="table-responsive text-white">
+<div class="container d-flex justify-content-center">
+  <div class="table-responsive text-white w-75">
     <table class="table text-white align-middle">
       <thead>
         <tr>
-          <th scope="col">ID</th>
           <th scope="col">Name</th>
-          <th scope="col">CreatedAt</th>
-          <th scope="col">UpdatedAt</th>
           <th scope="col">Status</th>
           <th class="text-center" scope="col">Actions</th>
         </tr>
@@ -14,10 +11,7 @@
       <tbody>
         @for (item of itemList; track $index) {
           <tr>
-            <th scope="row">{{item.id}}</th>
             <td>{{item.name}}</td>
-            <td>{{item.createdAt}}</td>
-            <td>{{item.updatedAt}}</td>
             <td>
               <button class="mb-0 text-center text-white" (click)="statusGenreUpdate(item)" 
               [ngClass]="{

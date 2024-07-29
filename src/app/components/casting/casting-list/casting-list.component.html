@@ -1,9 +1,8 @@
-<div>
-    <div class="table-responsive text-white">
+<div class="container d-flex justify-content-center">
+    <div class="table-responsive text-white w-75">
       <table class="table text-white align-middle">
         <thead>
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Actors</th>
             <th class="text-center" scope="col">Actions</th>
@@ -12,7 +11,6 @@
         <tbody>
           @for (item of itemList; track $index) {
             <tr>
-              <th scope="row">{{item.id}}</th>
               <td>{{item.name}}</td>
               <td>
                 <button class="mb-0 text-center text-white" (click)="statusCastingUpdate(item)" 
@@ -51,6 +49,7 @@
   
   <app-modal #detailModal>
     <app-casting-form
+      [actorList]="actorService.items$()"
       [casting]="selectedItem"
       [action]="'Update casting'"
       (callParentEvent)="handleFormAction($event)"

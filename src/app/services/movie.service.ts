@@ -37,6 +37,11 @@ export class MovieService extends BaseService<IMovie>{
     this.add(item).subscribe({
       next: (response: any) => {
         this.itemListSignal.update((movies: IMovie[]) => [response, ...movies]);
+        this.snackBar.open('Successfully Done', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 5 * 1000,
+        });
       },
       error: (error: any) => {
         console.error('response', error.description);
@@ -54,6 +59,11 @@ export class MovieService extends BaseService<IMovie>{
       next: () => {
         const updatedItems = this.itemListSignal().map(movie => movie.id === item.id ? item: movie);
         this.itemListSignal.set(updatedItems);
+        this.snackBar.open('Successfully Done', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 5 * 1000,
+        });
       },
       error: (error: any) => {
         console.error('response', error.description);
@@ -69,7 +79,12 @@ export class MovieService extends BaseService<IMovie>{
   public delete(item: IMovie) {
     this.del(item.id).subscribe({
       next: () => {
-        this.itemListSignal.set(this.itemListSignal().filter(movie => movie.id != movie.id));
+        this.itemListSignal.set(this.itemListSignal().filter(movie => movie.id != item.id));
+        this.snackBar.open('Successfully Done', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 5 * 1000,
+        });
       },
       error: (error: any) => {
         console.error('response', error.description);

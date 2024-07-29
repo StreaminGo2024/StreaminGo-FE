@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IGenre } from '../../../interfaces';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-genre-form',
@@ -19,7 +19,13 @@ export class GenreFormComponent {
   @Input() action = '';
   @Output() callParentEvent: EventEmitter<IGenre> = new EventEmitter<IGenre>()
 
-  callEvent() {
+  callEvent(form: NgForm) {
+    if (form.invalid) {
+      Object.keys(form.controls).forEach(controlName => {
+        form.controls[controlName].markAsTouched();
+      });
+      return;
+    }
     this.callParentEvent.emit(this.genre);
   }
   

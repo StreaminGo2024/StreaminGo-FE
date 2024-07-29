@@ -38,6 +38,11 @@ export class GenreService extends BaseService<IGenre>{
     this.add(item).subscribe({
       next: (response: any) => {
         this.itemListSignal.update((genres: IGenre[]) => [response, ...genres]);
+        this.snackBar.open('Successfully Done', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 5 * 1000,
+        });
       },
       error: (error: any) => {
         console.error('response', error.description);
@@ -55,6 +60,11 @@ export class GenreService extends BaseService<IGenre>{
       next: () => {
         const updatedItems = this.itemListSignal().map(genre => genre.id === item.id ? item: genre);
         this.itemListSignal.set(updatedItems);
+        this.snackBar.open('Successfully Done', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 5 * 1000,
+        });
       },
       error: (error: any) => {
         console.error('response', error.description);
@@ -71,6 +81,11 @@ export class GenreService extends BaseService<IGenre>{
     this.del(item.id).subscribe({
       next: () => {
         this.itemListSignal.set(this.itemListSignal().filter(genre => genre.id != item.id));
+        this.snackBar.open('Successfully Done', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 5 * 1000,
+        });
       },
       error: (error: any) => {
         console.error('response', error.description);
