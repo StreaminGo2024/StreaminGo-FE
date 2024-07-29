@@ -8,7 +8,7 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-8">
-            <button class="btn bg-purple m-2" type="button"><i class="fa fa-user-group"></i> Invite</button>
+            <button class="btn bg-purple m-2" type="button" (click)="inviteModal.show()"><i class="fa fa-user-group"></i>Invite</button>
             <button class="btn bg-purple m-2" type="button"><i class="fa fa-sms"></i></button>
             <button class="btn m-1"><a href="app/dashboard"><i class="fa fa-sign-out" style="color:white"></i></a></button>
             <button class="btn m-1"><img src="assets/icons/icons_emojis/angry-face_10963622.png" alt=""></button>
@@ -53,3 +53,9 @@
 </div>
 </body>
 </html>
+
+<app-modal #inviteModal>
+    <app-invite-modal
+
+    />
+</app-modal>

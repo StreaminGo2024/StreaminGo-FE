@@ -1,11 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import videojs from 'video.js';
+import { InviteModalComponent } from '../../components/invite-modal/invite-modal.component';
+import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
   selector: 'app-stream',
   templateUrl: './stream.component.html',
-  styleUrls: ['./stream.component.scss']
+  styleUrls: ['./stream.component.scss'],
+  imports: [InviteModalComponent, ModalComponent],
+  standalone: true
 })
 export class StreamComponent implements OnInit, OnDestroy {
   videoSrc: string = '';
