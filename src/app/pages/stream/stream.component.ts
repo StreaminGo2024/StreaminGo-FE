@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AuthService } from './../../services/auth.service';
+import { Component, NgModule, OnInit, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AppComponent } from '../../app.component';
+import { CommonModule, NgClass } from '@angular/common';
+import { UsersComponent } from '../users/users.component';
+import { timeout } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import videojs from 'video.js';
 import { InviteModalComponent } from '../../components/invite-modal/invite-modal.component';
@@ -6,19 +12,33 @@ import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
   selector: 'app-stream',
+  standalone: true,
+  imports: [CommonModule, FormsModule, UsersComponent, NgClass],
+
   templateUrl: './stream.component.html',
   styleUrls: ['./stream.component.scss'],
   imports: [InviteModalComponent, ModalComponent],
   standalone: true
 })
 export class StreamComponent implements OnInit, OnDestroy {
+  mostrarChat = false;
+  usuarioLogeado: any;
+  nuevoMensaje: string = '';
+  mensajes: any = [];
+  
   videoSrc: string = '';
   videoId: string = '';
   player: any | undefined;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private authService: AuthService) {}
 
   ngOnInit(): void {
+    // Inicializar autenticación de usuario
+    this.authService.getUserLogged().subscribe(usuario => {
+      this.usuarioLogeado = usuario;
+    });
+
+    // Inicializar video
     this.route.paramMap.subscribe(params => {
       const videoId = params.get('video');
       if (videoId) {
@@ -29,18 +49,46 @@ export class StreamComponent implements OnInit, OnDestroy {
     });
   }
 
+  enviarMensaje() {
+    if (this.nuevoMensaje === '') return;
+
+    console.log(this.nuevoMensaje);
+    let mensaje = {
+      emisor: this.usuarioLogeado.id,
+      texto: this.nuevoMensaje
+    };
+    this.mensajes.push(mensaje);
+
+    this.nuevoMensaje = '';
+
+    setTimeout(() => {
+      this.scrollToTheLastElementByClassName();
+    }, 10);
+  }
+
+  scrollToTheLastElementByClassName() {
+    let elements = document.getElementsByClassName('msj');
+    let ultimo: any = elements[(elements.length - 1)];
+    let toppos = ultimo.offsetTop;
+
+    const contenedorDeMensajes = document.getElementById('contenedorDeMensajes');
+    if (contenedorDeMensajes) {
+      contenedorDeMensajes.scrollTop = toppos;
+    }
+  }
+
   initializePlayer(): void {
     this.player = videojs('video', {
       sources: [{
         src: this.videoSrc,
         type: 'video/mp4'
       }],
-      tracks: [] // Initialize with an empty array
+      tracks: [] // Inicializar con un array vacío
     }, () => {
       console.log('Player is ready');
-      // Load subtitles after player is ready
-      this.loadSubtitles('en'); // Load English subtitles by default
-      this.loadSubtitles('es'); // Load Spanish subtitles
+      // Cargar subtítulos después de que el reproductor esté listo
+      this.loadSubtitles('en'); // Cargar subtítulos en inglés por defecto
+      this.loadSubtitles('es'); // Cargar subtítulos en español
     });
   }
 
@@ -58,7 +106,7 @@ export class StreamComponent implements OnInit, OnDestroy {
       const blob = new Blob([subtitleText], { type: 'text/vtt' });
       const url = URL.createObjectURL(blob);
 
-      // Remove previous subtitles of this language
+      // Eliminar subtítulos anteriores de este idioma
       const tracks = this.player.remoteTextTracks();
       for (let i = 0; i < tracks.length; i++) {
         const track = tracks[i];
@@ -67,7 +115,7 @@ export class StreamComponent implements OnInit, OnDestroy {
         }
       }
 
-      // Add new subtitles
+      // Agregar nuevos subtítulos
       this.player.addRemoteTextTrack({
         kind: 'subtitles',
         src: url,

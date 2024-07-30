@@ -53,7 +53,7 @@
               </div>
             </div>
             <div class="link mt-3">
-              <a (click)="formModal.show()" class="forgot-password-link">Forgot Password?</a>
+              <a (click)="formModal.show()" data-bs-toggle="modal" data-bs-target="#loginModal" class="forgot-password-link">Forgot Password?</a>
             </div>
           </form>
         </div>
@@ -66,10 +66,10 @@
   </div>
 </div>
 
-<app-modal #formModal>
-  <div class="login-card m-3">
-    <div class="w-100">
-      <div class="login-main">
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
         <form (ngSubmit)="handleReset($event)" autocomplete="off" #frm="ngForm">
           <div class="form-group mb-3">
             <label for="resetEmail" class="form-label mb-2">
@@ -94,4 +94,5 @@
       </div>
     </div>
   </div>
-</app-modal>
+</div>
+

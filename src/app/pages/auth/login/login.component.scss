@@ -58,6 +58,15 @@
   text-decoration: underline;
 }
 
+.modal-content {
+  background-color: rgb(64, 2, 126);;
+  color: #fff;
+}
+.form-label, .link-primary {
+  color: #fff;
+}
+
+
 @media screen and (min-width: 801px) and (max-width: 1500px) {
   .login-container {
     padding: 20px 5%;
