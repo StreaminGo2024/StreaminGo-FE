@@ -99,6 +99,6 @@ export class SigUpComponent {
 
 }
 private isGmailAddress(email: string): boolean {
-  return /[a-z0-9._%+-]+@gmail\.com$/.test(email);
+  return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 }
 }

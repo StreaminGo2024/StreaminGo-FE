@@ -25,8 +25,8 @@ export class UpdatePasswordComponent implements OnInit{
 
   @Output() callParentEvent: EventEmitter<IUser> = new EventEmitter<IUser>()
 
-  @ViewChild('name') passwordModel!: NgModel;
-  @ViewChild('lastname') passwordConfirmationModel!: NgModel;
+  @ViewChild('password') passwordModel!: NgModel;
+  @ViewChild('passwordConfirmation') passwordConfirmationModel!: NgModel;
   
 
   ngOnInit(): void {

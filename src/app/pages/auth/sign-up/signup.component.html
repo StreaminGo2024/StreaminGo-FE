@@ -32,7 +32,7 @@
                 <input #email="ngModel" maxlength="200" type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
                   [(ngModel)]="user.email"
                   [ngClass]="{'is-invalid': email.invalid && email.touched, 'is-valid': email.valid && email.touched}" required
-                  pattern="[a-z0-9._%+-]+@gmail\.com$">
+                  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
                 <div *ngIf="email.invalid && email.touched" class="invalid-feedback">Please enter a valid email.</div>
               </div>
             </div>

@@ -13,12 +13,9 @@ import { ModalComponent } from '../../components/modal/modal.component';
 @Component({
   selector: 'app-stream',
   standalone: true,
-  imports: [CommonModule, FormsModule, UsersComponent, NgClass],
-
+  imports: [CommonModule, FormsModule, UsersComponent, NgClass,InviteModalComponent, ModalComponent],
   templateUrl: './stream.component.html',
   styleUrls: ['./stream.component.scss'],
-  imports: [InviteModalComponent, ModalComponent],
-  standalone: true
 })
 export class StreamComponent implements OnInit, OnDestroy {
   mostrarChat = false;
