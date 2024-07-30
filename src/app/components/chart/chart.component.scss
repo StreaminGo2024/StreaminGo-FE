@@ -1,0 +1,18 @@
+canvas {
+    display: block;
+    height: 400px;
+    width: 600px;
+}
+.card-icon {
+    font-size: 1.5rem; 
+  }
+  .card-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #21201E;
+  }
+  .card-text {
+    margin-left: 10px; 
+    font-size: 1.5rem; 
+}

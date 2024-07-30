@@ -16,6 +16,7 @@ import { CastingComponent } from './pages/casting/casting.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
 import { StreamComponent } from './pages/stream/stream.component';
+import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 
 
 export const routes: Routes = [
@@ -146,6 +147,17 @@ export const routes: Routes = [
             IRole.user
           ],
           name: 'Home'
+        }
+      },
+      {
+        path: 'dashboard-admin',
+        component: DashboardAdminComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin
+          ],
+          name: 'Dashboard'
         }
       },
     ],
