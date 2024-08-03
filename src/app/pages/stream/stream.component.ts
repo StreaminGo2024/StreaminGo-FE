@@ -1,19 +1,18 @@
-import { AuthService } from './../../services/auth.service';
-import { Component, NgModule, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AppComponent } from '../../app.component';
 import { CommonModule, NgClass } from '@angular/common';
 import { UsersComponent } from '../users/users.component';
-import { timeout } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import videojs from 'video.js';
 import { InviteModalComponent } from '../../components/invite-modal/invite-modal.component';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { WebSocketSubject } from 'rxjs/webSocket';
+import { AuthService } from './../../services/auth.service';
 
 @Component({
   selector: 'app-stream',
   standalone: true,
-  imports: [CommonModule, FormsModule, UsersComponent, NgClass,InviteModalComponent, ModalComponent],
+  imports: [CommonModule, FormsModule, UsersComponent, NgClass, InviteModalComponent, ModalComponent],
   templateUrl: './stream.component.html',
   styleUrls: ['./stream.component.scss'],
 })
@@ -22,14 +21,17 @@ export class StreamComponent implements OnInit, OnDestroy {
   usuarioLogeado: any;
   nuevoMensaje: string = '';
   mensajes: any = [];
-  
+
   videoSrc: string = '';
   videoId: string = '';
   player: any | undefined;
 
+  private socket$: WebSocketSubject<any> | undefined;
+
   constructor(private route: ActivatedRoute, private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.connect();
     // Inicializar autenticación de usuario
     this.authService.getUserLogged().subscribe(usuario => {
       this.usuarioLogeado = usuario;
@@ -44,6 +46,84 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.initializePlayer();
       }
     });
+  }
+
+  private connect() {
+    this.socket$ = new WebSocketSubject('ws://localhost:8080/ws');
+
+    this.socket$.subscribe(
+      message => this.handleMessage(message),
+      err => console.error('WebSocket Error:', err),
+      () => console.warn('WebSocket Completed!')
+    );
+  }
+
+  private handleMessage(message: any) {
+    // Verifica si el mensaje es una cadena JSON o ya es un objeto
+    let parsedMessage: any;
+
+    if (typeof message === 'string') {
+      try {
+        parsedMessage = JSON.parse(message);
+      } catch (error) {
+        console.error('Error al parsear el mensaje:', error);
+        return;
+      }
+    } else {
+      parsedMessage = message;
+    }
+
+    console.log('Mensaje recibido:', parsedMessage);
+
+    if (parsedMessage.type === 'videoControl') {
+      this.handleStatusChange(parsedMessage.status);
+    } else if (parsedMessage.type === 'chat') {
+      this.handleChatMessage(parsedMessage.content);
+    } else if (parsedMessage.type === 'reaction') {
+      this.handleReaction(parsedMessage.content);
+    } else {
+      console.error('Tipo de mensaje no reconocido:', parsedMessage);
+    }
+  }
+
+  private handleStatusChange(status: string) {
+    console.log('Video status changed: ' + status);
+    if (status === 'PLAY') {
+      // Código para reproducir el video
+    } else if (status === 'PAUSE') {
+      // Código para pausar el video
+    }
+  }
+
+  private handleChatMessage(message: string) {
+    console.log('Mensaje de chat recibido:', message);
+    // Lógica para mostrar el mensaje de chat en la interfaz
+  }
+
+  private handleReaction(reaction: string) {
+    console.log('Reacción recibida:', reaction);
+    // Lógica para manejar las reacciones en la interfaz
+  }
+
+  public sendControlMessage(command: string) {
+    if (this.socket$) {
+      const message = { type: 'videoControl', status: command };
+      this.socket$.next(JSON.stringify(message));
+    }
+  }
+
+  public sendChatMessage(chatMessage: string) {
+    if (this.socket$) {
+      const message = { type: 'chat', content: chatMessage };
+      this.socket$.next(JSON.stringify(message));
+    }
+  }
+
+  public sendReaction(reaction: string) {
+    if (this.socket$) {
+      const message = { type: 'reaction', content: reaction };
+      this.socket$.next(JSON.stringify(message));
+    }
   }
 
   enviarMensaje() {
@@ -126,6 +206,10 @@ export class StreamComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.player) {
       this.player.dispose();
+    }
+
+    if (this.socket$) {
+      this.socket$.complete();
     }
   }
 }
