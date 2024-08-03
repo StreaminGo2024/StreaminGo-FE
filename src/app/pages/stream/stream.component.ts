@@ -91,9 +91,9 @@ export class StreamComponent implements OnInit, OnDestroy {
     if (parsedMessage.type === 'videoControl') {
       this.handleStatusChange(parsedMessage.status);
     } else if (parsedMessage.type === 'chat') {
-      this.handleChatMessage(parsedMessage.content);
+      this.handleChatMessage(parsedMessage.status);
     } else if (parsedMessage.type === 'reaction') {
-      this.handleReaction(parsedMessage.content);
+      this.handleReaction(parsedMessage.status);
     } else {
       console.error('Tipo de mensaje no reconocido:', parsedMessage);
     }
@@ -119,7 +119,7 @@ export class StreamComponent implements OnInit, OnDestroy {
   public sendSocketMessage(typeMessage: string, command: string) {
     if (this.socket$) {
       const message = { type: typeMessage, status: command };
-      this.socket$.next(JSON.stringify(message));
+      this.socket$.next(message);
     }
   }
 
