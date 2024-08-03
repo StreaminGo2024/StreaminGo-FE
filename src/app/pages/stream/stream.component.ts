@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
 import { UsersComponent } from '../users/users.component';
@@ -17,6 +17,8 @@ import { AuthService } from './../../services/auth.service';
   styleUrls: ['./stream.component.scss'],
 })
 export class StreamComponent implements OnInit, OnDestroy {
+  @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
+
   mostrarChat = false;
   usuarioLogeado: any;
   nuevoMensaje: string = '';
@@ -32,12 +34,10 @@ export class StreamComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.connect();
-    // Inicializar autenticación de usuario
     this.authService.getUserLogged().subscribe(usuario => {
       this.usuarioLogeado = usuario;
     });
 
-    // Inicializar video
     this.route.paramMap.subscribe(params => {
       const videoId = params.get('video');
       if (videoId) {
@@ -46,6 +46,20 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.initializePlayer();
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    // Subscribe to play and pause events
+    this.videoElement.nativeElement.addEventListener('play', this.onPlay.bind(this));
+    this.videoElement.nativeElement.addEventListener('pause', this.onPause.bind(this));
+  }
+
+  private onPlay(event: Event): void {
+    this.sendSocketMessage('videoControl',"PLAY")
+  }
+
+  private onPause(event: Event): void {
+    this.sendSocketMessage('videoControl',"PAUSE")
   }
 
   private connect() {
@@ -59,7 +73,6 @@ export class StreamComponent implements OnInit, OnDestroy {
   }
 
   private handleMessage(message: any) {
-    // Verifica si el mensaje es una cadena JSON o ya es un objeto
     let parsedMessage: any;
 
     if (typeof message === 'string') {
@@ -89,39 +102,23 @@ export class StreamComponent implements OnInit, OnDestroy {
   private handleStatusChange(status: string) {
     console.log('Video status changed: ' + status);
     if (status === 'PLAY') {
-      // Código para reproducir el video
+      this.player.play();
     } else if (status === 'PAUSE') {
-      // Código para pausar el video
+      this.player.pause();
     }
   }
 
   private handleChatMessage(message: string) {
     console.log('Mensaje de chat recibido:', message);
-    // Lógica para mostrar el mensaje de chat en la interfaz
   }
 
   private handleReaction(reaction: string) {
     console.log('Reacción recibida:', reaction);
-    // Lógica para manejar las reacciones en la interfaz
   }
 
-  public sendControlMessage(command: string) {
+  public sendSocketMessage(typeMessage: string, command: string) {
     if (this.socket$) {
-      const message = { type: 'videoControl', status: command };
-      this.socket$.next(JSON.stringify(message));
-    }
-  }
-
-  public sendChatMessage(chatMessage: string) {
-    if (this.socket$) {
-      const message = { type: 'chat', content: chatMessage };
-      this.socket$.next(JSON.stringify(message));
-    }
-  }
-
-  public sendReaction(reaction: string) {
-    if (this.socket$) {
-      const message = { type: 'reaction', content: reaction };
+      const message = { type: typeMessage, status: command };
       this.socket$.next(JSON.stringify(message));
     }
   }
@@ -160,12 +157,11 @@ export class StreamComponent implements OnInit, OnDestroy {
         src: this.videoSrc,
         type: 'video/mp4'
       }],
-      tracks: [] // Inicializar con un array vacío
+      tracks: []
     }, () => {
       console.log('Player is ready');
-      // Cargar subtítulos después de que el reproductor esté listo
-      this.loadSubtitles('en'); // Cargar subtítulos en inglés por defecto
-      this.loadSubtitles('es'); // Cargar subtítulos en español
+      this.loadSubtitles('en');
+      this.loadSubtitles('es');
     });
   }
 
@@ -183,7 +179,6 @@ export class StreamComponent implements OnInit, OnDestroy {
       const blob = new Blob([subtitleText], { type: 'text/vtt' });
       const url = URL.createObjectURL(blob);
 
-      // Eliminar subtítulos anteriores de este idioma
       const tracks = this.player.remoteTextTracks();
       for (let i = 0; i < tracks.length; i++) {
         const track = tracks[i];
@@ -192,7 +187,6 @@ export class StreamComponent implements OnInit, OnDestroy {
         }
       }
 
-      // Agregar nuevos subtítulos
       this.player.addRemoteTextTrack({
         kind: 'subtitles',
         src: url,
