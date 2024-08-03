@@ -64,12 +64,21 @@ export class StreamComponent implements OnInit, OnDestroy {
 
   private connect() {
     this.socket$ = new WebSocketSubject('ws://localhost:8080/ws');
-
+  
     this.socket$.subscribe(
       message => this.handleMessage(message),
-      err => console.error('WebSocket Error:', err),
+      err => {
+        console.error('WebSocket Error:', err);
+        this.reconnect(); // Intentar reconectar en caso de error
+      },
       () => console.warn('WebSocket Completed!')
     );
+  }
+
+  private reconnect() {
+    // Destruir la instancia actual y crear una nueva
+    this.socket$?.complete();
+    setTimeout(() => this.connect(), 5000); // Intentar reconectar después de 5 segundos
   }
 
   private handleMessage(message: any) {
@@ -201,7 +210,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     if (this.player) {
       this.player.dispose();
     }
-
+  
     if (this.socket$) {
       this.socket$.complete();
     }
