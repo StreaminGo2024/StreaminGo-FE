@@ -24,6 +24,9 @@ export class StreamComponent implements OnInit, OnDestroy {
   nuevoMensaje: string = '';
   mensajes: any = [];
 
+  nuevoMensajeRecibido = false;
+  mensajesNuevos = 0
+
   videoSrc: string = '';
   videoId: string = '';
   player: any | undefined;
@@ -119,6 +122,15 @@ export class StreamComponent implements OnInit, OnDestroy {
 
   private handleChatMessage(message: string) {
     console.log('Mensaje de chat recibido:', message);
+    const parsedMessage = JSON.parse(message);
+    if (parsedMessage.emisor !== this.usuarioLogeado.name) {
+      this.mensajes.push({
+        emisor: parsedMessage.emisor,
+        texto: parsedMessage.texto
+      });
+      this.mensajesNuevos++;
+  this.nuevoMensajeRecibido = true;
+    }
   }
 
   private handleReaction(reaction: string) {
@@ -132,21 +144,32 @@ export class StreamComponent implements OnInit, OnDestroy {
     }
   }
 
+  reiniciarContador() {
+    this.mensajesNuevos = 0;
+    this.nuevoMensajeRecibido = false;
+  }
+
   enviarMensaje() {
     if (this.nuevoMensaje === '') return;
 
     console.log(this.nuevoMensaje);
-    let mensaje = {
-      emisor: this.usuarioLogeado.id,
+    const mensaje = {
+      emisor: this.usuarioLogeado.name,
       texto: this.nuevoMensaje
     };
-    this.mensajes.push(mensaje);
+
+    this.sendSocketMessage('chat', JSON.stringify(mensaje))
+
+    this.mensajes.push({
+      emisor: this.usuarioLogeado.name,
+      texto: this.nuevoMensaje
+    });
 
     this.nuevoMensaje = '';
 
-    setTimeout(() => {
-      this.scrollToTheLastElementByClassName();
-    }, 10);
+    this.mensajesNuevos = 0;
+    this.nuevoMensajeRecibido = false;
+
   }
 
   scrollToTheLastElementByClassName() {
