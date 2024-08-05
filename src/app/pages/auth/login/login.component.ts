@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ModalComponent } from '../../../components/modal/modal.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RedirectService } from '../../../services/redirect.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ export class LoginComponent {
   constructor(
     private router: Router, 
     private authService: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private redirectService: RedirectService
   ) {}
 
   private validateEmail(email: string): boolean {
@@ -50,7 +52,14 @@ export class LoginComponent {
     }
     if (this.emailModel.valid && this.passwordModel.valid) {
       this.authService.login(this.loginForm).subscribe({
-        next: () => this.router.navigateByUrl('/app/dashboard'),
+        next: () => {
+        const redirectUrl = this.redirectService.getRedirectUrl();
+        if (redirectUrl) {
+          this.router.navigateByUrl(redirectUrl);
+        } else {
+          this.router.navigateByUrl('/app/dashboard');
+        }
+      },
         error: (err: any) => (this.loginError = err.error.description),
       });
     }
