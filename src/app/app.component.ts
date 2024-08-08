@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import 'emoji-picker-element';
+import * as giphy from 'giphy-api';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,8 @@ import { RouterOutlet } from '@angular/router';
     RouterOutlet
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA] 
 })
 export class AppComponent {
   title = 'demo-angular-front';
