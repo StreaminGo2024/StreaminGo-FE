@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../modal/modal.component';
 import { UserFormComponent } from '../user-from/user-form.component';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import { ConfirmDialogComponent } from '../../confirm/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class UserListComponent {
   public userList: IUser[] = [];
   private service = inject(UserService);
   private snackBar = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
   public currentUser: IUser = {};
   
   constructor() {
@@ -36,13 +39,17 @@ export class UserListComponent {
   }
 
   applyFilter() {
-    this.service.searchUsersByName(this.search).subscribe({
-      next: (users) => {
-        this.userList = users;
-      },
-      error: (error) => {
-      }
-    });
+    if (this.search.trim()===''){
+      this.service.getAllSignal();
+    }else{
+      this.service.searchUsersByName(this.search).subscribe({
+        next: (users) => {
+          this.userList = users;
+        },
+        error: (error) => {
+        }
+      });
+    }
   }
 
 
@@ -52,22 +59,27 @@ export class UserListComponent {
   }
 
   deleteUser(user: IUser) {
-    this.service.deleteUserSignal(user).subscribe({
-      next: () => {
-        this.snackBar.open('User deleted', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 5 * 1000,
-        });
-      },
-      error: (error: any) => {
-        this.snackBar.open('Error deleting user', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service.deleteUserSignal(user).subscribe({
+          next: () => {
+            this.snackBar.open('User deleted', 'Close', {
+              horizontalPosition: 'right',
+              verticalPosition: 'top',
+              duration: 5 * 1000,
+            });
+          },
+          error: (error: any) => {
+            this.snackBar.open('Error deleting user', 'Close', {
+              horizontalPosition: 'right',
+              verticalPosition: 'top',
+              panelClass: ['error-snackbar']
+            });
+          }
         });
       }
-    })
+    });
   }
-
 }
