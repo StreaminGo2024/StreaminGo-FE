@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { GenreService } from '../../../services/genre.service';
 import { ModalComponent } from '../../modal/modal.component';
 import { GenreFormComponent } from '../genre-form/genre-form.component';
+import { ConfirmDialogComponent } from '../../confirm/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-genre-list',
@@ -21,6 +23,7 @@ export class GenreListComponent implements OnChanges{
 
   @Input() itemList: IGenre[] = [];
   @Input() areActionsAvailable: boolean = false;
+  private dialog = inject(MatDialog);
   public selectedItem: IGenre = {};
   public genreService: GenreService = inject(GenreService);
 
@@ -42,7 +45,13 @@ export class GenreListComponent implements OnChanges{
   }
 
   deleteGenre(item: IGenre) {
-    this.genreService.delete(item);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.genreService.delete(item);
+    }
+  });
   }
 
   statusGenreUpdate(item: IGenre) {

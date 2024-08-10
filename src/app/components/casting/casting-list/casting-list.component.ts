@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../modal/modal.component';
 import { CastingFormComponent } from '../casting-form/casting-form.component';
 import { ActorService } from '../../../services/actor.service';
+import { ConfirmDialogComponent } from '../../confirm/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-casting-list',
@@ -19,6 +21,7 @@ import { ActorService } from '../../../services/actor.service';
 export class CastingListComponent implements OnChanges, OnInit{
   @Input() itemList: ICasting[] = [];
   @Input() areActionsAvailable: boolean = false;
+  private dialog = inject(MatDialog);
   public selectedItem: ICasting = {};
   public castingService: CastingService = inject(CastingService);
   public actorService: ActorService = inject(ActorService);
@@ -44,7 +47,13 @@ export class CastingListComponent implements OnChanges, OnInit{
   }
 
   deleteCasting(item: ICasting) {
-    this.castingService.delete(item);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.castingService.delete(item);
+    }
+    });
   }
 
   statusCastingUpdate(item: ICasting) {

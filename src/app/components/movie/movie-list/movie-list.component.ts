@@ -8,6 +8,8 @@ import { MovieService } from '../../../services/movie.service';
 import { MovieFormComponent } from '../movie-form/movie-form.component';
 import { GenreService } from '../../../services/genre.service';
 import { CastingService } from '../../../services/casting.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../confirm/confirm-dialog.component';
 
 @Component({
   selector: 'app-movie-list',
@@ -25,6 +27,7 @@ export class MovieListComponent implements OnChanges, OnInit{
 
   @Input() itemList: IMovie[] = [];
   @Input() areActionsAvailable: boolean = false;
+  private dialog = inject(MatDialog);
   public selectedItem: IMovie = {};
   public movieService: MovieService = inject(MovieService);
   public genreService: GenreService = inject(GenreService);
@@ -52,7 +55,13 @@ export class MovieListComponent implements OnChanges, OnInit{
   }
 
   deleteMovie(item: IMovie) {
-    this.movieService.delete(item);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result =>{
+      if(result) {
+        this.movieService.delete(item);
+      }
+    });
   }
 
   statusMovieUpdate(item: IMovie) {
