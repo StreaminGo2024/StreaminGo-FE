@@ -197,7 +197,10 @@ export class StreamComponent implements OnInit, OnDestroy {
   }
 
   private handleReaction(reaction: string) {
-    console.log('Reacción recibida:', reaction);
+    const parsedMessage = JSON.parse(reaction);
+    if (parsedMessage.emisor !== this.usuarioLogeado.name) {
+      this.triggerFloatingEmoji(parsedMessage.emoji);
+    }
   }
 
   public sendSocketMessage(typeMessage: string, command: string) {
@@ -263,8 +266,12 @@ export class StreamComponent implements OnInit, OnDestroy {
   }
 
   addReaction(reaction: string): void {
-    console.log(reaction);
-    this.newMessage += reaction;
+    const mensaje = {
+      emisor: this.usuarioLogeado.name,
+      emoji: reaction
+    };
+
+    this.sendSocketMessage('reaction', JSON.stringify(mensaje))
     this.triggerFloatingEmoji(reaction);
   }
 
