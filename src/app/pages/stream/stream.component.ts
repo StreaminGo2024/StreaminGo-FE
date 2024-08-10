@@ -86,10 +86,6 @@ export class StreamComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.messages = [
-      { sender: 'User 1', text: 'Hello there!', isGif: false },
-      { sender: 'me', text: 'Hi! How are you?', isGif: false }
-    ];
 
   }
 
@@ -100,11 +96,28 @@ export class StreamComponent implements OnInit, OnDestroy {
   }
 
   private onPlay(event: Event): void {
-    this.sendSocketMessage('videoControl',"PLAY")
+    const currentTime = this.videoElement.nativeElement.currentTime;
+    const mensaje = {
+      status: "PLAY",
+      time: currentTime
+    };
+    this.sendSocketMessage('videoControl',JSON.stringify(mensaje))
   }
 
   private onPause(event: Event): void {
-    this.sendSocketMessage('videoControl',"PAUSE")
+    const currentTime = this.videoElement.nativeElement.currentTime;
+    const mensaje = {
+      status: "PAUSE",
+      time: currentTime
+    };
+    this.sendSocketMessage('videoControl',JSON.stringify(mensaje))
+  }
+
+  public syncVideoTime(time: number): void {
+    if (this.player) {
+      this.player.currentTime(time); // Ajusta el tiempo del video al especificado
+      console.log(`Video sincronizado al tiempo: ${time} segundos`);
+    }
   }
 
   private connect() {
@@ -156,15 +169,16 @@ export class StreamComponent implements OnInit, OnDestroy {
     }
   }
 
-  private handleStatusChange(status: string) {
-    console.log('Video status changed: ' + status);
+  private handleStatusChange(message: string) {
     try {
-      if (status === 'PLAY') {
+      const parsedMessage = JSON.parse(message);
+      this.syncVideoTime(parsedMessage.time);
+      if (parsedMessage.status === 'PLAY') {
         this.player.play().catch((error: any) => {
           console.error('Error trying to play the video:', error);
           this.reconnect(); 
         });
-      } else if (status === 'PAUSE') {
+      } else if (parsedMessage.status === 'PAUSE') {
         this.player.pause();
       }
     } catch (error) {
@@ -173,7 +187,6 @@ export class StreamComponent implements OnInit, OnDestroy {
   }
 
   private handleChatMessage(message: string) {
-    console.log('Mensaje de chat recibido:', message);
     const parsedMessage = JSON.parse(message);
     if (parsedMessage.emisor !== this.usuarioLogeado.name) {
 
@@ -218,7 +231,6 @@ export class StreamComponent implements OnInit, OnDestroy {
   enviarMensaje() {
     if (this.nuevoMensaje === '') return;
 
-    console.log(this.nuevoMensaje);
     const mensaje = {
       emisor: this.usuarioLogeado.name,
       texto: this.nuevoMensaje
@@ -241,7 +253,6 @@ export class StreamComponent implements OnInit, OnDestroy {
     if (messageText) {
       // Check if the message is a GIF 
       const isGif = messageText.includes('giphy');
-      console.log('Is GIF:', isGif);
 
       // Push the message to the messages array
       this.messages.push({
@@ -258,7 +269,6 @@ export class StreamComponent implements OnInit, OnDestroy {
       };
 
       this.sendSocketMessage('chat', JSON.stringify(mensaje))
-      console.log(this.messages)
       
       this.newMessage = '';
       this.scrollToBottom();
@@ -343,7 +353,6 @@ export class StreamComponent implements OnInit, OnDestroy {
       }],
       tracks: []
     }, () => {
-      console.log('Player is ready');
       this.loadSubtitles('en');
       this.loadSubtitles('es');
     });
@@ -351,13 +360,11 @@ export class StreamComponent implements OnInit, OnDestroy {
     // Add event listeners to the player
     this.player.on('play', () => {
       this.isPaused = false;
-      console.log(this.isPaused)
 
     });
 
     this.player.on('pause', () => {
       this.isPaused = true;
-      console.log(this.isPaused)
 
     });
 
