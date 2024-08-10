@@ -74,7 +74,10 @@ export class StreamComponent implements OnInit, OnDestroy {
         console.error('WebSocket Error:', err);
         this.reconnect(); // Intentar reconectar en caso de error
       },
-      () => console.warn('WebSocket Completed!')
+      () => {
+        console.warn('WebSocket Completed!');
+        this.reconnect();
+      }
     );
   }
 
@@ -113,10 +116,17 @@ export class StreamComponent implements OnInit, OnDestroy {
 
   private handleStatusChange(status: string) {
     console.log('Video status changed: ' + status);
-    if (status === 'PLAY') {
-      this.player.play();
-    } else if (status === 'PAUSE') {
-      this.player.pause();
+    try {
+      if (status === 'PLAY') {
+        this.player.play().catch((error: any) => {
+          console.error('Error trying to play the video:', error);
+          this.reconnect(); 
+        });
+      } else if (status === 'PAUSE') {
+        this.player.pause();
+      }
+    } catch (error) {
+      console.error('Error in handleStatusChange:', error);
     }
   }
 
