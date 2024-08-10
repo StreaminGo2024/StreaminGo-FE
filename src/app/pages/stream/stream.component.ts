@@ -176,12 +176,23 @@ export class StreamComponent implements OnInit, OnDestroy {
     console.log('Mensaje de chat recibido:', message);
     const parsedMessage = JSON.parse(message);
     if (parsedMessage.emisor !== this.usuarioLogeado.name) {
-      this.mensajes.push({
-        emisor: parsedMessage.emisor,
-        texto: parsedMessage.texto
+
+      // Check if the message is a GIF 
+      const isGif = parsedMessage.texto.includes('giphy');
+
+      // Push the message to the messages array
+      this.messages.push({
+        sender: parsedMessage.emisor,
+        text: isGif ? '' : parsedMessage.texto,
+        isGif: isGif,
+        gifUrl: isGif ? parsedMessage.texto : '',
+        timestamp: new Date()
       });
+
+      this.scrollToBottom();
+
       this.mensajesNuevos++;
-  this.nuevoMensajeRecibido = true;
+      this.nuevoMensajeRecibido = true;
     }
   }
 
@@ -238,6 +249,12 @@ export class StreamComponent implements OnInit, OnDestroy {
         timestamp: new Date() 
       });
 
+      const mensaje = {
+        emisor: this.usuarioLogeado.name,
+        texto: messageText
+      };
+
+      this.sendSocketMessage('chat', JSON.stringify(mensaje))
       console.log(this.messages)
       
       this.newMessage = '';

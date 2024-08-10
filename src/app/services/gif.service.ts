@@ -8,7 +8,7 @@ export class GifService {
   private giphyClient: any;
 
   constructor() {
-    this.giphyClient = giphy('5oOK5rTPgaD4Dyl5UiHwJERDPE2DDOTl'); // Replace with your Giphy API key
+    this.giphyClient = giphy('5oOK5rTPgaD4Dyl5UiHwJERDPE2DDOTl'); 
   }
 
   searchGifs(query: string, limit: number = 10) {
