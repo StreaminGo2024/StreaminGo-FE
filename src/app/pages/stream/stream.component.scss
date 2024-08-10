@@ -1,65 +1,123 @@
+@import "../../../../node_modules/@ctrl/ngx-emoji-mart/picker.css";
 
-.cardContainer{
-    width: 300px;
-    height: 480px;
-    position: absolute;
-    right: 60px;
-    bottom: 110px;
-    padding: 0;
-    margin: 0;
-    
+.video-js {
+    //position: inherit !important;
+    width: 100% !important;
+    height: 100vh !important;
 }
 
-.card-header{
+.video-dimensions {
+    width: 100% !important;
+    height: 100vh !important;
+}
+
+/* Custom styles for the play button */
+.video-js .vjs-big-play-button {
+    background-color: rgba(111, 66, 193, 0.9) !important;
+    box-shadow: 0 0 25px var(--color-purple);
+    border-color: transparent !important;
+    border-radius: 50% !important;
+    width: 50px !important;
+    height: 47px !important;
+    transition: background-color 0.3s ease;
+
+
+}
+
+.video-js .vjs-big-play-button:hover {
+    background-color: #6100c2 !important;
+    box-shadow: 0 0 25px var(--color-purple);
+}
+
+.gif-icon {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+a i {
+    font-size: 25px;
+    color: #fff;
+
+    &.fa-x:hover {
+        box-shadow: 0 0 25px var(--color-purple);
+    }
+}
+
+.button-container {
+    position: absolute;
+    z-index: 3000;
+    display: block;
+    transition: 0.3s ease;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+
+.cardContainer {
+    width: 300px;
+    height: 480px;
+    // position: absolute;
+    // right: 60px;
+    // bottom: 110px;
+    padding: 0;
+    margin: 0;
+
+}
+
+.card-header {
     background-color: #6f42c1;
     color: white;
     font-weight: 700;
 }
 
-.card-body{
-    padding: 0.5rem;
-    background-image: "../../../assets/icons/wallpaper.png";
-    //background-color: black;
-}
+// .card-body {
+//     padding: 0.5rem;
+//     background-image: "../../../assets/icons/wallpaper.png";
+//     background-color: black;
+// }
 
-.card-footer{
-    background-color: #333;;
-}
+// .card-footer {
+//     background-color: #333;
+//     ;
+// }
 
-.imEnviar:active{
-    transform: scale(0.9);
-}
+// .imEnviar:active {
+//     transform: scale(0.9);
+// }
 
-.enviado{
-    display: block;
-    float: right;
-    background-color: teal;
-    color: white;
-    min-width: 50.01%;
-    border-radius: 10px;
-    text-align: left;
-}
+// .enviado {
+//     display: block;
+//     float: right;
+//     background-color: teal;
+//     color: white;
+//     min-width: 50.01%;
+//     border-radius: 10px;
+//     text-align: left;
+// }
 
-.recibido{
-    display: block;
-    float: left;
-    background-color: gray;
-    color: white;
-    min-width: 50.01%;
-    border-radius: 10px;
-    text-align: left;
-}
+// .recibido {
+//     display: block;
+//     float: left;
+//     background-color: gray;
+//     color: white;
+//     min-width: 50.01%;
+//     border-radius: 10px;
+//     text-align: left;
+// }
 
-.contenedorDeMensajes{
-    overflow: scroll;
-    padding: 0.3rem;
-}
+// .contenedorDeMensajes {
+//     overflow: scroll;
+//     padding: 0.3rem;
+// }
 
-.contenedorDeMensajes::-webkit-scrollbar{
-    display: none;
-}
+// .contenedorDeMensajes::-webkit-scrollbar {
+//     display: none;
+// }
 
-.closeIcon{
+.closeIcon {
     position: absolute;
     right: 0.5rem;
     top: 0rem;
@@ -70,23 +128,172 @@
     background-color: #6f42c1;
     color: white;
 }
-.btn img {
-    width: 30px;
-    height: 30px;
+
+// .btn img {
+//     width: 30px;
+//     height: 30px;
+// }
+
+// @media (max-width: 768px) {
+//     .container h2 {
+//         font-size: 1.5rem;
+//     }
+
+//     .container video {
+//         width: 100%;
+//         height: auto;
+//     }
+
+//     .chat-box {
+//         height: auto;
+//     }
+
+//     #chat-messages {
+//         height: 300px;
+//     }
+// }
+
+/**nuevo
+/* global styles.css */
+/* General styles for the chat component */
+/* General styles for the chat component */
+.card-footer {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
 }
-@media (max-width: 768px) {
-    .container h2 {
-        font-size: 1.5rem;
+
+.input-group {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+input.form-control {
+    flex: 1;
+    margin-right: 0.5rem;
+    /* Add some space between input and emoji picker */
+}
+
+button.btn-primary {
+    margin-left: 0.5rem;
+}
+
+.bg-theme-gray {
+    background-color: #21201E !important;
+}
+
+.row {
+    --bs-gutter-x: 0 !important;
+    /* Set horizontal gutter to 0 */
+    --bs-gutter-y: 0 !important;
+    /* Set vertical gutter to 0 */
+}
+
+.card {
+    height: 100%;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.custom-focus-input:focus {
+    border-color: none;
+    /* Green border color on focus */
+    box-shadow: none;
+    /* Custom focus shadow */
+}
+
+.message-time {
+    font-size: 0.75rem;
+    color: #888; // Adjust color as needed
+    text-align: right; // Align to the right or center
+    margin-top: 5px; // Space between message and timestamp
+}
+
+
+/**REACCIONES*/
+.reactions {
+    position: absolute;
+    bottom: 100%;
+    display: flex;
+    //width: 100%;
+    left: 4%;
+    height: 45px;
+    background-color: transparent !important;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+}
+
+.reaction-picker {
+    //position: absolute;
+    // bottom: 50px;
+    // /* Adjust based on your layout */
+    // left: 0;
+    //z-index: 1000;
+    // background-color: #fff;
+    // border: 1px solid #ccc;
+    //padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+
+}
+
+.reaction-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    /* Three columns */
+    gap: 2px;
+}
+
+.reaction-item {
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    padding: 2px;
+}
+
+/* Floating Emoji Styles */
+.floating-emojis {
+    position: relative;
+    width: 30%;
+    margin: 0 auto;
+    height: 100%;
+    bottom: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.floating-emoji {
+    position: absolute;
+    font-size: 2rem;
+    /* Adjust size as needed */
+    animation: float 2s ease-in-out forwards;
+    z-index: 5000;
+    /* Ensure it appears above other content */
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
     }
-    .container video {
-        width: 100%;
-        height: auto;
+
+    50% {
+        transform: translateY(-50px);
+        /* Adjust vertical movement */
+        opacity: 0.7;
     }
-    .chat-box {
-        height: auto;
-    }
-    #chat-messages {
-        height: 300px;
+
+    100% {
+        transform: translateY(-100px);
+        /* Adjust vertical movement */
+        opacity: 0;
     }
 }
 
@@ -102,5 +309,65 @@
 }
 
 .btn {
-    position: relative; 
+    //position: relative; 
   }
+
+/* Styling for the emoji picker */
+.emoji-picker-container {
+    position: absolute;
+    bottom: 100%;
+    /* Place above the input field */
+    left: 0;
+    z-index: 1000;
+    /* Ensure it is on top of other elements */
+    width: 300px;
+    /* Adjust width if necessary */
+    max-width: 100%;
+    /* Ensure it does not overflow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Add shadow for better visibility */
+}
+
+/* Styling for the emoji button */
+button.btn-light {
+    margin-right: 0.5rem;
+    /* Space between emoji button and input field */
+}
+
+.gif-picker {
+
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    z-index: 1000;
+    width: 300px;
+    max-width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.gif-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Two columns */
+    gap: 10px;
+    /* Space between GIFs */
+    overflow-x: auto;
+}
+
+.gif-thumbnail {
+    width: 100px;
+    height: 130px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.chat-gif {
+    width: 100px;
+    /* Adjust size as needed */
+    height: 130px;
+}
