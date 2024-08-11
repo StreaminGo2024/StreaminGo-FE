@@ -96,6 +96,11 @@
 .onhover-dropdown {
   cursor: pointer;
   position: relative;
+  position: fixed; 
+  top: 5px; 
+  left: 5px;
+  right: 10px;
+  z-index: 100;
 
   &:hover {
     .onhover-show-div {
@@ -116,6 +121,7 @@
     a {
       svg {
         margin-top: 0 !important;
+        position: fixed;
 
         path,
         line {
