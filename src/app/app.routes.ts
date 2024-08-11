@@ -17,6 +17,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
 import { StreamComponent } from './pages/stream/stream.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
+import { SearchDashboardMoviesComponent } from './pages/search-dashboard-movies/search-dashboard-movies.component';
 
 
 export const routes: Routes = [
@@ -43,6 +44,10 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
+  },
+  {
+    path: 'search-dashboard-movies',
+    component: SearchDashboardMoviesComponent,  
   },
   {
     path: 'stream/:video',

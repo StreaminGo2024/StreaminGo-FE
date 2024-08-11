@@ -87,6 +87,7 @@ export interface ICastingActor {
 }
 
 export interface IMovieDashboard {
+[x: string]: any;
   id?: number;
   name?: string;
   imageCover?: string;

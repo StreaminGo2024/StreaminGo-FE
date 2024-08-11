@@ -54,7 +54,7 @@ body[class="dark-only"] {
 //start template styles
 @import "./assets/layout/layout.scss";
 //end template styles
-
+@import '../node_modules/swiper/swiper-bundle.min.css';
 html, body { 
   height: 100%; 
 }
