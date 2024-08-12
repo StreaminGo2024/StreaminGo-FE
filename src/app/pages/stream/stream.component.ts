@@ -10,14 +10,8 @@ import { ModalComponent } from '../../components/modal/modal.component';
 import { GifService } from '../../services/gif.service';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
-interface Message {
-  sender: string;
-  text: string;
-  isGif: boolean;
-  gifUrl?: string | any;
-  reactions?: string[];
-  timestamp?: Date;
-}
+import { Message } from '../../interfaces';
+
 @Component({
   selector: 'app-stream',
   standalone: true,
