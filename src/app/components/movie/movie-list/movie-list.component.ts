@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ModalComponent } from '../../modal/modal.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { IMovie } from '../../../interfaces';
 import { MovieService } from '../../../services/movie.service';
 import { MovieFormComponent } from '../movie-form/movie-form.component';

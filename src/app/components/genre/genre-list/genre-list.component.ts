@@ -1,6 +1,5 @@
-import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IGenre } from '../../../interfaces';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { GenreService } from '../../../services/genre.service';
 import { ModalComponent } from '../../modal/modal.component';

@@ -143,6 +143,17 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'dashboard-admin',
+        component: DashboardAdminComponent,
+        data: { 
+          authorities: [
+            IRole.admin, 
+            IRole.superAdmin
+          ],
+          name: 'Dashboard'
+        }
+      },
+      {
         path: 'dashboard',
         component: DashboardComponent,
         data: { 
@@ -152,17 +163,6 @@ export const routes: Routes = [
             IRole.user
           ],
           name: 'Home'
-        }
-      },
-      {
-        path: 'dashboard-admin',
-        component: DashboardAdminComponent,
-        data: { 
-          authorities: [
-            IRole.admin, 
-            IRole.superAdmin
-          ],
-          name: 'Dashboard'
         }
       },
     ],

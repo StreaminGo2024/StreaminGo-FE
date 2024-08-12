@@ -1,5 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
-import { IFeedBackMessage, IUser, IFeedbackStatus} from '../../../interfaces';
+import { IUser} from '../../../interfaces';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
