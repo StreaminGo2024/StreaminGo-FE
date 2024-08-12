@@ -5,13 +5,14 @@
       <label for="email" class="form-label mb-2">
         Email Address
       </label>
-      <input #email="ngModel" type="text" class="form-control" id="email" name="email" maxlength="200"
+      <input #email="ngModel" maxlength="200"  type="email" class="form-control" id="email" name="email" maxlength="200"
         placeholder="user@gmail.com"
         [(ngModel)]="user.email" 
         [ngClass]="{ 
           'is-invalid': email.invalid && email.touched,
           'is-valid': email.valid && email.touched
         }" 
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         required 
       />
       @if (email.invalid) {
@@ -75,11 +76,13 @@
               'is-invalid': password.invalid && password.touched,
               'is-valid': password.valid && password.touched
             }" 
+            minlength="8"
+            pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$"
             required 
           />
           @if (password.invalid) {
             <div *ngIf="password.invalid" class="invalid-feedback">
-              Please add a valid password
+              Password must be 8-12 characters long, contain at least one number and one special character (!#$%^&*)
             </div>
           }
         </div>

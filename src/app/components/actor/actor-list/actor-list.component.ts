@@ -4,6 +4,8 @@ import { ActorService } from '../../../services/actor.service';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../modal/modal.component';
 import { ActorFormComponent } from '../actor-form/actor-form.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../confirm/confirm-dialog.component';
 
 @Component({
   selector: 'app-actor-list',
@@ -19,6 +21,7 @@ import { ActorFormComponent } from '../actor-form/actor-form.component';
 export class ActorListComponent implements OnChanges, OnInit {
   @Input() itemList: IActor[] = [];
   @Input() areActionsAvailable: boolean = false;
+  private dialog = inject(MatDialog);
   public selectedItem: IActor = {};
   public actorService: ActorService = inject(ActorService);
 
@@ -49,7 +52,13 @@ export class ActorListComponent implements OnChanges, OnInit {
   }
 
   deleteActor(item: IActor) {
-    this.actorService.delete(item);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.actorService.delete(item);
+      }
+    });
   }
 
   statusActorUpdate(item: IActor) {
