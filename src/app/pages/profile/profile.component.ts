@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { IUser } from '../../interfaces';
 import { ProfileService } from '../../services/profile.service';
 import { ProfileFormComponent } from '../../components/profile-form/profile-form.component';
@@ -28,22 +28,31 @@ export class ProfileComponent {
 
   public profileService = inject(ProfileService);
 
+  @ViewChild('updateModal') updateModal!: ModalComponent;
+  @ViewChild('updatePasswordModal') updatePasswordModal!: ModalComponent;
+  @ViewChild('deleteAccountModal') deleteAccountModal!: ModalComponent;
+
   constructor(){
     this.profileService.getUserProfileInfo();
   }
 
-  handleFormAction(user: IUser){
-    this.profileService.update(user);
+  handleFormAction(user: IUser) {
+    this.profileService.update(user)
+    this.updateModal.hide();
   }
 
-  handlePasswordUpdateAction(user: IUser){
-    this.profileService.updatePassword(user);
+  handlePasswordUpdateAction(user: IUser) {
+    this.profileService.updatePassword(user).add(() => {
+      this.updatePasswordModal.hide(); // Cerrar el modal
+    });
   }
 
   deleteAccount() {
     const userId = this.profileService.user$().id;
     if (userId) {
-      this.profileService.deleteAccount(userId);
+      this.profileService.deleteAccount(userId).add(() => {
+        this.deleteAccountModal.hide(); // Cerrar el modal
+      });
     }
   }
 }

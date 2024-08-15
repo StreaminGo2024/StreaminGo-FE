@@ -20,6 +20,7 @@ export class CastingFormComponent implements OnInit, OnChanges {
   @Input() actorList: IActor[] = [];
   @Input() action = '';
   @Output() callParentEvent: EventEmitter<ICastingActor> = new EventEmitter<ICastingActor>();
+  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>()
 
   public castingForm!: FormGroup;
 
@@ -70,5 +71,15 @@ export class CastingFormComponent implements OnInit, OnChanges {
     
     // Emitir el evento con el payload adecuado
     this.callParentEvent.emit(eventPayload);
+
+    this.closeModal.emit();
+
+    this.resetForm();
+  }
+  resetForm() {
+    this.castingForm.reset({
+      name: '',
+      selectedActors: []
+    });
   }
 }

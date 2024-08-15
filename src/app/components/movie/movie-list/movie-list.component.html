@@ -65,38 +65,7 @@
     [genreList] = "genreService.items$()"
     [castingList] = "castingService.items$()"
     [action]="'Update movie'"
-    (callParentEvent)="handleFormAction($event)"
-  />
+    (callParentEvent)="handleFormAction($event, detailModal)"
+    (closeModal) = "detailModal.hide()"
+  ></app-movie-form>
 </app-modal>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

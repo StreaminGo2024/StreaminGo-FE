@@ -18,11 +18,19 @@ export class MovieFormComponent {
   @Input() genreList: IGenre[] = [];
   @Input() castingList: ICasting[] = [];
   @Input() action = '';
-  @Output() callParentEvent: EventEmitter<IMovie> = new EventEmitter<IMovie>()
+  @Output() callParentEvent: EventEmitter<IMovie> = new EventEmitter<IMovie>();
+  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
 
   callEvent(form: NgForm) {
     if (form.valid && this.movie.imageCover && this.movie.video) {
       this.callParentEvent.emit(this.movie);
+      if (this.action === 'Add movie') { 
+        this.resetForm(form);
+      }
+      else {
+        this.resetForm(form);
+      }
+      this.closeModal.emit;
     } else {
       // Marcar todos los controles como tocados para mostrar mensajes de error
       Object.keys(form.controls).forEach(control => {
@@ -78,4 +86,24 @@ export class MovieFormComponent {
   compareGenre(genre1: ICasting, genre2: ICasting): boolean {
     return genre1 && genre2 ? genre1.id === genre2.id : genre1 === genre2;
   }
+
+  resetForm(form: NgForm) {
+    form.resetForm(this.action === "Add movie");
+    this.movie = {}; 
+    this.movie.imageCover = '';
+    this.movie.video = '';
+  
+    // Limpia las entradas de archivos
+    const imageUploadInput = document.getElementById('imageUpload') as HTMLInputElement;
+    const videoUploadInput = document.getElementById('videoUpload') as HTMLInputElement;
+  
+    if (imageUploadInput) {
+      imageUploadInput.value = ''; 
+    }
+  
+    if (videoUploadInput) {
+      videoUploadInput.value = ''; 
+    }
+  }
+  
 }

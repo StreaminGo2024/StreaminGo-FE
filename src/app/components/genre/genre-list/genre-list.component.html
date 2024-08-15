@@ -51,6 +51,7 @@
   <app-genre-form
     [genre]="selectedItem"
     [action]="'Update genre'"
-    (callParentEvent)="handleFormAction($event)"
+    (callParentEvent)="handleFormAction($event, detailModal)"
+    (closeModal)="detailModal.hide()"
   />
 </app-modal>

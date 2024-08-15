@@ -1,11 +1,11 @@
+import { MovieFormComponent } from './../movie-form/movie-form.component';
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, effect, inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../modal/modal.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { IMovie } from '../../../interfaces';
 import { MovieService } from '../../../services/movie.service';
-import { MovieFormComponent } from '../movie-form/movie-form.component';
 import { GenreService } from '../../../services/genre.service';
 import { CastingService } from '../../../services/casting.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,6 +16,7 @@ import { ConfirmDialogComponent } from '../../confirm/confirm-dialog.component';
   standalone: true,
   imports: [
     CommonModule, 
+    FormsModule,
     ModalComponent,
     MovieFormComponent,
  
@@ -32,6 +33,7 @@ export class MovieListComponent implements OnChanges, OnInit{
   public movieService: MovieService = inject(MovieService);
   public genreService: GenreService = inject(GenreService);
   public castingService: CastingService = inject(CastingService);
+  @ViewChild('detailModal') detailModal!: ModalComponent; 
 
   ngOnInit(): void {
     this.genreService.getAll();
@@ -49,9 +51,9 @@ export class MovieListComponent implements OnChanges, OnInit{
     modal.show();
   }
 
-  handleFormAction(item: IMovie) {
-
+  handleFormAction(item: IMovie, modal: ModalComponent) {
     this.movieService.update(item);
+    modal.hide(); 
   }
 
   deleteMovie(item: IMovie) {
@@ -68,6 +70,5 @@ export class MovieListComponent implements OnChanges, OnInit{
     item.status = item.status === 'active' ? 'disabled' : 'active';
     this.movieService.update(item);
   }
-
 
 }

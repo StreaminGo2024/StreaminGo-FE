@@ -39,9 +39,10 @@ export class GenreListComponent implements OnChanges{
     modal.show();
   }
 
-  handleFormAction(item: IGenre) {
-
+  handleFormAction(item: IGenre, modal: ModalComponent) {
     this.genreService.update(item);
+    
+    modal.hide();
   }
 
   deleteGenre(item: IGenre) {

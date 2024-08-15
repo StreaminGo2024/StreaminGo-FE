@@ -55,6 +55,7 @@
     <app-actor-form
       [actor]="selectedItem"
       [action]="'Update actor'"
-      (callParentEvent)="handleFormAction($event)"
-    />
+      (callParentEvent)="handleFormAction($event, detailModal)"
+      (closeMedal)="detailModal.hide()"
+    ></app-actor-form>
   </app-modal>

@@ -53,5 +53,6 @@
       [casting]="selectedItem"
       [action]="'Update casting'"
       (callParentEvent)="handleFormAction($event)"
+      (closeModal)="detailModal.hide()"
     />
   </app-modal>

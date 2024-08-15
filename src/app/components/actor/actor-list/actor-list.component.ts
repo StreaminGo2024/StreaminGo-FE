@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { IActor } from '../../../interfaces';
 import { ActorService } from '../../../services/actor.service';
 import { CommonModule } from '@angular/common';
@@ -6,12 +6,14 @@ import { ModalComponent } from '../../modal/modal.component';
 import { ActorFormComponent } from '../actor-form/actor-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../confirm/confirm-dialog.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-actor-list',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     ModalComponent,
     ActorFormComponent
   ],
@@ -24,7 +26,7 @@ export class ActorListComponent implements OnChanges, OnInit {
   private dialog = inject(MatDialog);
   public selectedItem: IActor = {};
   public actorService: ActorService = inject(ActorService);
-
+  @ViewChild('detailModal') detailModal!: ModalComponent;
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['areActionsAvailable']) {
@@ -46,9 +48,9 @@ export class ActorListComponent implements OnChanges, OnInit {
     modal.show();
   }
 
-  handleFormAction(item: IActor) {
-
+  handleFormAction(item: IActor, modal: ModalComponent) {
     this.actorService.update(item);
+    modal.hide();
   }
 
   deleteActor(item: IActor) {

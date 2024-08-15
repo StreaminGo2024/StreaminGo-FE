@@ -47,7 +47,7 @@
     </div>
     <div class="col-md-6 mb-3">
       <label for="year" class="form-label">Year</label>
-      <input #year="ngModel" type="number" class="form-control" id="year" name="year" placeholder="Year"
+      <input #year="ngModel" type="number" min="1895" max="2024" class="form-control" id="year" name="year" placeholder="Year"
         [(ngModel)]="movie.realesedYear"
         [ngClass]="{
           'is-invalid': year.invalid && year.touched,
@@ -60,8 +60,8 @@
       </div>
     </div>
     <div class="col-md-6 mb-3">
-      <label for="time" class="form-label">Duration</label>
-      <input #time="ngModel" type="number" class="form-control" id="time" name="time" placeholder="Duration (min)"
+      <label for="time" class="form-label">Duration (min)</label>
+      <input #time="ngModel" type="number" min="1" max="1440" class="form-control" id="time" name="time" placeholder="Duration (min)"
         [(ngModel)]="movie.duration"
         [ngClass]="{
           'is-invalid': time.invalid && time.touched,

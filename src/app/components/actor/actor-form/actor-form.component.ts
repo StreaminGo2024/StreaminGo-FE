@@ -18,6 +18,7 @@ export class ActorFormComponent implements OnChanges {
   @Input() actor: IActor = {};
   @Input() action = '';
   @Output() callParentEvent: EventEmitter<IActor> = new EventEmitter<IActor>();
+  @Output() closeMedal: EventEmitter<void> = new EventEmitter<void>();
   private snackBar = inject(MatSnackBar);
 
   birthString: string | undefined;
@@ -42,13 +43,23 @@ export class ActorFormComponent implements OnChanges {
   }
 
   callEvent(form: NgForm) {
-    if (form.invalid) {
+    if (form.valid) {
+      this.callParentEvent.emit(this.actor);
+      if (this.action === 'Add actor'){
+        this.resetForm(form);
+      }
+      this.closeMedal.emit;
+    }
+    else {(form.invalid) 
       Object.keys(form.controls).forEach(controlName => {
         form.controls[controlName].markAsTouched();
       });
-      return;
     }
     console.log(this.actor)
     this.callParentEvent.emit(this.actor);
+  }
+
+  resetForm(form: NgForm){
+    form.resetForm(this.action === "Add actor");
   }
 }
