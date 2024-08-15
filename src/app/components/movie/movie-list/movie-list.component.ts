@@ -66,9 +66,4 @@ export class MovieListComponent implements OnChanges, OnInit{
     });
   }
 
-  statusMovieUpdate(item: IMovie) {
-    item.status = item.status === 'active' ? 'disabled' : 'active';
-    this.movieService.update(item);
-  }
-
 }

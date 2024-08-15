@@ -4,7 +4,6 @@
       <thead>
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Status</th>
           <th class="text-center" scope="col">Actions</th>
         </tr>
       </thead>
@@ -12,14 +11,6 @@
         @for (item of itemList; track $index) {
           <tr>
             <td>{{item.name}}</td>
-            <td>
-              <button class="mb-0 text-center text-white" (click)="statusGenreUpdate(item)" 
-              [ngClass]="{
-                'custom-green-btn': item.status == 'active', 
-                'custom-red-btn': item.status == 'disabled'
-                }"
-              >{{item.status}}</button>
-            </td>
             <td class="text-center">
               <button 
                 type="button" 

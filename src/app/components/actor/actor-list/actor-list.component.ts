@@ -63,9 +63,4 @@ export class ActorListComponent implements OnChanges, OnInit {
     });
   }
 
-  statusActorUpdate(item: IActor) {
-    item.status = item.status === 'active' ? 'disabled' : 'active';
-    this.actorService.update(item);
-  }
-
 }

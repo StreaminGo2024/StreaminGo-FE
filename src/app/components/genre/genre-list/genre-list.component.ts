@@ -55,10 +55,5 @@ export class GenreListComponent implements OnChanges{
   });
   }
 
-  statusGenreUpdate(item: IGenre) {
-    item.status = item.status === 'active' ? 'disabled' : 'active';
-    this.genreService.update(item);
-  }
-
  
 }

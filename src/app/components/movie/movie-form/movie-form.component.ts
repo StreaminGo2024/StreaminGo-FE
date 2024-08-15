@@ -27,9 +27,6 @@ export class MovieFormComponent {
       if (this.action === 'Add movie') { 
         this.resetForm(form);
       }
-      else {
-        this.resetForm(form);
-      }
       this.closeModal.emit;
     } else {
       // Marcar todos los controles como tocados para mostrar mensajes de error

@@ -56,9 +56,4 @@ export class CastingListComponent implements OnChanges, OnInit{
     });
   }
 
-  statusCastingUpdate(item: ICasting) {
-    item.status = item.status === 'active' ? 'disabled' : 'active';
-    this.castingService.update(item);
-  }
-
 }
