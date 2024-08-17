@@ -12,7 +12,6 @@ export class DashboardService extends BaseService<IMovieDashboard> {
         return this.movieListSignal;
     }
 
-
     getAllSignal() {
         this.findAll().subscribe({
             next: (response: any) => {
@@ -20,7 +19,7 @@ export class DashboardService extends BaseService<IMovieDashboard> {
                 this.movieListSignal.set(response);
             },
             error: (error: any) => {
-                console.error('Error fetching users', error);
+                console.error('Error fetching movies', error);
             }
         });
     }

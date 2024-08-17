@@ -74,6 +74,15 @@ export interface IActor {
   status?: string;
 }
 
+export interface Message {
+  sender: string;
+  text: string;
+  isGif: boolean;
+  gifUrl?: string | any;
+  reactions?: string[];
+  timestamp?: Date;
+}
+
 export interface ICasting {
   id?: number;
   name?: string;
@@ -87,6 +96,7 @@ export interface ICastingActor {
 }
 
 export interface IMovieDashboard {
+[x: string]: any;
   id?: number;
   name?: string;
   imageCover?: string;

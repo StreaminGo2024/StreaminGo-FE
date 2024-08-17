@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { IUser } from '../../interfaces';
-import { ProfileService } from '../../services/profile.service';
-import { ProfileComponent } from '../../pages/profile/profile.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalComponent } from '../modal/modal.component';
 

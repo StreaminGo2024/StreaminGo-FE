@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { AuthService } from './../../services/auth.service';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild, ElementRef} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
 import { UsersComponent } from '../users/users.component';
@@ -6,15 +7,18 @@ import { ActivatedRoute } from '@angular/router';
 import videojs from 'video.js';
 import { InviteModalComponent } from '../../components/invite-modal/invite-modal.component';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { GifService } from '../../services/gif.service';
 import { WebSocketSubject } from 'rxjs/webSocket';
-import { AuthService } from './../../services/auth.service';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { Message } from '../../interfaces';
 
 @Component({
   selector: 'app-stream',
   standalone: true,
-  imports: [CommonModule, FormsModule, UsersComponent, NgClass, InviteModalComponent, ModalComponent],
+  imports: [CommonModule, FormsModule, UsersComponent, NgClass, InviteModalComponent, ModalComponent, PickerModule],
   templateUrl: './stream.component.html',
   styleUrls: ['./stream.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StreamComponent implements OnInit, OnDestroy {
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
@@ -30,10 +34,36 @@ export class StreamComponent implements OnInit, OnDestroy {
   videoSrc: string = '';
   videoId: string = '';
   player: any | undefined;
+  isPaused = true;
+  @ViewChild('messagesContainer') messagesContainer!: ElementRef;
+  messages: Message[] = [];
+  newMessage: string = '';
+  /**Reacciones */
+  showReactionPicker: boolean = false;
+  customReactions = [
+    { name: 'Sparkling Heart', icon: '💖' },
+    { name: 'Thumbs Up', icon: '👍' },
+    { name: 'Tada', icon: '🎉' },
+    { name: 'Clapping', icon: '👏' },
+    { name: 'Laughing', icon: '😂' },
+    { name: 'Surprised', icon: '😲' },
+    { name: 'Crying', icon: '😢' },
+    { name: 'Thinking Face', icon: '🤔' },
+    { name: 'Thumbs Down', icon: '👎' }
+  ];
+  // Floating emojis logic
+  floatingEmojis: { icon: string, left: string, top: string }[] = [];
+  animationDuration = 2000; // Duration of the animation in milliseconds
+  /** Emoji variables */
+  isEmojiPickerVisible: boolean = false;
+  /** GIF variables */
+  public gifQuery: string = '';
+  public gifs: any[] = [];
+  public showGifPicker: boolean = false;
 
   private socket$: WebSocketSubject<any> | undefined;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService) {}
+  constructor(private route: ActivatedRoute, private authService: AuthService, private gifService: GifService) {}
 
   ngOnInit(): void {
     this.connect();
@@ -49,6 +79,8 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.initializePlayer();
       }
     });
+
+
   }
 
   ngAfterViewInit(): void {
@@ -58,11 +90,28 @@ export class StreamComponent implements OnInit, OnDestroy {
   }
 
   private onPlay(event: Event): void {
-    this.sendSocketMessage('videoControl',"PLAY")
+    const currentTime = this.videoElement.nativeElement.currentTime;
+    const mensaje = {
+      status: "PLAY",
+      time: currentTime
+    };
+    this.sendSocketMessage('videoControl',JSON.stringify(mensaje))
   }
 
   private onPause(event: Event): void {
-    this.sendSocketMessage('videoControl',"PAUSE")
+    const currentTime = this.videoElement.nativeElement.currentTime;
+    const mensaje = {
+      status: "PAUSE",
+      time: currentTime
+    };
+    this.sendSocketMessage('videoControl',JSON.stringify(mensaje))
+  }
+
+  public syncVideoTime(time: number): void {
+    if (this.player) {
+      this.player.currentTime(time); // Ajusta el tiempo del video al especificado
+      console.log(`Video sincronizado al tiempo: ${time} segundos`);
+    }
   }
 
   private connect() {
@@ -74,7 +123,10 @@ export class StreamComponent implements OnInit, OnDestroy {
         console.error('WebSocket Error:', err);
         this.reconnect(); // Intentar reconectar en caso de error
       },
-      () => console.warn('WebSocket Completed!')
+      () => {
+        console.warn('WebSocket Completed!');
+        this.reconnect();
+      }
     );
   }
 
@@ -111,30 +163,51 @@ export class StreamComponent implements OnInit, OnDestroy {
     }
   }
 
-  private handleStatusChange(status: string) {
-    console.log('Video status changed: ' + status);
-    if (status === 'PLAY') {
-      this.player.play();
-    } else if (status === 'PAUSE') {
-      this.player.pause();
+  private handleStatusChange(message: string) {
+    try {
+      const parsedMessage = JSON.parse(message);
+      this.syncVideoTime(parsedMessage.time);
+      if (parsedMessage.status === 'PLAY') {
+        this.player.play().catch((error: any) => {
+          console.error('Error trying to play the video:', error);
+          this.reconnect(); 
+        });
+      } else if (parsedMessage.status === 'PAUSE') {
+        this.player.pause();
+      }
+    } catch (error) {
+      console.error('Error in handleStatusChange:', error);
     }
   }
 
   private handleChatMessage(message: string) {
-    console.log('Mensaje de chat recibido:', message);
     const parsedMessage = JSON.parse(message);
     if (parsedMessage.emisor !== this.usuarioLogeado.name) {
-      this.mensajes.push({
-        emisor: parsedMessage.emisor,
-        texto: parsedMessage.texto
+
+      // Check if the message is a GIF 
+      const isGif = parsedMessage.texto.includes('giphy');
+
+      // Push the message to the messages array
+      this.messages.push({
+        sender: parsedMessage.emisor,
+        text: isGif ? '' : parsedMessage.texto,
+        isGif: isGif,
+        gifUrl: isGif ? parsedMessage.texto : '',
+        timestamp: new Date()
       });
+
+      this.scrollToBottom();
+
       this.mensajesNuevos++;
-  this.nuevoMensajeRecibido = true;
+      this.nuevoMensajeRecibido = true;
     }
   }
 
   private handleReaction(reaction: string) {
-    console.log('Reacción recibida:', reaction);
+    const parsedMessage = JSON.parse(reaction);
+    if (parsedMessage.emisor !== this.usuarioLogeado.name) {
+      this.triggerFloatingEmoji(parsedMessage.emoji);
+    }
   }
 
   public sendSocketMessage(typeMessage: string, command: string) {
@@ -152,7 +225,6 @@ export class StreamComponent implements OnInit, OnDestroy {
   enviarMensaje() {
     if (this.nuevoMensaje === '') return;
 
-    console.log(this.nuevoMensaje);
     const mensaje = {
       emisor: this.usuarioLogeado.name,
       texto: this.nuevoMensaje
@@ -164,26 +236,110 @@ export class StreamComponent implements OnInit, OnDestroy {
       emisor: this.usuarioLogeado.name,
       texto: this.nuevoMensaje
     });
+  }
 
-    this.nuevoMensaje = '';
+  sendMessage(): void {
+    const messageText = this.newMessage.trim();
 
     this.mensajesNuevos = 0;
     this.nuevoMensajeRecibido = false;
 
-  }
+    if (messageText) {
+      // Check if the message is a GIF 
+      const isGif = messageText.includes('giphy');
 
-  scrollToTheLastElementByClassName() {
-    let elements = document.getElementsByClassName('msj');
-    let ultimo: any = elements[(elements.length - 1)];
-    let toppos = ultimo.offsetTop;
+      // Push the message to the messages array
+      this.messages.push({
+        sender: 'me',
+        text: isGif ? '' : messageText, 
+        isGif: isGif,                 
+        gifUrl: isGif ? messageText : '',
+        timestamp: new Date() 
+      });
 
-    const contenedorDeMensajes = document.getElementById('contenedorDeMensajes');
-    if (contenedorDeMensajes) {
-      contenedorDeMensajes.scrollTop = toppos;
+      const mensaje = {
+        emisor: this.usuarioLogeado.name,
+        texto: messageText
+      };
+
+      this.sendSocketMessage('chat', JSON.stringify(mensaje))
+      
+      this.newMessage = '';
+      this.scrollToBottom();
     }
   }
 
+  addReaction(reaction: string): void {
+    const mensaje = {
+      emisor: this.usuarioLogeado.name,
+      emoji: reaction
+    };
+
+    this.sendSocketMessage('reaction', JSON.stringify(mensaje))
+    this.triggerFloatingEmoji(reaction);
+  }
+
+  triggerFloatingEmoji(icon: string) {
+    // Calculate random position for the emoji
+    const left = `${Math.random() * 80 + 10}%`; // Random horizontal position (10% to 90%)
+    const top = `${Math.random() * 70 + 10}%`;  // Random vertical position (10% to 80%)
+
+    const floatingEmoji = {
+      icon: icon,
+      left: left,
+      top: top
+    };
+
+    this.floatingEmojis.push(floatingEmoji);
+
+    // Remove the emoji after animation
+    setTimeout(() => {
+      this.floatingEmojis.shift();
+    }, this.animationDuration);
+  }
+  /** EMOJIS LOGIC */
+
+  onEmojiSelected(event: any): void {
+
+    const emoji = event.emoji.native;
+    this.newMessage += emoji; 
+    this.toggleEmojiPicker(); 
+  }
+
+  toggleEmojiPicker(): void {
+    this.isEmojiPickerVisible = !this.isEmojiPickerVisible;
+  }
+
+  /** EMOJIS LOGIC */
+
+  /** START GIF LOGIC */
+  toggleGifPicker() {
+    this.showGifPicker = !this.showGifPicker; 
+  }
+
+  searchGifs(query: string) {
+    this.gifService.searchGifs(query).then((response: any) => {
+      this.gifs = response.data;
+    }).catch((error: any) => {
+      console.error('Error fetching GIFs:', error);
+    });
+  }
+
+  selectGif(gif: any) {
+
+    this.newMessage = gif.images.fixed_height.url;
+    this.showGifPicker = false;
+  }
+  /** END GIF LOGIC */
+
+  scrollToBottom(): void {
+    setTimeout(() => {
+      this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
+    }, 100);
+  }
+
   initializePlayer(): void {
+
     this.player = videojs('video', {
       sources: [{
         src: this.videoSrc,
@@ -191,10 +347,21 @@ export class StreamComponent implements OnInit, OnDestroy {
       }],
       tracks: []
     }, () => {
-      console.log('Player is ready');
       this.loadSubtitles('en');
       this.loadSubtitles('es');
     });
+
+    // Add event listeners to the player
+    this.player.on('play', () => {
+      this.isPaused = false;
+
+    });
+
+    this.player.on('pause', () => {
+      this.isPaused = true;
+
+    });
+
   }
 
   loadSubtitles(lang: string): void {
