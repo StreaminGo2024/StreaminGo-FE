@@ -1,7 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { ICasting } from '../interfaces';
+import { ICasting, IResponse } from '../interfaces';
 import { BaseService } from './base-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class CastingService extends BaseService<ICasting>{
   
   get items$ () {
     return this.itemListSignal;
+  }
+
+  public addActorsToCasting(id: any | undefined, data:[]): Observable<IResponse<ICasting>> {
+    return this.http.put<IResponse<ICasting>>(this.source + '/' + id + '/actors', data);
   }
 
   public getAll() {
@@ -88,7 +93,6 @@ export class CastingService extends BaseService<ICasting>{
         casting.id === item ? updatedCasting : casting
       );
 
-      //this.itemListSignal.set(updatedItems);
       },
       error: (error: any) => {
         console.error('response', error.description);

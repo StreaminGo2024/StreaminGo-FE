@@ -34,13 +34,5 @@ export class BaseService<T> {
     return this.http.delete<IResponse<T>>(this.source + '/' + id);
   }
 
-  public addActorsToCasting(id: any | undefined, data:[]): Observable<IResponse<T>> {
-    return this.http.put<IResponse<T>>(this.source + '/' + id + '/actors', data);
-  }
-
-  public chartUsersMonth(): Observable<IResponse<T>> {
-    return this.http.get<IResponse<T>>(this.source + '/count-by-month');
-  }
-
 
 }

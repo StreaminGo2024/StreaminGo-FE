@@ -1,28 +1,191 @@
-
-<div class="container">
-        <div class="d-flex justify-content-center">
-            <input 
-                class="form-control" 
-                [(ngModel)]="search"
-                (keyup.enter)="filterMovies()"
-                type="text">
-            <button (click)="filterMovies()" class="btn btn-dark bg-black">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+       <!-- Ícono de búsqueda -->
+       <a [routerLink]="['/search-dashboard-movies']" class="btn btn-search"> 
+        <b>Search   </b> <i class="fa-solid fa-magnifying-glass text-white"></i>
+      </a>
+    <!-- Carousel Video -->
+    <div id="videoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+      <div class="carousel-inner">
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+          <div class="stream-home-video">
+            <div class="top"></div>
+            <div class="bottom"></div>
+            <video #playOnHover class="play-on-hover" src="assets/img/Catalog/videoAfter.mp4" muted loop></video>
+            <div class="content">
+              <div class="content-card">
+              <section class="left end-0">
+                <img src="assets/icons/logo.png" alt="">
+                <h3>After Movie</h3>
+                <p>"After" is a romantic drama film that follows the story of Tessa Young...</p>
+                <div class="d-flex mt-2">
+                  <button class="btn bg-purple m-2" [routerLink]="['/stream/videoAfter']">
+                    <i class="bi bi-play-fill" style="color: black; padding: 0%;"></i> Watch Now
+                  </button>
+                  <button class="btn btn-secondary m-2">
+                    <i class="bi bi-info-circle" style=" padding: 0%;"></i> More Info
+                  </button>
+                </div>
+              </section>
+            </div>
+            </div>
+          </div>
         </div>
-</div>
+        
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+          <div class="stream-home-video">
+            <div class="top"></div>
+            <div class="bottom"></div>
+            <video #playOnHover class="play-on-hover" src="assets/img/Catalog/Hola, Alberto.mp4" muted loop></video>
+            <div class="content">
+              <div class="content-card">
+              <section class="left end-0">
+                <img src="assets/icons/logo.png" alt="">
+                <h3>Hello, Alberto Movie</h3>
+                <p>"Ciao Alberto" is a Disney Pixar short film that serves as an epilogue...</p>
+                <div class="d-flex mt-2">
+                  <button class="btn bg-purple m-2" [routerLink]="['/stream/Hola, Alberto']">
+                    <i class="bi bi-play-fill" style="color: black; padding: 0%;"></i>  Watch Now
+                  </button>
+                  <button class="btn btn-secondary m-2">
+                    <i class="bi bi-info-circle" style=" padding: 0%;"></i> More Info
+                  </button>
+                </div>
+              </section>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+          <div class="stream-home-video">
+            <div class="top"></div>
+            <div class="bottom"></div>
+            <video #playOnHover class="play-on-hover" src="assets/img/Catalog/Culpa Tuya - Trailer.mp4" muted loop></video>
+            <div class="content">
+              <div class="content-card">
+              <section class="left end-0">
+                <img src="assets/icons/logo.png" alt="">
+                <h3>Culpa Tuya Movie</h3>
+                <p>The film follows the intense and passionate relationship between Noah and Nick...</p>
+                <div class="d-flex mt-2">
+                  <button class="btn bg-purple m-2" [routerLink]="['/stream/Culpa Tuya - Trailer']">
+                    <i class="bi bi-play-fill" style="color: black; padding: 0%;"></i>  Watch Now
+                  </button>
+                  <button class="btn btn-secondary m-2">
+                    <i class="bi bi-info-circle" style=" padding: 0%;"></i> More Info
+                  </button>
+                </div>
+              </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#videoCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#videoCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <!-- Carousel Video end -->
+
+    <!-- slider -->
+    <div class="slider-box">
+      <div class="container-fluid slider">
+        <section class="d-flex justify-content-between margin-right">
+          <h2 class="text-white"><b>Trending</b></h2>
+          <div class="">
+            <button  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active tab-change-btn" aria-current="true" aria-label="Slide 1"></button>
+            <button class="tab-change-btn" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button class="tab-change-btn" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+        </section>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+          <div class="carousel-inner" style="position: relative; overflow: visible;">
+            <div class="carousel-item active">
+              <section class="d-flex">
+                @for (item of filteredMovieList; track item.id){
+                  <app-movie-card 
+                      [title]="item.name ?? ''" 
+                      [year]="item.realesedYear ?? 0"
+                      [category]="item.genre?.name ?? ''" 
+                      [url]="'/stream'"
+                      [image]="item.imageCover ?? ''"
+                      [video]="item.video ?? ''">
+                  </app-movie-card>
+                  }
+              </section>
+              </div>
+              <div class="carousel-item">
+                <section class="d-flex">
+                  @for (item of filteredMovieList; track item.id){
+                    <app-movie-card 
+                        [title]="item.name ?? ''" 
+                        [year]="item.realesedYear ?? 0"
+                        [category]="item.genre?.name ?? ''" 
+                        [url]="'/stream'"
+                        [image]="item.imageCover ?? ''"
+                        [video]="item.video ?? ''">
+                    </app-movie-card>
+                    }
+                </section>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+    <!-- slider - end -->
+
+    <!-- Slider Group Swiper -->
+    <h2 class="text-white"><b>Movies</b></h2>
+     <section class="movies container">
+      <div class="swiper mySwiper" #swiperContainer>
+        <div class="swiper-wrapper">
+          @for (item of filteredMovieList; track item.id){
+          <div class="swiper-slide">
+              <app-movie-card 
+                  [title]="item.name ?? ''" 
+                  [year]="item.realesedYear ?? 0"
+                  [category]="item.genre?.name ?? ''" 
+                  [url]="'/stream'"
+                  [image]="item.imageCover ?? ''"
+                  [video]="item.video ?? ''">
+              </app-movie-card>
+          </div>
+        }
+        </div>
+      </div>
+     </section>
+      <!-- Slider Group Swiper end -->
+
+       <!-- All Movies -->
+       <h2 class="text-white"><b>Watch Movies Now</b></h2>
+       <div class="container d-flex flex-wrap">
+        @for (item of filteredMovieList; track item.id){
+        <app-movie-card 
+            [title]="item.name ?? ''" 
+            [year]="item.realesedYear ?? 0"
+            [category]="item.genre?.name ?? ''" 
+            [url]="'/stream'"
+            [image]="item.imageCover ?? ''"
+            [video]="item.video ?? ''">
+        </app-movie-card>
+        }
+        
+        </div>
+        
+        
 
 
-<div class="container d-flex flex-wrap">
-    @for (item of filteredMovieList; track item.id){
-    <app-movie-card 
-        [title]="item.name ?? ''" 
-        [year]="item.realesedYear ?? 0"
-        [category]="item.genre?.name ?? ''" 
-        [url]="'/stream'"
-        [image]="item.imageCover ?? ''"
-        [video]="item.video ?? ''">
-    </app-movie-card>
-    }
-
-</div>

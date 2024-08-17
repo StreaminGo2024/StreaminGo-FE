@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { Chart, registerables } from 'chart.js';
+import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { NgxEchartsModule } from 'ngx-echarts';
-import * as echarts from 'echarts'; 
-import { UserService } from '../../services/user.service';
 import { IMovie, IUser, IUserCountStats } from '../../interfaces';
 
 @Component({
@@ -21,7 +18,6 @@ export class ChartComponent implements OnChanges{
   @Input() usersList: IUser[] = [];
   @Input() movieList: IMovie[] = [];
 
-  //public userService = inject(UserService);
   public userList: IUser[] = [];
 
   chartOptions: any;

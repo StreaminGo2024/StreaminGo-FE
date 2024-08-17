@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { BaseService } from './base-service';
 import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IUser, IUserCountStats } from '../interfaces';
+import { IResponse, IUser, IUserCountStats } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -87,6 +87,10 @@ export class UserService extends BaseService<IUser | IUserCountStats> {
         return throwError(error);
       })
     );
+  }
+
+  public chartUsersMonth(): Observable<IResponse<IUserCountStats[]>> {
+    return this.http.get<IResponse<IUserCountStats[]>>(this.source + '/count-by-month');
   }
 
   getUserMonth() {
