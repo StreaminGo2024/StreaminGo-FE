@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { IActor } from '../interfaces';
 import { BaseService } from './base-service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class ActorService extends BaseService<IActor>{
 
   protected override  source: string = 'actors';
   private itemListSignal = signal<IActor[]>([]);
-  private snackBar: MatSnackBar = inject(MatSnackBar);
+  private alertService: AlertService = inject(AlertService);
   
   get items$ () {
     return this.itemListSignal;
@@ -24,11 +24,7 @@ export class ActorService extends BaseService<IActor>{
       },
       error: (error: any) => {
         console.error('Error in get all genres request', error);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
@@ -38,19 +34,11 @@ export class ActorService extends BaseService<IActor>{
     this.add(item).subscribe({
       next: (response: any) => {
         this.itemListSignal.update((actors: IActor[]) => [response, ...actors]);
-        this.snackBar.open('Successfully Done', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 5 * 1000,
-        });
+        this.alertService.success('Actor added successfully');
       },
       error: (error: any) => {
         console.error('response', error.description);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
@@ -60,19 +48,11 @@ export class ActorService extends BaseService<IActor>{
       next: () => {
         const updatedItems = this.itemListSignal().map(actor => actor.id === item.id ? item: actor);
         this.itemListSignal.set(updatedItems);
-        this.snackBar.open('Successfully Done', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 5 * 1000,
-        });
+        this.alertService.success('Actor updated successfully');
       },
       error: (error: any) => {
         console.error('response', error.description);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
@@ -81,19 +61,11 @@ export class ActorService extends BaseService<IActor>{
     this.del(item.id).subscribe({
       next: () => {
         this.itemListSignal.set(this.itemListSignal().filter(actor => actor.id != item.id));
-        this.snackBar.open('Successfully Done', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 5 * 1000,
-        });
+        this.alertService.success('Actor deleted successfully');
       },
       error: (error: any) => {
         console.error('response', error.description);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }

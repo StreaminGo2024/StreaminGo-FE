@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { IMovie } from '../interfaces';
 import { BaseService } from './base-service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class MovieService extends BaseService<IMovie>{
   protected override  source: string = 'movies';
   private itemListSignal = signal<IMovie[]>([]);
-  private snackBar: MatSnackBar = inject(MatSnackBar);
+  private alertService: AlertService = inject(AlertService);
 
   get items$ () {
     return this.itemListSignal;
@@ -23,11 +23,7 @@ export class MovieService extends BaseService<IMovie>{
       },
       error: (error: any) => {
         console.error('Error in get all movies request', error);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
@@ -37,19 +33,11 @@ export class MovieService extends BaseService<IMovie>{
     this.add(item).subscribe({
       next: (response: any) => {
         this.itemListSignal.update((movies: IMovie[]) => [response, ...movies]);
-        this.snackBar.open('Successfully Done', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 5 * 1000,
-        });
+        this.alertService.success('Movie added successfully');
       },
       error: (error: any) => {
         console.error('response', error.description);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
@@ -59,19 +47,11 @@ export class MovieService extends BaseService<IMovie>{
       next: () => {
         const updatedItems = this.itemListSignal().map(movie => movie.id === item.id ? item: movie);
         this.itemListSignal.set(updatedItems);
-        this.snackBar.open('Successfully Done', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 5 * 1000,
-        });
+        this.alertService.success('Movie updated successfully');
       },
       error: (error: any) => {
         console.error('response', error.description);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
@@ -80,19 +60,11 @@ export class MovieService extends BaseService<IMovie>{
     this.del(item.id).subscribe({
       next: () => {
         this.itemListSignal.set(this.itemListSignal().filter(movie => movie.id != item.id));
-        this.snackBar.open('Successfully Done', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 5 * 1000,
-        });
+        this.alertService.success('Movie deleted successfully');
       },
       error: (error: any) => {
         console.error('response', error.description);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
