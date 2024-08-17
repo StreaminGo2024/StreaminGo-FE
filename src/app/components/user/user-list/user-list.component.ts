@@ -82,4 +82,7 @@ export class UserListComponent {
       }
     });
   }
+  trackById(index: number, item: IUser) {
+    return item.id;
+  }
 }

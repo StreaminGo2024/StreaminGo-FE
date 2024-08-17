@@ -47,7 +47,7 @@
     </div>
     <div class="col-md-6 mb-3">
       <label for="year" class="form-label">Year</label>
-      <input #year="ngModel" type="number" class="form-control" id="year" name="year" placeholder="Year"
+      <input #year="ngModel" type="number" min="1895" max="2024" class="form-control" id="year" name="year" placeholder="Year"
         [(ngModel)]="movie.realesedYear"
         [ngClass]="{
           'is-invalid': year.invalid && year.touched,
@@ -60,8 +60,8 @@
       </div>
     </div>
     <div class="col-md-6 mb-3">
-      <label for="time" class="form-label">Duration</label>
-      <input #time="ngModel" type="number" class="form-control" id="time" name="time" placeholder="Duration (min)"
+      <label for="time" class="form-label">Duration (min)</label>
+      <input #time="ngModel" type="number" min="1" max="1440" class="form-control" id="time" name="time" placeholder="Duration (min)"
         [(ngModel)]="movie.duration"
         [ngClass]="{
           'is-invalid': time.invalid && time.touched,
@@ -73,44 +73,72 @@
         Please add a valid duration
       </div>
     </div>
+
+
     <div class="col-12 mb-3">
-      <label for="genre" class="form-label">Genre</label>
-      <select class="form-control" id="genre" name="genre"
-        [(ngModel)]="movie.genre"
-        #genre="ngModel"
-        [compareWith]="compareGenre"
+      <label for="genreSearch" class="form-label">Genre</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="genre" 
+        name="genre"
+        [(ngModel)]="selectedGenreName"
+        (input)="filterGenres($event)"
+        (focus)="showOptionsGenre()"
+        (blur)="hideOptionsGenre()"
         [ngClass]="{
           'is-invalid': genre.invalid && genre.touched,
           'is-valid': genre.valid && genre.touched
         }"
-        required>
-        <option *ngFor="let item of genreList" [ngValue]="item">
-          {{ item.name }}
-        </option>
-      </select>
+        required
+        placeholder="Search genre"
+        #genre="ngModel">
       <div *ngIf="genre.invalid && genre.touched" class="invalid-feedback">
-        Please select a genre
+        Please select a valid genre
+      </div>
+      <div class="position-relative">
+        <ul class="list-group position-absolute w-100 mt-1" *ngIf="showOptionsListGenre && filteredGenreList.length > 0">
+          <li *ngFor="let item of filteredGenreList" class="list-group-item list-group-item-action" (mousedown)="selectGenre(item)"  (click)="selectGenre(item)">
+            {{ item.name }}
+          </li>
+        </ul>
       </div>
     </div>
+    
+    
+             
     <div class="col-12 mb-3">
-      <label for="casting" class="form-label">Casting</label>
-      <select class="form-control" id="casting" name="casting"
-        [(ngModel)]="movie.casting"
-        #casting="ngModel"
-        [compareWith]="compareCasting"
+      <label for="castingSearch" class="form-label">Casting</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="casting" 
+        name="casting"
+        [(ngModel)]="selectedCastingName"
+        (input)="filterCastings($event)"
+        (focus)="showOptionsCasting()"
+        (blur)="hideOptionsCasting()"
         [ngClass]="{
           'is-invalid': casting.invalid && casting.touched,
           'is-valid': casting.valid && casting.touched
         }"
-        required>
-        <option *ngFor="let item of castingList" [ngValue]="item">
-          {{ item.name }}
-        </option>
-      </select>
+        required
+        placeholder="Search casting"
+        #casting="ngModel">
       <div *ngIf="casting.invalid && casting.touched" class="invalid-feedback">
-        Please select a casting
+        Please select a valid casting
+      </div>
+      <div class="position-relative">
+        <ul class="list-group position-absolute w-100 mt-1" *ngIf="showOptionsListCasting && filteredCastingList.length > 0">
+          <li *ngFor="let item of filteredCastingList" class="list-group-item list-group-item-action" (mousedown)="selectCasting(item)"  (click)="selectCasting(item)">
+            {{ item.name }}
+          </li>
+        </ul>
       </div>
     </div>
+
+
+
     <div class="col-12 d-flex justify-content-start">
       <button type="submit" class="btn bg-purple d-flex align-items-center">
         <i class="fa-solid white me-2"

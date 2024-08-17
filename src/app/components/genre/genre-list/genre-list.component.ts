@@ -38,9 +38,10 @@ export class GenreListComponent implements OnChanges{
     modal.show();
   }
 
-  handleFormAction(item: IGenre) {
-
+  handleFormAction(item: IGenre, modal: ModalComponent) {
     this.genreService.update(item);
+    
+    modal.hide();
   }
 
   deleteGenre(item: IGenre) {
@@ -51,11 +52,6 @@ export class GenreListComponent implements OnChanges{
       this.genreService.delete(item);
     }
   });
-  }
-
-  statusGenreUpdate(item: IGenre) {
-    item.status = item.status === 'active' ? 'disabled' : 'active';
-    this.genreService.update(item);
   }
 
  

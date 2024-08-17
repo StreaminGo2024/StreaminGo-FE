@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { FormsModule, NgModel } from '@angular/forms';
 import { IUser } from '../../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-profile-form',
@@ -29,6 +30,8 @@ export class ProfileFormComponent implements OnInit{
 
   @Output() callParentEvent: EventEmitter<IUser> = new EventEmitter<IUser>()
 
+  @ViewChild('updateModal') updateModal!: ModalComponent;
+
   callEvent() {
 
     if ((this.userPreview.name === this.user.name) && (this.userPreview.lastname === this.user.lastname)) {
@@ -53,7 +56,9 @@ export class ProfileFormComponent implements OnInit{
       this.snackBar.open('You updated your info', 'Close', {
         horizontalPosition: 'right',
         verticalPosition: 'top',
-        panelClass: ['success-snackbar']})
+        panelClass: ['success-snackbar']});
+
+        this.updateModal.hide();
     }
 
 

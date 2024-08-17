@@ -6,7 +6,6 @@
             <th scope="col">Name</th>
             <th scope="col">Nationality</th>
             <th scope="col">Birth Date</th>
-            <th scope="col">Status</th>
             <th class="text-center" scope="col">Actions</th>
           </tr>
         </thead>
@@ -16,14 +15,6 @@
               <td>{{item.name + ' '+item.lastname}}</td>
               <td>{{item.nationality}}</td>
               <td>{{ item.birth | date: 'dd/MM/yyyy' }}</td>
-              <td>
-                <button class="mb-0 text-center text-white" (click)="statusActorUpdate(item)" 
-                [ngClass]="{
-                  'custom-green-btn': item.status == 'active', 
-                  'custom-red-btn': item.status == 'disabled'
-                  }"
-                >{{item.status}}</button>
-              </td>
               <td class="text-center">
                 <button 
                   type="button" 
@@ -55,6 +46,7 @@
     <app-actor-form
       [actor]="selectedItem"
       [action]="'Update actor'"
-      (callParentEvent)="handleFormAction($event)"
-    />
+      (callParentEvent)="handleFormAction($event, detailModal)"
+      (closeMedal)="detailModal.hide()"
+    ></app-actor-form>
   </app-modal>

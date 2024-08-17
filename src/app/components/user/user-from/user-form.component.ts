@@ -1,5 +1,5 @@
-import { Component, Input, inject } from '@angular/core';
-import { IUser} from '../../../interfaces';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { IFeedBackMessage, IUser, IFeedbackStatus} from '../../../interfaces';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
@@ -21,6 +21,7 @@ export class UserFormComponent {
   @Input() action: string = 'add'
   service = inject(UserService);
   private snackBar = inject(MatSnackBar);
+  @Output() formClosed: EventEmitter<void> = new EventEmitter<void>
 
   
   handleAction (form: NgForm) {
@@ -39,6 +40,8 @@ export class UserFormComponent {
             verticalPosition: 'top',
             duration: 5 * 1000,
           });
+          this.resetForm(form)
+          this.formClosed.emit();
         },
         error: (error: any) => {
           this.snackBar.open('Error', 'Close', {
@@ -49,5 +52,8 @@ export class UserFormComponent {
         }
       })
     }
+  }
+  resetForm(form: NgForm){
+    form.resetForm();
   }
 }

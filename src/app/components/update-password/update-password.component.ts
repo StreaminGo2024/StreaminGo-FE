@@ -3,6 +3,7 @@ import { IUser } from '../../interfaces';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-update-password',
@@ -27,6 +28,8 @@ export class UpdatePasswordComponent implements OnInit{
 
   @ViewChild('password') passwordModel!: NgModel;
   @ViewChild('passwordConfirmation') passwordConfirmationModel!: NgModel;
+
+  @ViewChild('updatePasswordModal') updatePasswordModal!: ModalComponent;
   
 
   ngOnInit(): void {
@@ -57,6 +60,12 @@ export class UpdatePasswordComponent implements OnInit{
     
     else{
       this.callParentEvent.emit(this.user);
+      this.snackBar.open('Password updated successfully', 'Close', {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        panelClass: ['success-snackbar']
+      });
+      this.updatePasswordModal.hide();
     }
   }
 }
