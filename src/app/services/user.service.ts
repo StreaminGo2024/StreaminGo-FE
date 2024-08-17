@@ -1,6 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { BaseService } from './base-service';
 import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
+import { AlertService } from './alert.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IResponse, IUser, IUserCountStats } from '../interfaces';
 
@@ -11,7 +12,7 @@ export class UserService extends BaseService<IUser | IUserCountStats> {
   protected override source: string = 'users';
   private userListSignal = signal<IUser[]>([]);
   private userStatsListSignal = signal<IUserCountStats[]>([]);
-  private snackBar: MatSnackBar = inject(MatSnackBar);
+  private alertService: AlertService = inject(AlertService);
 
   get users$() {
     return this.userListSignal;
@@ -56,11 +57,7 @@ export class UserService extends BaseService<IUser | IUserCountStats> {
       },
       error: (error: any) => {
         console.error('response', error.description);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }

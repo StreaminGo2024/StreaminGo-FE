@@ -1,6 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ICasting, IResponse } from '../interfaces';
 import { BaseService } from './base-service';
+import { AlertService } from './alert.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 
@@ -11,7 +12,7 @@ export class CastingService extends BaseService<ICasting>{
 
   protected override source: string = 'casting';
   private itemListSignal = signal<ICasting[]>([]);
-  private snackBar: MatSnackBar = inject(MatSnackBar);
+  private alertService: AlertService = inject(AlertService);
   
   get items$ () {
     return this.itemListSignal;
@@ -29,11 +30,7 @@ export class CastingService extends BaseService<ICasting>{
       },
       error: (error: any) => {
         console.error('Error in get all casting request', error);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
@@ -44,20 +41,12 @@ export class CastingService extends BaseService<ICasting>{
       next: (response: any) => {
         this.itemListSignal.update((casting: ICasting[]) => [response, ...casting]);
         this.addActors(response.id, actor);
-        this.snackBar.open('Successfully Done', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 5 * 1000,
-        });
+        this.alertService.success('Casting added successfully');
       },
 
       error: (error: any) => {
         console.error('response', error.description);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
@@ -67,19 +56,11 @@ export class CastingService extends BaseService<ICasting>{
       next: () => {
         const updatedItems = this.itemListSignal().map(casting => casting.id === item.id ? item: casting);
         this.itemListSignal.set(updatedItems);
-        this.snackBar.open('Successfully Done', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 5 * 1000,
-        });
+        this.alertService.success('Casting updated successfully');
       },
       error: (error: any) => {
         console.error('response', error.description);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
@@ -96,11 +77,7 @@ export class CastingService extends BaseService<ICasting>{
       },
       error: (error: any) => {
         console.error('response', error.description);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
@@ -109,19 +86,11 @@ export class CastingService extends BaseService<ICasting>{
     this.del(item.id).subscribe({
       next: () => {
         this.itemListSignal.set(this.itemListSignal().filter(casting => casting.id != item.id));
-        this.snackBar.open('Successfully Done', 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 5 * 1000,
-        });
+        this.alertService.success('Casting deleted successfully');
       },
       error: (error: any) => {
         console.error('response', error.description);
-        this.snackBar.open(error.error.description, 'Close' , {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
+        this.alertService.error(error.error.description);
       }
     })
   }
