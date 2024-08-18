@@ -23,7 +23,9 @@ import { Message } from '../../interfaces';
 export class StreamComponent implements OnInit, OnDestroy {
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
 
-  mostrarChat = false;
+  isHidden = false;
+  isExpanded = false;
+
   usuarioLogeado: any;
   nuevoMensaje: string = '';
   mensajes: any = [];

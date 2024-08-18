@@ -297,6 +297,10 @@ button.btn-primary {
     }
 }
 
+.hidden {
+    display: none;
+  }
+
 .notificacion {
     position: absolute;
     top: -5px;
@@ -307,10 +311,6 @@ button.btn-primary {
     border-radius: 50%;
     font-size: 12px;
 }
-
-.btn {
-    //position: relative; 
-  }
 
 /* Styling for the emoji picker */
 .emoji-picker-container {

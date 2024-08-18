@@ -4,12 +4,12 @@
     <button class="btn close-movie"><a href="app/dashboard"><i class="fa-solid fa-x"></i></a></button>
     <button class="btn bg-purple m-2" type="button" (click)="inviteModal.show()"><i class="fa fa-user-group"></i>
       Invite</button>
-    <button class="btn bg-purple m-2" *ngIf="usuarioLogeado && !mostrarChat" (click)="mostrarChat=true; reiniciarContador()" type="button"><i
+    <button class="btn bg-purple m-2" *ngIf="usuarioLogeado && isHidden " (click)="isHidden = false; isExpanded  = false; reiniciarContador()" type="button"><i
         class="fa fa-sms"></i> Chat<span *ngIf="nuevoMensajeRecibido" class="notificacion">{{ mensajesNuevos }}</span></button>
   </div>
 
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-9" [ngStyle]="{'width': isExpanded ? '100%' : '75%'}">
 
       <video #video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"
         [attr.data-setup]="{}">
@@ -27,9 +27,13 @@
 
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-3" [ngClass]="{'hidden': isHidden}">
       <div class="card">
-        <div class="card-header rounded-0 text-white">
+        <div class="card-header rounded-0 text-white d-flex justify-content-between">
+          <div>
+            <a class="text-decoration-none" (click)="isHidden = true; isExpanded  = true; reiniciarContador()">
+              <i style="font-size: 24px;" class="fa-solid fa-x"></i></a>
+          </div>
           <div class="text-end">
             <!-- Icon 2 -->
             <a (click)="inviteModal.show()" class="text-decoration-none p-2">
