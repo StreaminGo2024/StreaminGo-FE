@@ -1,5 +1,5 @@
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild, ElementRef, EventEmitter, Output} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
 import { UsersComponent } from '../users/users.component';
@@ -22,6 +22,8 @@ import { Message } from '../../interfaces';
 })
 export class StreamComponent implements OnInit, OnDestroy {
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
+  @ViewChild('exitModal') exitModal!: ModalComponent;
+  @ViewChild('messagesContainer') messagesContainer!: ElementRef;
 
   isHidden = false;
   isExpanded = false;
@@ -40,7 +42,6 @@ export class StreamComponent implements OnInit, OnDestroy {
   videoId: string = '';
   player: any | undefined;
   isPaused = true;
-  @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   messages: Message[] = [];
   newMessage: string = '';
   /**Reacciones */
@@ -147,7 +148,7 @@ export class StreamComponent implements OnInit, OnDestroy {
   private reconnect() {
     // Destruir la instancia actual y crear una nueva
     this.socket$?.complete();
-    setTimeout(() => this.connect(), 5000); // Intentar reconectar después de 5 segundos
+    setTimeout(() => this.connect(), 100); 
   }
 
   private handleMessage(message: any) {
@@ -183,6 +184,17 @@ export class StreamComponent implements OnInit, OnDestroy {
       if(parsedMessage.sessionCode != this.sessionCode){
         return;
       }
+      if (parsedMessage.status === 'EXIT'){
+        if(this.isInvite){
+          this.exitModal.show()
+          setTimeout(() => {
+            this.volverDashboard()
+          }, 5000);
+        }else{
+          this.volverDashboard()
+        }
+        
+      }
       this.syncVideoTime(parsedMessage.time);
       if (parsedMessage.status === 'PLAY') {
         this.player.play().catch((error: any) => {
@@ -195,6 +207,11 @@ export class StreamComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.error('Error in handleStatusChange:', error);
     }
+  }
+
+  volverDashboard(){
+    this.exitModal.hide()
+    window.location.href='app/dashboard'
   }
 
   private handleChatMessage(message: string) {
@@ -238,6 +255,16 @@ export class StreamComponent implements OnInit, OnDestroy {
       const message = { type: typeMessage, status: command };
       this.socket$.next(message);
     }
+  }
+
+  cerrarSala(){
+    const currentTime = this.videoElement.nativeElement.currentTime;
+    const mensaje = {
+      status: "EXIT",
+      time: currentTime,
+      sessionCode: this.sessionCode
+    };
+    this.sendSocketMessage('videoControl',JSON.stringify(mensaje))
   }
 
   reiniciarContador() {
