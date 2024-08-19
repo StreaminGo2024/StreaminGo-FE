@@ -25,6 +25,9 @@ export class StreamComponent implements OnInit, OnDestroy {
 
   isHidden = false;
   isExpanded = false;
+  isInvite = false;
+
+  sessionCode: string = '';
 
   usuarioLogeado: any;
   nuevoMensaje: string = '';
@@ -81,7 +84,14 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.initializePlayer();
       }
     });
-
+    
+    const sessionCodeUrl = this.route.snapshot.paramMap.get('sessionCode');
+      if(sessionCodeUrl){
+        this.isInvite = true;
+        this.sessionCode = sessionCodeUrl;
+      }else{
+        this.sessionCode = this.generateRandomCode(16);
+      }
 
   }
 
@@ -95,7 +105,8 @@ export class StreamComponent implements OnInit, OnDestroy {
     const currentTime = this.videoElement.nativeElement.currentTime;
     const mensaje = {
       status: "PLAY",
-      time: currentTime
+      time: currentTime,
+      sessionCode: this.sessionCode
     };
     this.sendSocketMessage('videoControl',JSON.stringify(mensaje))
   }
@@ -104,7 +115,8 @@ export class StreamComponent implements OnInit, OnDestroy {
     const currentTime = this.videoElement.nativeElement.currentTime;
     const mensaje = {
       status: "PAUSE",
-      time: currentTime
+      time: currentTime,
+      sessionCode: this.sessionCode
     };
     this.sendSocketMessage('videoControl',JSON.stringify(mensaje))
   }
@@ -168,6 +180,9 @@ export class StreamComponent implements OnInit, OnDestroy {
   private handleStatusChange(message: string) {
     try {
       const parsedMessage = JSON.parse(message);
+      if(parsedMessage.sessionCode != this.sessionCode){
+        return;
+      }
       this.syncVideoTime(parsedMessage.time);
       if (parsedMessage.status === 'PLAY') {
         this.player.play().catch((error: any) => {
@@ -184,6 +199,9 @@ export class StreamComponent implements OnInit, OnDestroy {
 
   private handleChatMessage(message: string) {
     const parsedMessage = JSON.parse(message);
+    if(parsedMessage.sessionCode != this.sessionCode){
+      return;
+    }
     if (parsedMessage.emisor !== this.usuarioLogeado.name) {
 
       // Check if the message is a GIF 
@@ -207,6 +225,9 @@ export class StreamComponent implements OnInit, OnDestroy {
 
   private handleReaction(reaction: string) {
     const parsedMessage = JSON.parse(reaction);
+    if(parsedMessage.sessionCode != this.sessionCode){
+      return;
+    }
     if (parsedMessage.emisor !== this.usuarioLogeado.name) {
       this.triggerFloatingEmoji(parsedMessage.emoji);
     }
@@ -229,7 +250,8 @@ export class StreamComponent implements OnInit, OnDestroy {
 
     const mensaje = {
       emisor: this.usuarioLogeado.name,
-      texto: this.nuevoMensaje
+      texto: this.nuevoMensaje,
+      sessionCode: this.sessionCode
     };
 
     this.sendSocketMessage('chat', JSON.stringify(mensaje))
@@ -261,7 +283,8 @@ export class StreamComponent implements OnInit, OnDestroy {
 
       const mensaje = {
         emisor: this.usuarioLogeado.name,
-        texto: messageText
+        texto: messageText,
+        sessionCode: this.sessionCode
       };
 
       this.sendSocketMessage('chat', JSON.stringify(mensaje))
@@ -274,7 +297,8 @@ export class StreamComponent implements OnInit, OnDestroy {
   addReaction(reaction: string): void {
     const mensaje = {
       emisor: this.usuarioLogeado.name,
-      emoji: reaction
+      emoji: reaction,
+      sessionCode: this.sessionCode
     };
 
     this.sendSocketMessage('reaction', JSON.stringify(mensaje))
@@ -396,6 +420,16 @@ export class StreamComponent implements OnInit, OnDestroy {
         default: lang === 'en'
       }, true);
     });
+  }
+
+  generateRandomCode(length: number): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 
   ngOnDestroy(): void {
