@@ -258,13 +258,18 @@ export class StreamComponent implements OnInit, OnDestroy {
   }
 
   cerrarSala(){
-    const currentTime = this.videoElement.nativeElement.currentTime;
-    const mensaje = {
-      status: "EXIT",
-      time: currentTime,
-      sessionCode: this.sessionCode
-    };
-    this.sendSocketMessage('videoControl',JSON.stringify(mensaje))
+    if(this.isInvite){
+      this.volverDashboard();
+    }else{
+      const currentTime = this.videoElement.nativeElement.currentTime;
+      const mensaje = {
+        status: "EXIT",
+        time: currentTime,
+        sessionCode: this.sessionCode
+      };
+      this.sendSocketMessage('videoControl',JSON.stringify(mensaje))
+    }
+    
   }
 
   reiniciarContador() {
