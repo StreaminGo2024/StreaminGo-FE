@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, INJECTOR, input, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, INJECTOR, input, Input, OnInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LikeService } from '../../services/like.service';
 import { ProfileService } from '../../services/profile.service';
@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.scss'
 })
-export class MovieCardComponent implements OnInit {
+export class MovieCardComponent implements OnInit, AfterViewInit {
   @Input() title = "";
   @Input() year = 0;
   @Input() category = "";
@@ -30,16 +30,39 @@ export class MovieCardComponent implements OnInit {
   isHovered: boolean = false;
   isLiked: boolean = false;
 
+  videoSrc: string = '';
+  //videoPlayer: any = '';
+
   public movieService = inject(MovieService);
   public authService = inject (AuthService);
+  @ViewChild('videoPlayer') videoPlayer!: ElementRef<HTMLVideoElement>;
 
   constructor(private likeService: LikeService) {
     
+  }
+  ngAfterViewInit(): void {
+    // if (this.videoPlayer) {
+    //   const videoElement = this.videoPlayer.nativeElement;
+    //   videoElement.muted = true;  // Ensure the video is muted programmatically
+    //   videoElement.autoplay = true; // Ensure the video autoplay is enabled
+    //   videoElement.play(); // Start playing the video programmatically
+    // }
+
+    const video = this.videoPlayer.nativeElement;
+    video.muted = true; // Asegura que el video esté muteado al cargar
+
+    // Escucha eventos para mantener el video muteado
+    video.addEventListener('volumechange', () => {
+      if (!video.muted) {
+        video.muted = true; // Re-mutea el video si se cambia el volumen
+      }
+    });
   }
 
   ngOnInit(): void {
     console.log(this.authService.getUser()?.id);
     console.log('Movie ID:', this.movieId);
+    this.videoSrc = `http://localhost:8080/stream/video?title=${this.video}`;
     this.verificarSiLikeado();
     this.obtenerNumeroDeLikes();
   }
