@@ -1,13 +1,20 @@
-import { Injectable, signal } from "@angular/core";
+import { inject, Injectable, signal } from "@angular/core";
 import { BaseService } from "./base-service";
 import { IMovieDashboard } from "../interfaces";
+import { LikeService } from "./like.service";
 
 @Injectable({
     providedIn: 'root',
 })
 export class DashboardService extends BaseService<IMovieDashboard> {
+    
+    public trendingMovies: IMovieDashboard[] = [];
+
+    private likeService = inject(LikeService);
+
     protected override source: string = 'movies';
     private movieListSignal = signal<IMovieDashboard[]>([]);
+    snackBar: any;
     get movies$() {
         return this.movieListSignal;
     }
