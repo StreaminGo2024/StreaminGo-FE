@@ -1,7 +1,6 @@
 @import "../../../../node_modules/@ctrl/ngx-emoji-mart/picker.css";
 
 .video-js {
-    //position: inherit !important;
     width: 100% !important;
     height: 100vh !important;
 }
@@ -59,9 +58,6 @@ a i {
 .cardContainer {
     width: 300px;
     height: 480px;
-    // position: absolute;
-    // right: 60px;
-    // bottom: 110px;
     padding: 0;
     margin: 0;
 
@@ -72,50 +68,6 @@ a i {
     color: white;
     font-weight: 700;
 }
-
-// .card-body {
-//     padding: 0.5rem;
-//     background-image: "../../../assets/icons/wallpaper.png";
-//     background-color: black;
-// }
-
-// .card-footer {
-//     background-color: #333;
-//     ;
-// }
-
-// .imEnviar:active {
-//     transform: scale(0.9);
-// }
-
-// .enviado {
-//     display: block;
-//     float: right;
-//     background-color: teal;
-//     color: white;
-//     min-width: 50.01%;
-//     border-radius: 10px;
-//     text-align: left;
-// }
-
-// .recibido {
-//     display: block;
-//     float: left;
-//     background-color: gray;
-//     color: white;
-//     min-width: 50.01%;
-//     border-radius: 10px;
-//     text-align: left;
-// }
-
-// .contenedorDeMensajes {
-//     overflow: scroll;
-//     padding: 0.3rem;
-// }
-
-// .contenedorDeMensajes::-webkit-scrollbar {
-//     display: none;
-// }
 
 .closeIcon {
     position: absolute;
@@ -129,34 +81,6 @@ a i {
     color: white;
 }
 
-// .btn img {
-//     width: 30px;
-//     height: 30px;
-// }
-
-// @media (max-width: 768px) {
-//     .container h2 {
-//         font-size: 1.5rem;
-//     }
-
-//     .container video {
-//         width: 100%;
-//         height: auto;
-//     }
-
-//     .chat-box {
-//         height: auto;
-//     }
-
-//     #chat-messages {
-//         height: 300px;
-//     }
-// }
-
-/**nuevo
-/* global styles.css */
-/* General styles for the chat component */
-/* General styles for the chat component */
 .card-footer {
     display: flex;
     align-items: center;
@@ -174,7 +98,6 @@ a i {
 input.form-control {
     flex: 1;
     margin-right: 0.5rem;
-    /* Add some space between input and emoji picker */
 }
 
 button.btn-primary {
@@ -187,9 +110,7 @@ button.btn-primary {
 
 .row {
     --bs-gutter-x: 0 !important;
-    /* Set horizontal gutter to 0 */
     --bs-gutter-y: 0 !important;
-    /* Set vertical gutter to 0 */
 }
 
 .card {
@@ -200,16 +121,14 @@ button.btn-primary {
 
 .custom-focus-input:focus {
     border-color: none;
-    /* Green border color on focus */
     box-shadow: none;
-    /* Custom focus shadow */
 }
 
 .message-time {
     font-size: 0.75rem;
-    color: #888; // Adjust color as needed
-    text-align: right; // Align to the right or center
-    margin-top: 5px; // Space between message and timestamp
+    color: #888;
+    text-align: right; 
+    margin-top: 5px; 
 }
 
 
@@ -218,7 +137,6 @@ button.btn-primary {
     position: absolute;
     bottom: 100%;
     display: flex;
-    //width: 100%;
     left: 4%;
     height: 45px;
     background-color: transparent !important;
@@ -228,14 +146,6 @@ button.btn-primary {
 }
 
 .reaction-picker {
-    //position: absolute;
-    // bottom: 50px;
-    // /* Adjust based on your layout */
-    // left: 0;
-    //z-index: 1000;
-    // background-color: #fff;
-    // border: 1px solid #ccc;
-    //padding: 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -247,7 +157,6 @@ button.btn-primary {
 .reaction-grid {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    /* Three columns */
     gap: 2px;
 }
 
@@ -258,7 +167,7 @@ button.btn-primary {
     padding: 2px;
 }
 
-/* Floating Emoji Styles */
+
 .floating-emojis {
     position: relative;
     width: 30%;
@@ -272,10 +181,8 @@ button.btn-primary {
 .floating-emoji {
     position: absolute;
     font-size: 2rem;
-    /* Adjust size as needed */
     animation: float 2s ease-in-out forwards;
     z-index: 5000;
-    /* Ensure it appears above other content */
 }
 
 @keyframes float {
@@ -286,16 +193,18 @@ button.btn-primary {
 
     50% {
         transform: translateY(-50px);
-        /* Adjust vertical movement */
         opacity: 0.7;
     }
 
     100% {
         transform: translateY(-100px);
-        /* Adjust vertical movement */
         opacity: 0;
     }
 }
+
+.hidden {
+    display: none;
+  }
 
 .notificacion {
     position: absolute;
@@ -308,30 +217,18 @@ button.btn-primary {
     font-size: 12px;
 }
 
-.btn {
-    //position: relative; 
-  }
-
-/* Styling for the emoji picker */
 .emoji-picker-container {
     position: absolute;
     bottom: 100%;
-    /* Place above the input field */
     left: 0;
     z-index: 1000;
-    /* Ensure it is on top of other elements */
     width: 300px;
-    /* Adjust width if necessary */
     max-width: 100%;
-    /* Ensure it does not overflow */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    /* Add shadow for better visibility */
 }
 
-/* Styling for the emoji button */
 button.btn-light {
     margin-right: 0.5rem;
-    /* Space between emoji button and input field */
 }
 
 .gif-picker {
@@ -353,9 +250,7 @@ button.btn-light {
 .gif-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    /* Two columns */
     gap: 10px;
-    /* Space between GIFs */
     overflow-x: auto;
 }
 
@@ -368,6 +263,5 @@ button.btn-light {
 
 .chat-gif {
     width: 100px;
-    /* Adjust size as needed */
     height: 130px;
 }

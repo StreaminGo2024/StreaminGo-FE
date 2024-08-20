@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, QueryList, ViewChildren, ElementRef, inject, effect } from '@angular/core';
+import { Component, AfterViewInit, QueryList, ViewChildren, ElementRef, inject, effect, OnInit } from '@angular/core';
 import Swiper from 'swiper';
 import { EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
@@ -11,6 +11,7 @@ import { ChartComponent } from '../../components/chart/chart.component';
 import { provideEcharts } from 'ngx-echarts';
 import { RouterModule } from '@angular/router';
 import { SwiperOptions } from 'swiper/types';
+import { LikeService } from '../../services/like.service';
 
 // Registra los módulos de Swiper
 Swiper.use([EffectCoverflow, Navigation, Pagination]);
@@ -29,11 +30,13 @@ Swiper.use([EffectCoverflow, Navigation, Pagination]);
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements AfterViewInit, OnInit {
   public search: string = '';
   public movieList: IMovieDashboard[] = [];
   public filteredMovieList: IMovieDashboard[] = [];
+  public trendingMovies: IMovieDashboard[] = [];
   private service = inject(DashboardService);
+  private likeService = inject(LikeService);
   private snackBar = inject(MatSnackBar);
 
   videoSrc: string = '';
@@ -49,7 +52,24 @@ export class DashboardComponent implements AfterViewInit {
     effect(() => {      
       this.movieList = this.service.movies$();
       this.filteredMovieList = this.service.movies$();
-      console.log(this.filteredMovieList)
+      console.log(this.filteredMovieList);
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadTrendingMovies();
+  }
+
+  loadTrendingMovies() {
+    this.likeService.getTrendingMovies().subscribe({
+      next: (movies) => {
+        movies.reverse();
+        this.trendingMovies = movies;
+        console.log(this.filteredMovieList);
+      },
+      error: () => {
+        this.snackBar.open('Error al cargar las películas trending.', 'Cerrar', { duration: 3000 });
+      }
     });
    
   }

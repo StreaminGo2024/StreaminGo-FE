@@ -63,6 +63,19 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'stream/:video/:sessionCode',
+    component: StreamComponent,
+    canActivate: [AuthGuard],
+    data: { 
+      authorities: [
+        IRole.admin, 
+        IRole.superAdmin,
+        IRole.user
+      ],
+      name: 'Stream'
+    }
+  },
+  {
     path: 'app',
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
