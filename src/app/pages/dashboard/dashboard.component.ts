@@ -45,10 +45,13 @@ export class DashboardComponent implements AfterViewInit {
 
   constructor() {
     this.service.getAllSignal();
+
     effect(() => {      
       this.movieList = this.service.movies$();
       this.filteredMovieList = this.service.movies$();
+      console.log(this.filteredMovieList)
     });
+   
   }
 
   ngAfterViewInit(): void {

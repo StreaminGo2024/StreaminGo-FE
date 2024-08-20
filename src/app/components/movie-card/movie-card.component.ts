@@ -16,6 +16,9 @@ export class MovieCardComponent {
   @Input() url = "";
   @Input() image = "";
   @Input() video = ""; 
+  @Input() description = ""; 
+  @Input() casting = ""; 
+  @Input() time = 0; 
   isHovered: boolean = false;
 
   onMouseEnter() {
@@ -25,5 +28,6 @@ export class MovieCardComponent {
   onMouseLeave() {
     this.isHovered = false;
   }
+
 
 }

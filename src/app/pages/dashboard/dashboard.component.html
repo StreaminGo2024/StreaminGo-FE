@@ -116,7 +116,11 @@
                       [category]="item.genre?.name ?? ''" 
                       [url]="'/stream'"
                       [image]="item.imageCover ?? ''"
-                      [video]="item.video ?? ''">
+                      [video]="item.video ?? ''"
+                      [description]="item.description ?? ''"
+                      [casting]="item.casting"
+                      [time]="item.duration"
+                      >
                   </app-movie-card>
                   }
               </section>
