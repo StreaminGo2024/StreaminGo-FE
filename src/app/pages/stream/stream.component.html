@@ -1,15 +1,15 @@
 <div class="container-fluid p-0">
 
   <div [ngClass]="{'hidden': !isPaused}" class="button-container m-4">
-    <button class="btn close-movie"><a href="app/dashboard"><i class="fa-solid fa-x"></i></a></button>
-    <button class="btn bg-purple m-2" type="button" (click)="inviteModal.show()"><i class="fa fa-user-group"></i>
+    <button class="btn close-movie"><a (click)="cerrarSala()"><i class="fa-solid fa-x"></i></a></button>
+    <button [ngClass]="{'hidden': isInvite}" class="btn bg-purple m-2" type="button" (click)="inviteModal.show()"><i class="fa fa-user-group"></i>
       Invite</button>
-    <button class="btn bg-purple m-2" *ngIf="usuarioLogeado && !mostrarChat" (click)="mostrarChat=true; reiniciarContador()" type="button"><i
+    <button class="btn bg-purple m-2" *ngIf="usuarioLogeado && isHidden " (click)="isHidden = false; isExpanded  = false; reiniciarContador()" type="button"><i
         class="fa fa-sms"></i> Chat<span *ngIf="nuevoMensajeRecibido" class="notificacion">{{ mensajesNuevos }}</span></button>
   </div>
 
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-9" [ngStyle]="{'width': isExpanded ? '100%' : '75%'}">
 
       <video #video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"
         [attr.data-setup]="{}">
@@ -27,16 +27,20 @@
 
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-3" [ngClass]="{'hidden': isHidden}">
       <div class="card">
-        <div class="card-header rounded-0 text-white">
+        <div class="card-header rounded-0 text-white d-flex justify-content-between">
+          <div>
+            <a class="text-decoration-none" (click)="isHidden = true; isExpanded  = true; reiniciarContador()">
+              <i style="font-size: 24px;" class="fa-solid fa-x"></i></a>
+          </div>
           <div class="text-end">
             <!-- Icon 2 -->
-            <a (click)="inviteModal.show()" class="text-decoration-none p-2">
+            <a [ngClass]="{'hidden': isInvite}" (click)="inviteModal.show()" class="text-decoration-none p-2">
               <img src="../../../assets/img/add.png" alt="Image 1" class="img-fluid" style="width: 24px;">
             </a>
             <!-- Icon 1 -->
-            <a href="https://example.com/link1" class="text-decoration-none">
+            <a [ngClass]="{'hidden': isInvite}" (click)="cerrarSala()" class="text-decoration-none">
               <img src="../../../assets/img/salir.png" alt="Image 1" class="img-fluid" style="width: 20px;">
             </a>
 
@@ -130,5 +134,14 @@
 
 
 <app-modal #inviteModal>
-  <app-invite-modal />
+  <app-invite-modal [sessionCode]="sessionCode"  />
+</app-modal>
+
+<app-modal #exitModal>
+  <div style="text-align: center;">
+    <h1>The host has closed the room</h1>
+  </div>
+  <div class="d-flex justify-content-center">
+    <button (click)="volverDashboard()" class="btn bg-purple rounded-2">Ok</button>
+  </div>
 </app-modal>
