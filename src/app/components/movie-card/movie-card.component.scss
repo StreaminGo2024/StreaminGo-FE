@@ -6,6 +6,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   transition: 0.2s linear;
+  border: none !important;
 }
 
 .card:hover{
@@ -83,7 +84,7 @@
 /* Modal Styling */
 /* Modal Styling */
 .movie-modal-container {
-  background-color: transparent;
+  background-color: #21201E;
   border: none !important;
   color: #fff;
   border-radius: 0.5rem;
@@ -98,27 +99,31 @@
   position: relative;
   width: 100%;
   height: 400px; /* Adjust height as needed */
+  display: flex;
+  justify-content: right;
 }
 
-.bg-image-container video {
+.bg-image-container img {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  // top: 0;
+  // left: 0;
+  //width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block; /* Remove extra space below the image */
+  box-shadow: -10px 0px 15px rgba(211, 3, 238, 0.5); 
   z-index: 1; /* Ensure the image is behind the overlay */
 }
 
-.bg-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to right, rgba(33, 37, 41, 0.9), rgba(33, 37, 41, 0.5)); 
-  z-index: 2;
-}
+// .bg-overlay {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background: linear-gradient(to right, rgba(33, 37, 41, 0.9), rgba(33, 37, 41, 0.5)); 
+//   z-index: 2;
+// }
 
 .btn-close {
   position: absolute;
