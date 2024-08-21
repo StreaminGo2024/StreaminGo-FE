@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ModalComponent } from '../modal/modal.component';
 import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,13 +12,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class InviteModalComponent implements OnInit{
   currentUrl: string = "";
-
+  @Input() sessionCode = "";
   constructor(private snackBar: MatSnackBar){
 
   }
 
   ngOnInit(): void {
-    this.currentUrl = window.location.href;
+    this.currentUrl = this.sessionCode != "" ? window.location.href + '/' + this.sessionCode : window.location.href;
   }
 
   copyToClipboard() {

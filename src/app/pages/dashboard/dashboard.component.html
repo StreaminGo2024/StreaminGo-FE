@@ -109,32 +109,20 @@
           <div class="carousel-inner" style="position: relative; overflow: visible;">
             <div class="carousel-item active">
               <section class="d-flex">
-                @for (item of filteredMovieList; track item.id){
+                @for (item of trendingMovies; track item.id){
                   <app-movie-card 
                       [title]="item.name ?? ''" 
                       [year]="item.realesedYear ?? 0"
                       [category]="item.genre?.name ?? ''" 
                       [url]="'/stream'"
                       [image]="item.imageCover ?? ''"
-                      [video]="item.video ?? ''">
+                      [video]="item.video ?? ''"
+                      [movieId]="item.id ?? 1"
+                      >
                   </app-movie-card>
                   }
               </section>
               </div>
-              <div class="carousel-item">
-                <section class="d-flex">
-                  @for (item of filteredMovieList; track item.id){
-                    <app-movie-card 
-                        [title]="item.name ?? ''" 
-                        [year]="item.realesedYear ?? 0"
-                        [category]="item.genre?.name ?? ''" 
-                        [url]="'/stream'"
-                        [image]="item.imageCover ?? ''"
-                        [video]="item.video ?? ''">
-                    </app-movie-card>
-                    }
-                </section>
-                </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -161,7 +149,9 @@
                   [category]="item.genre?.name ?? ''" 
                   [url]="'/stream'"
                   [image]="item.imageCover ?? ''"
-                  [video]="item.video ?? ''">
+                  [video]="item.video ?? ''"
+                  [movieId]="item.id ?? 0"
+                  >
               </app-movie-card>
           </div>
         }
@@ -180,7 +170,9 @@
             [category]="item.genre?.name ?? ''" 
             [url]="'/stream'"
             [image]="item.imageCover ?? ''"
-            [video]="item.video ?? ''">
+            [video]="item.video ?? ''"
+            [movieId]="item.id ?? 0"
+            >
         </app-movie-card>
         }
         
