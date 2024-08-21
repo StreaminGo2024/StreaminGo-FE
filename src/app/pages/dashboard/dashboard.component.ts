@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, QueryList, ViewChildren, ElementRef, inject, effect, OnInit, ViewChild } from '@angular/core';
+import { Component, QueryList, ViewChildren, ElementRef, inject, effect, OnInit } from '@angular/core';
 import Swiper from 'swiper';
 import { EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
@@ -10,7 +10,6 @@ import { FormsModule } from '@angular/forms';
 import { ChartComponent } from '../../components/chart/chart.component';
 import { provideEcharts } from 'ngx-echarts';
 import { RouterModule } from '@angular/router';
-import { SwiperOptions } from 'swiper/types';
 import { LikeService } from '../../services/like.service';
 
 // Registra los módulos de Swiper
@@ -30,7 +29,7 @@ Swiper.use([EffectCoverflow, Navigation, Pagination]);
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements AfterViewInit, OnInit {
+export class DashboardComponent implements OnInit {
   public search: string = '';
   public movieList: IMovieDashboard[] = [];
   public filteredMovieList: IMovieDashboard[] = [];
@@ -95,26 +94,4 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     });
   }
 
-  ngAfterViewInit(): void {
-    // Inicializa Swiper
-    this.swiperContainer.forEach(container => {
-      new Swiper(container.nativeElement, {
-        modules: [EffectCoverflow, Navigation, Pagination],
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: 'auto',
-        coverflowEffect: {
-          rotate: 15,
-          stretch: 0,
-          depth: 300,
-          modifier: 1,
-          slideShadows: true,
-        },
-        loop: true,
-        navigation: true,
-        pagination: { clickable: true },
-      } as SwiperOptions);
-    });
-  }
 }

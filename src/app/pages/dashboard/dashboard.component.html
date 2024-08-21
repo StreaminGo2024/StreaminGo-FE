@@ -57,29 +57,14 @@
   </div>
   <!-- slider - end -->
 
-  <!-- Slider Group Swiper -->
-  <h2 class="text-white"><b>Movies</b></h2>
-  <section class="movies container">
-    <div class="swiper mySwiper" #swiperContainer>
-      <div class="swiper-wrapper">
-        @for (item of movieList; track item.id){
-        <div class="swiper-slide">
-          <app-movie-card [title]="item.name ?? ''" [year]="item.realesedYear ?? 0" [category]="item.genre?.name ?? ''"
-            [url]="'/stream'" [image]="item.imageCover ?? ''" [video]="item.video ?? ''" [movieId]="item.id ?? 0">
-          </app-movie-card>
-        </div>
-        }
-      </div>
-    </div>
-  </section>
-  <!-- Slider Group Swiper end -->
-
   <!-- All Movies -->
   <h2 class="text-white"><b>Watch Movies Now</b></h2>
-  <div class="container d-flex flex-wrap">
+  <div class="container d-flex flex-wrap m-0 w-100" style="max-width: 100%;">
     @for (item of movieList; track item.id){
-    <app-movie-card [title]="item.name ?? ''" [year]="item.realesedYear ?? 0" [category]="item.genre?.name ?? ''"
-      [url]="'/stream'" [image]="item.imageCover ?? ''" [video]="item.video ?? ''" [movieId]="item.id ?? 0">
+      <app-movie-card [title]="item.name ?? ''" [year]="item.realesedYear ?? 0"
+      [category]="item.genre?.name ?? ''" [url]="'/stream'" [image]="item.imageCover ?? ''"
+      [video]="item.video ?? ''" [description]="item.description ?? ''" [casting]="item.casting"
+      [time]="item.duration" [movieId]="item.id ?? 1">
     </app-movie-card>
     }
 
