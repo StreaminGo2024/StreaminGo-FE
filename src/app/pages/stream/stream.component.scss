@@ -86,13 +86,10 @@ a i {
 }
 
 .chat-messages {
-    word-wrap: break-word; /* Rompe las palabras largas para evitar desbordamiento horizontal */
-    max-width: 100%;
     flex: 1;
-    max-height: 750px; /* Ajusta la altura máxima del contenedor de mensajes */
     overflow-y: auto;
-    overflow-x: hidden; /* Habilita el scroll vertical */
-    padding-right: 10px; /* Añade espacio para evitar superposición con el scroll */
+    max-height: calc(100vh - 200px); /* Ajusta la altura de acuerdo con otros elementos en la pantalla */
+    padding-right: 10px;
     box-sizing: border-box;
 }
 
@@ -104,43 +101,7 @@ a i {
     background-color: #6f42c1; /* Color del scroll */
     border-radius: 10px;
   }
-// .card-footer {
-//     background-color: #333;
-//     ;
-// }
 
-// .imEnviar:active {
-//     transform: scale(0.9);
-// }
-
-// .enviado {
-//     display: block;
-//     float: right;
-//     background-color: teal;
-//     color: white;
-//     min-width: 50.01%;
-//     border-radius: 10px;
-//     text-align: left;
-// }
-
-// .recibido {
-//     display: block;
-//     float: left;
-//     background-color: gray;
-//     color: white;
-//     min-width: 50.01%;
-//     border-radius: 10px;
-//     text-align: left;
-// }
-
-// .contenedorDeMensajes {
-//     overflow: scroll;
-//     padding: 0.3rem;
-// }
-
-// .contenedorDeMensajes::-webkit-scrollbar {
-//     display: none;
-// }
 
 .closeIcon {
     position: absolute;
@@ -154,10 +115,7 @@ a i {
     color: white;
 }
 
-// .btn img {
-//     width: 30px;
-//     height: 30px;
-// }
+
 
 @media (max-width: 768px) {
     .container h2 {
@@ -178,10 +136,12 @@ a i {
     }
 }
 
-/**nuevo
-/* global styles.css */
-/* General styles for the chat component */
-/* General styles for the chat component */
+.row {
+    --bs-gutter-x: 0 !important;
+    --bs-gutter-y: 0 !important;
+    max-height: 100vh;
+  }
+
 .card-footer {
     display: flex;
     align-items: center;
