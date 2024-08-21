@@ -10,7 +10,7 @@
     height: 100vh !important;
 }
 
-/* Custom styles for the play button */
+
 .video-js .vjs-big-play-button {
     background-color: rgba(111, 66, 193, 0.9) !important;
     box-shadow: 0 0 25px var(--color-purple);
@@ -57,15 +57,12 @@ a i {
 
 .cardContainer {
     width: 300px;
-    height: calc(100vh - 20px); // Ajusta el 20px según sea necesario
-    // position: absolute;
-    // right: 60px;
-    // bottom: 110px;
+    height: calc(100vh - 20px); 
 
     @media (max-width: 800px) {
         width: 100%;
-        height: auto; // Permite que el chat se ajuste a la altura disponible
-        min-height: 200px; // Puedes ajustar este valor según tu diseño
+        height: auto; 
+        min-height: 200px;
     }
 }
 
@@ -173,7 +170,6 @@ button.btn-primary {
 .row {
     --bs-gutter-x: 0 !important;
     --bs-gutter-y: 0 !important;
-    /* Set vertical gutter to 0 */
     max-height: 100%;
 }
 
@@ -189,7 +185,6 @@ button.btn-primary {
 @media (max-width: 800px) {
     .main-container {
         flex-direction: column;
-        /* Cambia la dirección del flex a columna */
     }
 
     .video-container {

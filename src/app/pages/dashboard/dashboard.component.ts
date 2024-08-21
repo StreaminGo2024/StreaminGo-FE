@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, QueryList, ViewChildren, ElementRef, inject, effect, OnInit } from '@angular/core';
+import { Component, AfterViewInit, QueryList, ViewChildren, ElementRef, inject, effect, OnInit, ViewChild } from '@angular/core';
 import Swiper from 'swiper';
 import { EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
@@ -51,8 +51,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
     effect(() => {      
       this.movieList = this.service.movies$();
-      this.filteredMovieList = this.service.movies$();
-      console.log(this.filteredMovieList);
+      this.filteredMovieList = this.getRandomMovies(this.movieList, 5);
     });
   }
 
@@ -60,12 +59,16 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     this.loadTrendingMovies();
   }
 
+  private getRandomMovies(movies: IMovieDashboard[], max: number): IMovieDashboard[] {
+    const shuffled = [...movies].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, max);
+  }
+
   loadTrendingMovies() {
     this.likeService.getTrendingMovies().subscribe({
       next: (movies) => {
         movies.reverse();
         this.trendingMovies = movies;
-        console.log(this.filteredMovieList);
       },
       error: () => {
         this.snackBar.open('Error al cargar las películas trending.', 'Cerrar', { duration: 3000 });
@@ -74,19 +77,25 @@ export class DashboardComponent implements AfterViewInit, OnInit {
    
   }
 
-  ngAfterViewInit(): void {
-    this.playOnHoverElements.forEach((element) => {
-      const video = element.nativeElement;
-      video.addEventListener('mouseover', () => {
-        video.play();
-      });
-    
-      video.addEventListener('mouseout', () => {
-        video.pause();
-        video.currentTime = 0; 
-      });
+  playVideo(activeIndex: number) {
+    this.playOnHoverElements.forEach((videoRef, index) => {
+      if (index === activeIndex) {
+        videoRef.nativeElement.play();
+      }else{
+        videoRef.nativeElement.pause();
+      }
     });
+  }
 
+  pauseAll(activeIndex: number) {
+    this.playOnHoverElements.forEach((videoRef, index) => {
+      
+        videoRef.nativeElement.pause();
+      
+    });
+  }
+
+  ngAfterViewInit(): void {
     // Inicializa Swiper
     this.swiperContainer.forEach(container => {
       new Swiper(container.nativeElement, {
