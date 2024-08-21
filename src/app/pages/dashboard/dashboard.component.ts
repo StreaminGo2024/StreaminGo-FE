@@ -11,7 +11,6 @@ import { ChartComponent } from '../../components/chart/chart.component';
 import { provideEcharts } from 'ngx-echarts';
 import { RouterModule } from '@angular/router';
 import { SwiperOptions } from 'swiper/types';
-import { ProfileComponent } from '../profile/profile.component';
 import { LikeService } from '../../services/like.service';
 
 // Registra los módulos de Swiper
@@ -49,6 +48,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
   constructor() {
     this.service.getAllSignal();
+
     effect(() => {      
       this.movieList = this.service.movies$();
       this.filteredMovieList = this.service.movies$();
@@ -71,6 +71,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
         this.snackBar.open('Error al cargar las películas trending.', 'Cerrar', { duration: 3000 });
       }
     });
+   
   }
 
   ngAfterViewInit(): void {

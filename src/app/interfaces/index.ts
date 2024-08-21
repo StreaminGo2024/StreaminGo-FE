@@ -103,6 +103,10 @@ export interface IMovieDashboard {
   video?: string;
   realesedYear?: number;
   genre?: IGenreDashboard;
+  description?: string;
+  casting?: ICasting | any;
+  duration?: number | any; 
+
 }
 
 export interface IGenreDashboard {
