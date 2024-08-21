@@ -13,19 +13,15 @@
         <video #playOnHover class="play-on-hover" style="height: 80vh;" muted loop >
           <source [src]="'http://localhost:8080/stream/video?title=' + item.video" type="video/mp4" />
         </video>
-        <div class="content">
-          <div class="content-card">
-          <section class="left end-0">
+        <div class="carousel-caption d-flex align-items-center justify-content-start">
+          <div class="text-start p-4">
             <img src="assets/icons/logo.png" alt="">
             <h3>{{ item.name }}</h3>
             <p>{{ item['description'] }}</p>
-            <div class="d-flex mt-2">
-              <a class="btn bg-purple m-2" [href]="'/stream/' + item.video">
-                <i class="bi bi-play-fill" style="color: black; padding: 0%;"></i> Watch Now
-              </a>
-            </div>
-          </section>
-        </div>
+            <a class="btn bg-purple m-2" [href]="'/stream/' + item.video">
+              <i class="bi bi-play-fill" style="color: black; padding: 0%;"></i> Watch Now
+            </a>
+          </div>
         </div>
       </div>
     </div>
