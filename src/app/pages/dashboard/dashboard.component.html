@@ -3,82 +3,32 @@
   <b>Search </b> <i class="fa-solid fa-magnifying-glass text-white"></i>
 </a>
 <!-- Carousel Video -->
-<div id="videoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+<div id="videoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
   <div class="carousel-inner">
-    <!-- Slide 1 -->
-    <div class="carousel-item active">
+    <!-- Slides -->
+    <div *ngFor="let item of filteredMovieList; let i = index" class="carousel-item" [class.active]="i === 0">
       <div class="stream-home-video">
         <div class="top"></div>
         <div class="bottom"></div>
-        <video #playOnHover class="play-on-hover" src="assets/img/Catalog/videoAfter.mp4" muted loop></video>
+        <video #playOnHover class="play-on-hover" style="height: 80vh;" muted loop >
+          <source [src]="'http://localhost:8080/stream/video?title=' + item.video" type="video/mp4" />
+        </video>
         <div class="content">
           <div class="content-card">
-            <section class="left end-0">
-              <img src="assets/icons/logo.png" alt="">
-              <h3>After Movie</h3>
-              <p>"After" is a romantic drama film that follows the story of Tessa Young...</p>
-              <div class="d-flex mt-2">
-                <button class="btn bg-purple m-2" [routerLink]="['/stream/videoAfter']">
-                  <i class="bi bi-play-fill" style="color: black; padding: 0%;"></i> Watch Now
-                </button>
-                <button class="btn btn-secondary m-2">
-                  <i class="bi bi-info-circle" style=" padding: 0%;"></i> More Info
-                </button>
-              </div>
-            </section>
-          </div>
+          <section class="left end-0">
+            <img src="assets/icons/logo.png" alt="">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item['description'] }}</p>
+            <div class="d-flex mt-2">
+              <a class="btn bg-purple m-2" [routerLink]="[item['url'], item['video']]">
+                <i class="bi bi-play-fill" style="color: black; padding: 0%;"></i> Watch Now
+              </a>
+              <button class="btn btn-secondary m-2">
+                <i class="bi bi-info-circle" style=" padding: 0%;"></i> More Info
+              </button>
+            </div>
+          </section>
         </div>
-      </div>
-    </div>
-
-    <!-- Slide 2 -->
-    <div class="carousel-item">
-      <div class="stream-home-video">
-        <div class="top"></div>
-        <div class="bottom"></div>
-        <video #playOnHover class="play-on-hover" src="assets/img/Catalog/Hola, Alberto.mp4" muted loop></video>
-        <div class="content">
-          <div class="content-card">
-            <section class="left end-0">
-              <img src="assets/icons/logo.png" alt="">
-              <h3>Hello, Alberto Movie</h3>
-              <p>"Ciao Alberto" is a Disney Pixar short film that serves as an epilogue...</p>
-              <div class="d-flex mt-2">
-                <button class="btn bg-purple m-2" [routerLink]="['/stream/Hola, Alberto']">
-                  <i class="bi bi-play-fill" style="color: black; padding: 0%;"></i> Watch Now
-                </button>
-                <button class="btn btn-secondary m-2">
-                  <i class="bi bi-info-circle" style=" padding: 0%;"></i> More Info
-                </button>
-              </div>
-            </section>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Slide 3 -->
-    <div class="carousel-item">
-      <div class="stream-home-video">
-        <div class="top"></div>
-        <div class="bottom"></div>
-        <video #playOnHover class="play-on-hover" src="assets/img/Catalog/Culpa Tuya - Trailer.mp4" muted loop></video>
-        <div class="content">
-          <div class="content-card">
-            <section class="left end-0">
-              <img src="assets/icons/logo.png" alt="">
-              <h3>Culpa Tuya Movie</h3>
-              <p>The film follows the intense and passionate relationship between Noah and Nick...</p>
-              <div class="d-flex mt-2">
-                <button class="btn bg-purple m-2" [routerLink]="['/stream/Culpa Tuya - Trailer']">
-                  <i class="bi bi-play-fill" style="color: black; padding: 0%;"></i> Watch Now
-                </button>
-                <button class="btn btn-secondary m-2">
-                  <i class="bi bi-info-circle" style=" padding: 0%;"></i> More Info
-                </button>
-              </div>
-            </section>
-          </div>
         </div>
       </div>
     </div>
@@ -92,7 +42,7 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-<!-- Carousel Video end -->
+<!-- Carousel Video end -->
 
 <!-- slider -->
 <div class="slider-box">
